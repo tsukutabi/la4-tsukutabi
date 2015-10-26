@@ -7,8 +7,10 @@ class ArticlesController extends BaseController{
 //   ログインさせる。
         if (Auth::check())
         {
+            $user_login = true;
             echo "ログインしています。";
         }else{
+            $user_login = false;
             echo "ログインしていません";
             Log::info('ログインしていません。');
         }
@@ -18,16 +20,9 @@ class ArticlesController extends BaseController{
 //            ['on' => ['post', 'put']]
 //        );
     }
-//    リレーションシップ
-    public function article(){
-//        belongsto Auth
-//        hasmany_belongsto tags
-//        hasmany comments
-    }
     public function existsFilter()
     {
         Log::info(__METHOD__.' called.');
-
         // URLにパラメータ'id'が存在したら
         $id = Route::input('id');
         if ($id) {
@@ -54,8 +49,11 @@ class ArticlesController extends BaseController{
 //  新しいもの
     public function index()
     {
-        $data = Article::get_index_data();
-//        Log::$data;
+        try{
+            $data = Article::get_index_data();
+        }catch (Exception $e){
+            Log::info($e);
+        }
         return View::make('articles.index',[
             'info'=>$data
 //        'new'=>$data['new'],
@@ -67,35 +65,25 @@ class ArticlesController extends BaseController{
 //    詳細ページを読む
     public function view($id)
     {
-        $articles = Article::find($id);
-        $user_data = User::find($articles->user_id);
-//        try{
-            $comment_data = Comment::where(['article_id'=>$id])->get()->toArray();
-//            $fav_data = Fav::count()->where('article_id',=,$id);
-            Log::info($comment_data);
-//            Log::info($fav_data);
-
-//        }catch ( Exception $e){
-//            Log::info($e);
-//        }
-
-
-        $fav_data = Fav::find($id);
-        Log::info($fav_data);
-//        $fav_num = array_count_values($fav_data);
-//        Log::info($fav_num);
-        var_dump($user_data->username);
-        $photos = explode('+', $articles['photos']);
+        try{
+            $articles = DB::table('articles')->leftJoin('users','users.id', '=', 'articles.user_id')->get();
+            $comment_data = DB::table('comments')->leftJoin('users','users.id', '=', 'comments.user_id')->get();
+            $fav_data = DB::table('favs')->where('article_id','=',$id)->count();
+        }catch (Exception $e){
+            Log::info($e);
+            return Route::view('error');
+        }
+        Log::info($articles);
+        $photos = explode('+',$articles['0']->photos);
         return View::make('articles.view' ,[
             'articles'=>$articles,
             'photos'=>$photos,
-            'comment_data'=>$comment_data
-//            'fav_num'=>$fav_num,
+            'comment_data'=>$comment_data,
+            'fav_data'=>$fav_data
 //             'photo_comments'=>$photo_comments,
 //             'articles_data' =>$articles_data,
         ]);
     }
-
     public function get_save(){
         $tag_info = DB::table('tags')->select(['id','name'])->get();
         $user = Auth::user();
@@ -133,10 +121,23 @@ class ArticlesController extends BaseController{
         return Response::json(['result' => '更新完了しました'], 200);
     }
 
-    public function delete($id)
+    public function delete()
     {
+        $validation =[
+            'user_id'=> 'require',
+            'article_id'=>'require',
+        ];
+//        本人確認
+        $inputs = Input::only(array_keys($validation));
+        log::info($inputs);
+        $validator = Validator::make($inputs,$validation);
+        Log::info($validator);
+        if($validator->fails){
+            return Response::json(['message'=>'バリデーションエラーです。'],500);
+        }
 //        論理削除する
-
+        Article::delete_article();
+        return View::make('users.view');
 
     }
 

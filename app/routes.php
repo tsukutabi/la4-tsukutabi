@@ -19,8 +19,8 @@ Route::get('save','ArticlesController@get_save');
 Route::post('save','ArticlesController@post_save');
 Route::get('find','ArticlesController@find');
 Route::get('view/{id}','ArticlesController@view');
-Route::put('edit','ArticlesController@edit');
-Route::get('edit','ArticlesController@get_edit');
+Route::put('edit/{id}','ArticlesController@edit');
+Route::get('edit/{id}','ArticlesController@get_edit');
 
 Route::post('comment','CommentController@post');
 Route::post('fav','FavController@post');
@@ -49,16 +49,16 @@ Route::pattern('id', '[0-9]+');
 
 
 Route::get( 'register',
-	['as' => 'register-form', 'uses' => 'AuthController@showRegisterForm' ] );
+	['as' => 'register-form', 'uses' => 'UserController@showRegisterForm' ] );
 Route::post( 'register',
-	['as' => 'handle-register', 'uses' => 'AuthController@handleRegister' ] );
+	['as' => 'handle-register', 'uses' => 'UserController@handleRegister' ] );
 Route::get( 'confirm',
-	['as' => 'confirm-form', 'uses' => 'AuthController@showConfirmForm' ] );
+	['as' => 'confirm-form', 'uses' => 'USerController@showConfirmForm' ] );
 Route::post( 'confirm',
-	['as' => 'handle-confirm', 'uses' => 'AuthController@handleConfirm' ] );
-Route::get( 'login', ['as' => 'login-form', 'uses' => 'AuthController@showLoginForm' ] );
-Route::post( 'login', ['as' => 'handle-login', 'uses' => 'AuthController@handleLogin' ] );
-Route::get( 'logout', ['as' => 'logout', 'uses' => 'AuthController@handleLogout' ] );
+	['as' => 'handle-confirm', 'uses' => 'UserController@handleConfirm' ] );
+Route::get( 'login', ['as' => 'login-form', 'uses' => 'UserController@showLoginForm' ] );
+Route::post( 'login', ['as' => 'handle-login', 'uses' => 'UserController@handleLogin' ] );
+Route::get( 'logout', ['as' => 'logout', 'uses' => 'UserController@handleLogout' ] );
 
 Route::get( 'remainder',
 	['as' => 'reminder-form', 'uses' => 'RemindersController@showReminderForm' ] );

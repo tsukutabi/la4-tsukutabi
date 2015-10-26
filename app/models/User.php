@@ -9,15 +9,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 	protected $softDelete = true;
 
 	public function comments() {
-		return $this->hasMany('Comment');
+		return $this->hasMany(Comment::class);
 	}
 
 	public function articles() {
-		return $this->hasMany('Article');
+		return $this->hasMany(Article::class);
 	}
-
-
-
 
 	public function setPasswordAttribute( $value )
 	{

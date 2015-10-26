@@ -3,7 +3,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\SoftDeles;
 
-
 class Article extends Model{
 //	use UserTrait, RemindableTrait;
     use SoftDeletingTrait;
@@ -14,13 +13,10 @@ class Article extends Model{
      */
     protected $table = 'articles';
     protected $guarded = ['id'];
-
     public $timestamps = true;
-
     public function comments() {
         return $this->hasMany('Comment');
     }
-
     public function user(){
         return $this->belongsTo('User');
     }
@@ -41,7 +37,7 @@ class Article extends Model{
 //                $messages = ['messages'=>'NG',500];
 //                return $messages;
 //            }
-            $name = md5(sha1(uniqid(mt_rand(), true))).'.'.$mime;
+            $name = md5(sha1(uniqid(mt_rand(0,40000), true))).'.'.$mime;
             if($photo_data->move($set_path, $name)){
                 array_push($photo_name_array,$name);
             }
@@ -64,13 +60,10 @@ class Article extends Model{
         }else{
             $messages =['message'=>'NG',500];
         }
-
         return $messages;
     }
-
 //    mimetypeのチェック
     private static function check_mime($mimetype){
-
 
     }
 

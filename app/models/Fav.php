@@ -11,10 +11,10 @@ class Fav extends Model{
     public $timestamps = true;
     protected $fillable = ['user_id','article_id','departure_at','return_at'];
     public function articles() {
-        return $this->belongsto('articles');
+        return $this->belongsto(Article::class);
     }
     public function users(){
-        return $this->belongsTo('users');
+        return $this->belongsTo(User::class);
     }
     public static function input_fav($input){
         Log::info($input);

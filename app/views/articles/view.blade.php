@@ -4,11 +4,7 @@
     <style>
 
     </style>
-    <?php var_dump($articles); ?>
-    <?php var_dump($comment_data); ?>
-
-    <h1>{{{$articles->title }}}</h1><h2>{{{$articles->subtitle}}}</h2>
-
+    <h1>{{{$articles['0']->title }}}</h1><h2>{{{$articles['0']->subtitle}}}</h2>
     <div>
         {{Form::open(['url'=>'/comment'])}}
         {{Form::text('comments')}}
@@ -16,18 +12,18 @@
         {{Form::hidden('article_id',3)}}
         {{Form::submit('送信')}}
         {{Form::close()}}
-
-        <li>
+        <li class="clear">
             @foreach ($comment_data as $comment)
-            <ul class="comment">
-                <p>{{ $comment['comment'] }}</p>
-            </ul>
+                <p class="comment">{{{ $comment->comment }}}</p>
+                <p class="commenter_name">by {{{$comment->username}}}</p>
+                <p class="created_at">{{$comment->created_at}}</p>
             @endforeach
         </li>
     </div>
 
-
     <div>
+        <p>お気に入り数</p>
+        {{ $fav_data }}
         {{Form::open(['url'=>'/fav'])}}
         {{Form::hidden('user_id',6)}}
         {{Form::hidden('article_id',3)}}
