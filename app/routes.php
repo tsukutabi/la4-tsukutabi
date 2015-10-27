@@ -11,18 +11,23 @@
 |
 */
 
-Route::get( '/', [ 'as' => 'home', 'uses' => 'ArticlesController@index' ] );
+Route::get( '/', [ 'as' => 'home', 'uses' => 'ArticleController@index' ] );
 Route::when('*','csrf',['post','put']);
 //ユーザーエージェントを取る。
 //Route::when('*','user-agent',['get']);
-Route::get('save','ArticlesController@get_save');
-Route::post('save','ArticlesController@post_save');
-Route::get('find','ArticlesController@find');
-Route::get('view/{id}','ArticlesController@view');
-Route::put('edit/{id}','ArticlesController@edit');
-Route::get('edit/{id}','ArticlesController@get_edit');
+Route::get('save','ArticleController@get_save');
+Route::post('save','ArticleController@post_save');
+Route::get('find','ArticleController@find');
+Route::get('view/{id}','ArticleController@view');
+Route::put('edit/{id}','ArticleController@edit');
+Route::get('edit/{id}','ArticleController@get_edit');
+
 
 Route::post('comment','CommentController@post');
+Route::put('edit_comment/{id}','CommentController@edit');
+Route::post('delete_comment/{id}','CommentController@delete');
+Route::post('spam_comment/{id}','CommentController@spam');
+
 Route::post('fav','FavController@post');
 
 Route::get('error',function(){

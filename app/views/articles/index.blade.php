@@ -10,7 +10,7 @@
         <a href="/view/{{ $article->id }}" class="link">
             <li>
                 <?php $photo = explode('+',$article->photos);?>
-                <img src="images/eeee/{{ $photo[mt_rand(0,2)] }}" width="200" height="283">
+                <img src="images/{{$article->user_id}}/{{ $photo[0] }}" width="200" height="283">
                 <p>{{ $article->title }}</p>
                 <p>{{ $article->subtitle }}</p>
             </li>

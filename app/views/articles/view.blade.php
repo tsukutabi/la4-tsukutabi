@@ -6,20 +6,35 @@
     </style>
     {{var_dump($articles['0'])}}
     <h1>{{{$articles['0']->title }}}</h1><h2>{{{$articles['0']->subtitle}}}</h2>
+    <div class="comment">
+        {{var_dump($comment_data)}}
+        @foreach($comment_data as $comments)
+        <p>
+            {{$comments->comment}}
+            by r{{$comments->username}}
+            {{$comments->created_at}}
+        {{--ログインしている人と投稿した人が一致したら--}}
+            @if(true)
+                <a href="/edit_comment/{{$comments->id}}">編集する</a>
+                {{Form::open(['url'=>'delete_comment/'.$comments->id])}}
+                {{Form::hidden('user_id',6)}}
+                {{Form::submit('削除する')}}
+                {{Form::close()}}
+            @else
+                <a href="/spam_comment/{{$comments->id}}">
+                <a>スパムを報告する。</a>
+                </a>
+            @endif
+        </p>
+        @endforeach
+    </div>
     <div>
         {{Form::open(['url'=>'/comment'])}}
         {{Form::text('comments')}}
         {{Form::hidden('user_id',6)}}
-        {{Form::hidden('article_id',3)}}
+        {{Form::hidden('article_id',$articles['0']->id)}}
         {{Form::submit('送信')}}
         {{Form::close()}}
-        <li class="clear">
-            @foreach ($comment_data as $comment)
-                <p class="comment">{{{ $comment->comment }}}</p>
-                <p class="commenter_name">by {{{$comment->username}}}</p>
-                <p class="created_at">{{$comment->created_at}}</p>
-            @endforeach
-        </li>
     </div>
     <div>
         <p>お気に入り数</p>

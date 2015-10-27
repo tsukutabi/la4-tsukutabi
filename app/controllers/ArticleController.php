@@ -1,6 +1,6 @@
 <?php
 
-class ArticlesController extends BaseController{
+class ArticleController extends BaseController{
 //ユーザーにログインさせる。
     public function __construct()
     {
@@ -9,10 +9,11 @@ class ArticlesController extends BaseController{
         {
             $user_login = true;
             echo "ログインしています。";
+
         }else{
             $user_login = false;
             echo "ログインしていません";
-            Log::info('ログインしていません。');
+            Log::info('ログインしていません');
         }
 // beforeフィルタをインストールする
 //        $this->beforeFilter(
@@ -48,12 +49,7 @@ class ArticlesController extends BaseController{
 //  新しいもの
     public function index()
     {
-        try{
-            $data = Article::get_index_data();
-        }catch (Exception $e){
-            Log::info($e);
-            $data = null;
-        }
+        $data = Article::get_index_data();
         return View::make('articles.index',[
             'info'=>$data
 //        'new'=>$data['new'],
@@ -61,21 +57,19 @@ class ArticlesController extends BaseController{
 //        'fav'=>$data['fav']
         ]);
     }
-
 //    詳細ページを読む
     public function view($id)
     {
         try{
-            $articles = DB::table('articles')->select('users.username','title','subtitle','photos','photo_comments')->leftJoin('users','users.id', '=', 'articles.user_id')->get();
-            $comment_data = DB::table('comments')->leftJoin('users','users.id', '=', 'comments.user_id')->get();
+            $articles = DB::table('articles')->select('users.username','articles.user_id','articles.id','title','subtitle','photos','photo_comments')->where('articles.id','=',$id)->leftJoin('users','users.id', '=', 'articles.user_id')->get();
+            $comment_data = DB::table('comments')->select('users.username','users.id','comments.id','comments.comment','comments.created_at')->where('comments.article_id','=',$id)->leftJoin('users','users.id', '=', 'comments.user_id')->get();
             $fav_data = DB::table('favs')->where('article_id','=',$id)->count();
         }catch (Exception $e){
             Log::info($e);
-            return Route::view('error');
+            return Response::json('500');
         }
-        Log::info($articles);
         $photos = explode('+',$articles['0']->photos);
-        return View::make('articles.view' ,[
+        return View::make('articles.view',[
             'articles'=>$articles,
             'photos'=>$photos,
             'comment_data'=>$comment_data,
@@ -94,47 +88,45 @@ class ArticlesController extends BaseController{
 //    記事の保存用
     public function post_save(){
         $rules = [
-        'title'=>'requiresd|min:3|max:255',
-        'subtitle'=>'required|min:3|max:255',
+        'MainTitle'=>'requiresd|min:3|max:255',
+        'SubTitle'=>'required|min:3|max:255',
+        'user_id'=>'required',
+        'tags'=>'',
         'departure_at' =>'',
         'return_at' =>'',
         'photos'=>'required',
 //        'photo_comments'=>'',
         ];
         $input = Input::only(array_keys($rules));
-        $validator = Validator::make($input,$rules);
-        if($validator->fails){
-          return View::make(articles.save)->withErrors($validator)->withInput();
-        }
+        Log::info($input);
+        // $validator = Validator::make($input,$rules);
+        // if($validator->fails()){
+        //     return View::make('articles.save')->withErrors($validator)->withInput();
+        // }
         if(Article::save_article($input)){
             return Response::json(200);
         }
     }
-
     public function edit($id)
     {
         Article::edit_article($id);
         return Response::json(['result' => '更新完了しました'], 200);
     }
-
     public function delete()
     {
         $validation =[
             'user_id'=> 'require',
             'article_id'=>'require',
         ];
-//        本人確認
+//        TODO::本人確認
         $inputs = Input::only(array_keys($validation));
-        log::info($inputs);
         $validator = Validator::make($inputs,$validation);
-        Log::info($validator);
         if($validator->fails()){
             return Response::json(['message'=>'バリデーションエラーです。'],500);
         }
 //        論理削除する
         Article::delete_article();
         return View::make('users.view');
-
     }
 
     public function find()
