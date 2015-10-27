@@ -18,19 +18,16 @@ class Fav extends Model{
     }
     public static function input_fav($input){
         $fav = new Fav();
-        $fav->user_id = $input['user_id'];
         $fav->article_id = $input['article_id'];
-//        すでにあるか確認
-        $exist = DB::table('favs')->where('user_id','=',$input['user_id'])->where('article_id','=',$input['article_id'],'and')->get();
-        Log::info($exist);
-        if($exist == 1 ){
+        $fav->user_id = $input['user_id'];
+//        すでにお気に入り登録しているのか確認
+        $exist = DB::table('favs')->select('id')->where('user_id','=',$input['user_id'])->where('article_id','=',$input['article_id'],'and')->get();
+        if(!empty($exist['0']->id)){
 //          すでにあれば 削除する。
             try{
-//                削除実行 + ハードデリート
-
-
+                Fav::destroy($exist['0']->id);
+                Log::info($fav);
             }catch (Exception $e){
-//                dbエラー検出
                 Log::info($e);
                 return false;
             }

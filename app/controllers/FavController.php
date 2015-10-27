@@ -21,14 +21,14 @@ class Favcontroller extends BaseController{
         $input = Input::only(array_keys($rules));
         $validator = Validator::make($input,$rules);
         if($validator->fails()){
-            return Response::json(['message'=>'バリデーションエラーです。'],500);
+            return Response::json(['message'=>'validation'],500);
         }
 
         $success = Fav::input_fav($input);
         if ( $success ) {
             return Response::json(200);
         } else {
-            return Response::json(['message' => 'すでに登録してあります'] , 500);
+            return Response::json(['message' => 'exist'] , 500);
         }
     }
 
