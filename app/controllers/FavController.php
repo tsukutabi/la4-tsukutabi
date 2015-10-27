@@ -14,7 +14,16 @@ class Favcontroller extends BaseController{
     }
     public function post()
     {
-        $input = Input::only(['user_id','article_id']);
+        $rules =[
+            'user_id'=>'required',
+            'article_id'=>'required'
+        ];
+        $input = Input::only(array_keys($rules));
+        $validator = Validator::make($input,$rules);
+        if($validator->fails()){
+            return Response::json(['message'=>'バリデーションエラーです。'],500);
+        }
+
         $success = Fav::input_fav($input);
         if ( $success ) {
             return Response::json(200);

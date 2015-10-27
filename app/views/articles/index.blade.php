@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('packages/bower_components/wookmark/css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/bower_components/wookmark/css/overview.css') }}">
     <div id="container">
+        {{var_dump($info)}}
         <ul id="tiles-wrap">
     @foreach($info as $article)
         <a href="/view/{{ $article->id }}" class="link">

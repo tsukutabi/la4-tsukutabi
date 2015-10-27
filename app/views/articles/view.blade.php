@@ -4,6 +4,7 @@
     <style>
 
     </style>
+    {{var_dump($articles['0'])}}
     <h1>{{{$articles['0']->title }}}</h1><h2>{{{$articles['0']->subtitle}}}</h2>
     <div>
         {{Form::open(['url'=>'/comment'])}}
@@ -20,7 +21,6 @@
             @endforeach
         </li>
     </div>
-
     <div>
         <p>お気に入り数</p>
         {{ $fav_data }}
@@ -30,7 +30,6 @@
         {{Form::submit('お気に入り')}}
         {{Form::close()}}
     </div>
-
     <div class="wrap">
         <div class="scrollbar">
             <div class="handle"></div>
@@ -78,7 +77,6 @@
                     dragHandle: 1,
                     dynamicHandle: 1,
                     clickBar: 1,
-
                     // Buttons
                     prev: $wrap.find('.prev'),
                     next: $wrap.find('.next')

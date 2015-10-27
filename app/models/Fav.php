@@ -17,18 +17,18 @@ class Fav extends Model{
         return $this->belongsTo(User::class);
     }
     public static function input_fav($input){
-        Log::info($input);
         $fav = new Fav();
         $fav->user_id = $input['user_id'];
         $fav->article_id = $input['article_id'];
-
 //        すでにあるか確認
-        $exist= Fav::find($input['user_id'])->count();
+        $exist = DB::table('favs')->where('user_id','=',$input['user_id'])->where('article_id','=',$input['article_id'],'and')->get();
         Log::info($exist);
         if($exist == 1 ){
 //          すでにあれば 削除する。
             try{
 //                削除実行 + ハードデリート
+
+
             }catch (Exception $e){
 //                dbエラー検出
                 Log::info($e);
@@ -36,7 +36,6 @@ class Fav extends Model{
             }
             return true;
         }
-        Log::info($fav);
         try{
             $fav->save();
         }catch ( Exception $e){

@@ -21,6 +21,14 @@ class Article extends Model{
         return $this->belongsTo('User');
     }
     protected $fillable = ['title','subtitle','photos','user_id'/*,'photo_comments','latitude','longitude'*/,'departure_at','return_at'];
+    protected $hidden = ['users.email'];
+
+    public static function get_index_data(){
+        $articles = DB::table('articles')->select('users.username','articles.title','articles.id','photos','subtitle')->leftJoin('users', 'users.id', '=', 'articles.user_id')->get();
+        Log::info($articles);
+        return $articles;
+    }
+
 //    記事のアップロード処理
     public static function save_article(array $input,$user_id = 3){
         $messages = ['messages'=>'','num'=>''];
@@ -99,11 +107,5 @@ class Article extends Model{
         return ( isset($val[1]) ) ? $val[0] / $val[1] : $str ;
     }
 
-    public static function get_index_data(){
-        $articles = Article::get();
-        Log::info($articles);
-//        $photos = $articles->photos;
-//        $photo = explode('+',$photos);
-        return $articles;
-    }
+
 }

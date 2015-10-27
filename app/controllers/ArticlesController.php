@@ -35,7 +35,6 @@ class ArticlesController extends BaseController{
                 // Webブラウザに404 Not Foundを返す
                 App::abort(404);
             }
-
             Log::debug('Exists!');
         }
         else {
@@ -53,6 +52,7 @@ class ArticlesController extends BaseController{
             $data = Article::get_index_data();
         }catch (Exception $e){
             Log::info($e);
+            $data = null;
         }
         return View::make('articles.index',[
             'info'=>$data
@@ -66,7 +66,7 @@ class ArticlesController extends BaseController{
     public function view($id)
     {
         try{
-            $articles = DB::table('articles')->leftJoin('users','users.id', '=', 'articles.user_id')->get();
+            $articles = DB::table('articles')->select('users.username','title','subtitle','photos','photo_comments')->leftJoin('users','users.id', '=', 'articles.user_id')->get();
             $comment_data = DB::table('comments')->leftJoin('users','users.id', '=', 'comments.user_id')->get();
             $fav_data = DB::table('favs')->where('article_id','=',$id)->count();
         }catch (Exception $e){
@@ -80,8 +80,6 @@ class ArticlesController extends BaseController{
             'photos'=>$photos,
             'comment_data'=>$comment_data,
             'fav_data'=>$fav_data
-//             'photo_comments'=>$photo_comments,
-//             'articles_data' =>$articles_data,
         ]);
     }
     public function get_save(){
@@ -98,8 +96,6 @@ class ArticlesController extends BaseController{
         $rules = [
         'title'=>'requiresd|min:3|max:255',
         'subtitle'=>'required|min:3|max:255',
-//      tokenはいるか確認
-        '_token' => 'required',
         'departure_at' =>'',
         'return_at' =>'',
         'photos'=>'required',
@@ -132,7 +128,7 @@ class ArticlesController extends BaseController{
         log::info($inputs);
         $validator = Validator::make($inputs,$validation);
         Log::info($validator);
-        if($validator->fails){
+        if($validator->fails()){
             return Response::json(['message'=>'バリデーションエラーです。'],500);
         }
 //        論理削除する
