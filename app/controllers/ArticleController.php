@@ -1,5 +1,6 @@
 <?php
 
+
 class ArticleController extends BaseController{
 //ユーザーにログインさせる。
     public function __construct()
@@ -32,7 +33,7 @@ class ArticleController extends BaseController{
         }
     }
 
-//トップページのためのデータを3種類*100件取る
+//トップページのためのデータを3種類*100件取る todo
 //  view数が多いもの
 //  お気に入りが多いもの
 //  新しいもの
@@ -50,12 +51,27 @@ class ArticleController extends BaseController{
     public function view($id)
     {
         try{
-            $articles = DB::table('articles')->select('users.username','articles.user_id','articles.id','title','subtitle','photos','photo_comments')->where('articles.id','=',$id)->leftJoin('users','users.id', '=', 'articles.user_id')->get();
-            $comment_data = DB::table('comments')->select('users.username','users.id','comments.id','comments.comment','comments.created_at')->where('comments.article_id','=',$id)->leftJoin('users','users.id', '=', 'comments.user_id')->get();
-            $fav_data = DB::table('favs')->where('article_id','=',$id)->count();
+            $articles = DB::table('articles')
+            ->select('users.username','articles.user_id','articles.id','title','subtitle','photos','photo_comments')
+            ->where('articles.id','=',$id)
+            ->leftJoin('users','users.id', '=', 'articles.user_id')
+            ->get();
+            
+            $comment_data = DB::table('comments')
+            ->select('users.username','users.id','comments.id','comments.comment','comments.created_at')
+            ->where('comments.article_id','=',$id)
+            ->leftJoin('users','users.id', '=', 'comments.user_id')
+            ->get();
+            
+            $fav_data = DB::table('favs')
+            ->select()
+            ->where('article_id','=',$id)
+            ->get();
+            
         }catch (Exception $e){
             Log::info($e);
-            return Response::json('500');
+            Log::info($fav_data);
+            return Response::json(['message'=>$e],'500');
         }
         $photos = explode('+',$articles['0']->photos);
         return View::make('articles.view',[
@@ -117,7 +133,6 @@ class ArticleController extends BaseController{
         Article::delete_article();
         return View::make('users.view');
     }
-
     public function find()
     {
         $search_word = $_GET['word'];

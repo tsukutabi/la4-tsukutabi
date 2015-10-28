@@ -38,9 +38,10 @@
     </div>
     <div>
         <p>お気に入り数</p>
-        {{ $fav_data }}
+        {{ var_dump($fav_data)}}
+    
         {{Form::open(['url'=>'/fav'])}}
-        {{Form::hidden('user_id',6)}}
+        {{Form::hidden('user_id',7)}}
         {{Form::hidden('article_id',$articles['0']->id)}}
         {{Form::submit('お気に入り')}}
         {{Form::close()}}

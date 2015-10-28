@@ -25,7 +25,6 @@ class Article extends Model{
 
     public static function get_index_data(){
         $articles = DB::table('articles')->select('users.username','articles.user_id','articles.title','articles.id','photos','subtitle')->leftJoin('users', 'users.id', '=', 'articles.user_id')->get();
-        Log::info($articles);
         return $articles;
     }
 

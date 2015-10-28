@@ -31,7 +31,7 @@ Route::post('spam_comment/{id}','CommentController@spam');
 
 Route::post('fav','FavController@post');
 
-Route::get('error',function(){
+Route::get('error',['as'=>'error'],function(){
 	echo 'hello error';
 });
 
@@ -81,7 +81,7 @@ $apiPrefix = '/api';
 Route::get($apiPrefix . '/ping', function () {
 	return Response::json('pong');
 });
-Route::filter('api_auth', '\Gihyo\BookReservation\Filter\ApiAuthFilter');
+Route::filter('api_auth', '');
 //記事表示用
 Route::group(['before' => 'api_auth'], function () use ($apiPrefix) {
     $controller = 'ArticlesController';

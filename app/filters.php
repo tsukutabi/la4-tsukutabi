@@ -14,17 +14,44 @@
 App::before(function($request)
 {
 //   ログインさせる。
-        if (Auth::check())
-        {
-            $user_login = true;
-            $user_data['id'] = Auth::user()->id;
-            $user_data['email']=Auth::user()->email;
-            //return $user_data;         
-        }else{
-            $user_login = false;
-            echo "ログインしていません";
-            Log::info('ログインしていません');
-        }
+	if (Auth::check())
+	{
+//		$user_login = true;
+		$user_data['id'] = Auth::user()->id;
+		$user_data['username']=Auth::user()->username;
+		$user_data['email']=Auth::user()->email;
+	}else{
+		$user_login = false;
+		echo "ログインしていません";
+	}
+
+
+	//ユーザーエージェントの確認
+	$ua = Request::server('HTTP_USER_AGENT');
+	Log::info($ua);
+	if ((strpos($ua, 'Android') !== false) &&
+		(strpos($ua, 'Mobile') !== false) ||
+		(strpos($ua, 'iPhone') !== false) ||
+		(strpos($ua, 'Windows Phone') !== false)) {
+		// スマートフォンからアクセスされた場合
+		Session::put('layout','smart_phone');
+	} elseif ((strpos($ua, 'Android') !== false) ||
+		(strpos($ua, 'iPad') !== false)) {
+		// タブレットからアクセスされた場合
+		Session::put('layout','tablet');
+	} elseif ((strpos($ua, 'DoCoMo') !== false) ||
+		(strpos($ua, 'KDDI') !== false) ||
+		(strpos($ua, 'SoftBank') !== false) ||
+		(strpos($ua, 'Vodafone') !== false) ||
+		(strpos($ua, 'J-PHONE') !== false)) {
+		// 携帯からアクセスされた場合
+		Session::put('layout','future_phone');
+	} else {
+		// その他（PC）からアクセスされた場合
+		Session::put('layout','default');
+	}
+
+
 });
 
 
@@ -110,10 +137,19 @@ Route::filter('csrf', function()
 	}
 });
 
+
+Route::filter('api',function(){
+	 $user = User::where('api_token', Request::header(static::APPLICATION_TOKEN))->first();
+        if (is_null($user)) {
+            return Response::json(['message' => '401 Unauthorized'], 401);
+        }
+
+        app()[static::AUTHORIZED_USER] = $user;
+});
+
 // ユーザーエージェントの確認
 Route::filter('user-agent',function()
 {
-
 	
 })
 

@@ -8,7 +8,9 @@
 	  	"cartalyst/sentry": "2.0.*",
 	  	"laravel-plus/extension": "1.*",
 	    "barryvdh/laravel-debugbar": "1.*",
-	   "swiftmailer/swiftmailer": "@stable"
+	    "swiftmailer/swiftmailer": "@stable",
+	    "aws/aws-sdk-php-laravel": "1.*",
+	  	"aws/aws-sdk-php": "~2.2"
 	},
 	"autoload": {
 		"classmap": [
