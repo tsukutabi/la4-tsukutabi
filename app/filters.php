@@ -13,7 +13,18 @@
 
 App::before(function($request)
 {
-
+//   ログインさせる。
+        if (Auth::check())
+        {
+            $user_login = true;
+            $user_data['id'] = Auth::user()->id;
+            $user_data['email']=Auth::user()->email;
+            //return $user_data;         
+        }else{
+            $user_login = false;
+            echo "ログインしていません";
+            Log::info('ログインしていません');
+        }
 });
 
 
@@ -98,6 +109,13 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+// ユーザーエージェントの確認
+Route::filter('user-agent',function()
+{
+
+	
+})
 
 ;
 Route::filter( 'admin', function()

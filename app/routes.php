@@ -11,8 +11,10 @@
 |
 */
 
+
 Route::get( '/', [ 'as' => 'home', 'uses' => 'ArticleController@index' ] );
 Route::when('*','csrf',['post','put']);
+
 //ユーザーエージェントを取る。
 //Route::when('*','user-agent',['get']);
 Route::get('save','ArticleController@get_save');
@@ -21,7 +23,6 @@ Route::get('find','ArticleController@find');
 Route::get('view/{id}','ArticleController@view');
 Route::put('edit/{id}','ArticleController@edit');
 Route::get('edit/{id}','ArticleController@get_edit');
-
 
 Route::post('comment','CommentController@post');
 Route::put('edit_comment/{id}','CommentController@edit');

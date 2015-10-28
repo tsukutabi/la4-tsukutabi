@@ -29,28 +29,25 @@ class CommentController extends BaseController {
      }
 
      public function delete($id){
-
          $rules = [
              'user_id'=>'required',
          ];
          $input = Input::only(array_keys($rules));
-         Log::info('a');
          $validator = Validator::make($input,$rules);
-
          if($validator->fails()){
              return Redirect::route('error')->withErrors($validator)->withInput();
 //             return Redirect::route('todos.index')->withErrors($validator)->withInput();
          }
 //         削除する。
-//         try {
+         try {
              Log::info('b');
-             Fav::destroy($id);
+             Comment::destroy($id);
              Log::info('c');
 
-//         }catch (Exception $e){
-//             Log::info($e);
-//         }
-//         Log::info($result);
+         }catch (Exception $e){
+             Log::info($e);
+         }
+
          return Response::json('200');
      }
 

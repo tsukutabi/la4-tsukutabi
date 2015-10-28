@@ -4,17 +4,6 @@ class ArticleController extends BaseController{
 //ユーザーにログインさせる。
     public function __construct()
     {
-//   ログインさせる。
-        if (Auth::check())
-        {
-            $user_login = true;
-            echo "ログインしています。";
-
-        }else{
-            $user_login = false;
-            echo "ログインしていません";
-            Log::info('ログインしていません');
-        }
 // beforeフィルタをインストールする
 //        $this->beforeFilter(
 //            '@existsFilter',

@@ -11,7 +11,7 @@
         @foreach($comment_data as $comments)
         <p>
             {{$comments->comment}}
-            by r{{$comments->username}}
+            by {{$comments->username}}
             {{$comments->created_at}}
         {{--ログインしている人と投稿した人が一致したら--}}
             @if(true)
@@ -22,7 +22,7 @@
                 {{Form::close()}}
             @else
                 <a href="/spam_comment/{{$comments->id}}">
-                <a>スパムを報告する。</a>
+                <p>スパムを報告する。</p>
                 </a>
             @endif
         </p>
@@ -41,7 +41,7 @@
         {{ $fav_data }}
         {{Form::open(['url'=>'/fav'])}}
         {{Form::hidden('user_id',6)}}
-        {{Form::hidden('article_id',3)}}
+        {{Form::hidden('article_id',$articles['0']->id)}}
         {{Form::submit('お気に入り')}}
         {{Form::close()}}
     </div>
