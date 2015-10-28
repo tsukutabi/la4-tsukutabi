@@ -16,15 +16,12 @@ App::before(function($request)
 //   ログインさせる。
 	if (Auth::check())
 	{
-//		$user_login = true;
-		$user_data['id'] = Auth::user()->id;
-		$user_data['username']=Auth::user()->username;
-		$user_data['email']=Auth::user()->email;
+		Session::put('user.id', Auth::user()->id);
+		Session::put('user.username', Auth::user()->username);
 	}else{
 		$user_login = false;
 		echo "ログインしていません";
 	}
-
 
 	//ユーザーエージェントの確認
 	$ua = Request::server('HTTP_USER_AGENT');
@@ -50,7 +47,6 @@ App::before(function($request)
 		// その他（PC）からアクセスされた場合
 		Session::put('layout','default');
 	}
-
 
 });
 

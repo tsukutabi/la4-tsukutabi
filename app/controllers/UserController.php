@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use app\models\User;
 
-class AuthController extends BaseController
+class UserController extends BaseController
 {
     public function __construct(){
 //        ログインしていたら、ユーザーにメッセージをだして、ユーザーページにredirectさせる。

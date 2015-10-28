@@ -1,10 +1,14 @@
 <?php
 
 
+
 class ArticleController extends BaseController{
 //ユーザーにログインさせる。
     public function __construct()
     {
+
+        $data = Session::all();
+        var_dump($data);
 // beforeフィルタをインストールする
 //        $this->beforeFilter(
 //            '@existsFilter',
@@ -40,6 +44,9 @@ class ArticleController extends BaseController{
     public function index()
     {
         $data = Article::get_index_data();
+
+        $value = Session::get('layout');
+
         return View::make('articles.index',[
             'info'=>$data
 //        'new'=>$data['new'],
