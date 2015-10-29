@@ -13,7 +13,7 @@
     <div class="form-group">
         <input id="main" type="text" name="MainTitle" class="form-control" placeholder="旅行記のタイトル" id="Main" required="true">
         <input id="sub" type="text" name="SubTitle" class="form-control" placeholder="旅の概要を教えて下さい。" id="Sub">
-        <input type="hidden" value="{{{$user_id}}}" name="user_id" >
+        <input type="hidden" value="{{{Auth::user()->id}}}" name="user_id" >
         <input type="text" name="tags" class="form-control" placeholder="
         @foreach($tags as $tag)
             {{{ $tag->name }}}

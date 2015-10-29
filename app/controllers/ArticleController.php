@@ -44,9 +44,7 @@ class ArticleController extends BaseController{
     public function index()
     {
         $data = Article::get_index_data();
-
         $value = Session::get('layout');
-
         return View::make('articles.index',[
             'info'=>$data
 //        'new'=>$data['new'],
@@ -65,7 +63,7 @@ class ArticleController extends BaseController{
             ->get();
             
             $comment_data = DB::table('comments')
-            ->select('users.username','users.id','comments.id','comments.comment','comments.created_at')
+            ->select('users.username','users.id','comments.user_id','comments.id','comments.comment','comments.created_at')
             ->where('comments.article_id','=',$id)
             ->leftJoin('users','users.id', '=', 'comments.user_id')
             ->get();
@@ -90,10 +88,8 @@ class ArticleController extends BaseController{
     }
     public function get_save(){
         $tag_info = DB::table('tags')->select(['id','name'])->get();
-        $user = Auth::user();
         return View::make('articles.save',[
             'tags'=>$tag_info,
-            'user_id'=>$user->id,
         ]);
     }
 

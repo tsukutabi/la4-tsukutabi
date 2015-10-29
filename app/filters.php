@@ -143,13 +143,7 @@ Route::filter('api',function(){
         app()[static::AUTHORIZED_USER] = $user;
 });
 
-// ユーザーエージェントの確認
-Route::filter('user-agent',function()
-{
-	
-})
 
-;
 Route::filter( 'admin', function()
 {
 	if( Auth::guest() || Auth::user()->role < 100 )

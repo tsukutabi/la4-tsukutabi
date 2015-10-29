@@ -5,16 +5,16 @@
 
     </style>
     {{var_dump($articles['0'])}}
-    <h1>{{{$articles['0']->title }}}</h1><h2>{{{$articles['0']->subtitle}}}</h2>
+    <h1>{{{ $articles['0']->title }}}</h1><h2>{{{$articles['0']->subtitle}}}</h2>
     <div class="comment">
-        {{var_dump($comment_data)}}
+        {{--{{var_dump($comment_data)}}--}}
         @foreach($comment_data as $comments)
         <p>
             {{$comments->comment}}
             by {{$comments->username}}
             {{$comments->created_at}}
         {{--ログインしている人と投稿した人が一致したら--}}
-            @if(true)
+            @if(Auth::user()->id == $comments->user_id)
                 <a href="/edit_comment/{{$comments->id}}">編集する</a>
                 {{Form::open(['url'=>'delete_comment/'.$comments->id])}}
                 {{Form::hidden('user_id',6)}}
@@ -31,7 +31,7 @@
     <div>
         {{Form::open(['url'=>'/comment'])}}
         {{Form::text('comments')}}
-        {{Form::hidden('user_id',6)}}
+        {{Form::hidden('user_id',Auth::user()->id)}}
         {{Form::hidden('article_id',$articles['0']->id)}}
         {{Form::submit('送信')}}
         {{Form::close()}}
@@ -41,7 +41,7 @@
         {{ var_dump($fav_data)}}
     
         {{Form::open(['url'=>'/fav'])}}
-        {{Form::hidden('user_id',7)}}
+        {{Form::hidden('user_id',Auth::user()->id)}}
         {{Form::hidden('article_id',$articles['0']->id)}}
         {{Form::submit('お気に入り')}}
         {{Form::close()}}
@@ -55,7 +55,7 @@
         <div class="frame effects" id="effects" >
             <ul class="clearfix">
     @foreach ($photos as $photo)
-    <li><img src="/images/eeee/{{ $photo }}"></li>
+    <li><img src="/images/{{$articles['0']->user_id}}/{{ $photo }}"></li>
     @endforeach
             <li>コメント</li>
         </ul>
