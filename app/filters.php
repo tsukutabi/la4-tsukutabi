@@ -19,8 +19,7 @@ App::before(function($request)
 		Session::put('user.id', Auth::user()->id);
 		Session::put('user.username', Auth::user()->username);
 	}else{
-		$user_login = false;
-		echo "ログインしていません";
+
 	}
 
 	//ユーザーエージェントの確認

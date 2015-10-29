@@ -17,7 +17,7 @@
             @if(Auth::user()->id == $comments->user_id)
                 <a href="/edit_comment/{{$comments->id}}">編集する</a>
                 {{Form::open(['url'=>'delete_comment/'.$comments->id])}}
-                {{Form::hidden('user_id',6)}}
+                {{Form::hidden('user_id',Auth::user()->id)}}
                 {{Form::submit('削除する')}}
                 {{Form::close()}}
             @else
