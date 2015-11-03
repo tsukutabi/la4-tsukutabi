@@ -10,6 +10,7 @@
         {{--{{var_dump($comment_data)}}--}}
         @foreach($comment_data as $comments)
         <p>
+
             {{$comments->comment}}
             by {{$comments->username}}
             {{$comments->created_at}}
@@ -28,13 +29,13 @@
         </p>
         @endforeach
     </div>
-    <div>
-        {{Form::open(['url'=>'/comment'])}}
-        {{Form::text('comments')}}
-        {{Form::hidden('user_id',Auth::user()->id)}}
-        {{Form::hidden('article_id',$articles['0']->id)}}
-        {{Form::submit('送信')}}
-        {{Form::close()}}
+    <div ng-app="main">
+        <form method="POST" action="http://localhost:8888/comment" accept-charset="UTF-8" class="ng-pristine ng-valid"><input name="_token" type="hidden" value="u469esGEPbRFD1Y78oE8Ju6Cb8b0bgqqlsWvxPH9">
+            <input name="comments" ng-model="comments" type="text">
+            <input name="user_id" ng-model="user_id" type="hidden" value="6">
+            <input name="article_id" ng-model="article_id" type="hidden" value="3">
+            <input type="submit"  value="送信">
+        </form>
     </div>
     <div>
         <p>お気に入り数</p>

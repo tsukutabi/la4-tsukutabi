@@ -9,6 +9,8 @@
 
     <title>つくたび</title>
     <script src="{{ asset('packages/bower_components/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('packages/bower_components/angular.js/angular.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/angular_app.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('packages/bower_components/normalize.css/normalize.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <style>
