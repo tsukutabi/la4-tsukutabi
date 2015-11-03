@@ -45,14 +45,13 @@ Route::get('user/add',function(){
 	return View::make('users.add');
 });
 
-Route::post ('user/add','UsersController@add');
+Route::post('user/add','UsersController@add');
+Route::get('user/{id}','UserController@view');
 
 
 Route::when( 'admin/*', 'admin' );
 Route::when( 'dashboard/*', 'auth' );
 Route::pattern('id', '[0-9]+');
-
-
 
 Route::get( 'register',
 	['as' => 'register-form', 'uses' => 'UserController@showRegisterForm' ] );
@@ -75,29 +74,39 @@ Route::get( 'reset/{token}',
 Route::post( 'reset/{token}',
 	['as' => 'handle-reset', 'uses' => 'RemindersController@handleReset' ] );
 
-
-//api用のルーティング
-$apiPrefix = '/api';
-Route::get($apiPrefix . '/ping', function () {
-	return Response::json('pong');
-});
-Route::filter('api_auth', '');
-//記事表示用
-Route::group(['before' => 'api_auth'], function () use ($apiPrefix) {
-    $controller = 'ArticlesController';
-//    記事表示用
-    Route::post($apiPrefix.'/post',$controller .'@post_save');
-	Route::get($apiPrefix . '/index',$controller .'@index');
-    Route::get($apiPrefix.'/view/{id}',$controller .'@view');
-	Route::put($apiPrefix . '/edit/{id}', $controller . '@update');
-	Route::delete($apiPrefix . '/delete/{id}', $controller . '@delete');
-//    ユーザー系
-    Route::post($apiPrefix.'/post',$controller .'@post_save');
-    Route::post($apiPrefix.'/post',$controller .'@post_save');
+//sapi系だよ〜〜
+Route::get('api/ping',function(){
+    return Response::json('ping');
 });
 
-//ユーザー表示用
+//記事系
+Route::get('api/index','ArticleController@api_index');
+Route::get('api/view/{id}','ArticleController@api_index');
+Route::post('api/post','ArticlesContreoller@api_save');
+Route::put('api/put{id}','ArticlesController@api_edit');
+Rpute::delete('api/delete{id}','ArticlesController@api_delete');
 
 
+//ユーザー編集系
+Route::get();
 
-
+// //api用のルーティング
+// $apiPrefix = '/api';
+// Route::get($apiPrefix . '/ping', function () {
+// 	return Response::json('pong');
+// });
+// // Route::filter('api_auth', '');
+// //記事表示用
+// Route::group(function () use ($apiPrefix) {
+//     $controller = 'ArticlesController';
+// //    記事表示用
+//     Route::post($apiPrefix.'/post',$controller.'@post_save');
+// 	Route::get($apiPrefix . '/index',$controller .'@index');
+//     Route::get($apiPrefix.'/view/{id}',$controller .'@view');
+// 	Route::put($apiPrefix . '/edit/{id}', $controller . '@update');
+// 	Route::delete($apiPrefix . '/delete/{id}', $controller . '@delete');
+// //    ユーザー系
+//     Route::post($apiPrefix.'/post',$controller .'@post_save');
+//     Route::post($apiPrefix.'/post',$controller .'@post_save');
+// });
+// //ユーザー表示用

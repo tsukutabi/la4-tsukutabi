@@ -56,4 +56,34 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 		return $this->email;
 	}
 
+	public static function get_user_content($user_id)
+	{
+		return DB::table('articles')
+			->select('id','title','subtitle')
+			->where('user_id','=',$user_id)
+			->get();
+	}
+	public static function fetch_favs($user_id)
+	{
+		return DB::table('favs')
+		->select('favs.user_id','favs.article_id','articles.id','articles.title')
+		->where('favs.user_id','=',$user_id)
+		->leftJoin('articles','articles.id','=','favs.article_id')
+		->get();
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

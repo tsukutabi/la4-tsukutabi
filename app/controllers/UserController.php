@@ -1,12 +1,10 @@
 <?php
 
 use Carbon\Carbon;
-use app\models\User;
 
 class UserController extends BaseController
 {
     public function __construct(){
-//        ログインしていたら、ユーザーにメッセージをだして、ユーザーページにredirectさせる。
     }
 
     // 今回のコードでは、フォームの出力は
@@ -25,7 +23,7 @@ class UserController extends BaseController
             'password' => [ 'required', 'min:6' ],  // 長さはリマインダーと合わせてある
         ];
 
-        $inputs = Input::only( ['username', 'email', 'password' ] );
+        $inputs = Input::only(array_keys($rules));
 
         $val = Validator::make( $inputs, $rules );
         if( $val->fails() )
@@ -288,6 +286,25 @@ class UserController extends BaseController
 //            'profile' => $profile,
 //        ]);
 //    }
+
+    public function view($id)
+    {
+        // sanitaize todo
+        $user_article = User::get_user_content($id);
+        $user_fav = User::fetch_favs($id);
+        Log::info('$user_article');
+        Log::info($user_article);
+        Log::info('$user_fav');
+        Log::info($user_fav);
+        return View::make('users.view',
+            [
+                'articles'=>$user_article,
+                'favs'=>$user_fav,
+            ]);
+
+    }
+
+
 
     private function bool_you($user_id,$id){
         if($user_id === $id){

@@ -24,8 +24,40 @@ class Article extends Model{
     protected $hidden = ['users.email'];
 
     public static function get_index_data(){
-        $articles = DB::table('articles')->select('users.username','articles.user_id','articles.title','articles.id','photos','subtitle')->leftJoin('users', 'users.id', '=', 'articles.user_id')->get();
+        $articles = DB::table('articles')
+                    ->select('users.username','articles.user_id','articles.title','articles.id','photos','subtitle')
+                    ->leftJoin('users', 'users.id', '=', 'articles.user_id')
+                    ->get();
         return $articles;
+    }
+
+    public static function fetch_view_data($id)
+    {
+        try{
+            $articles = DB::table('articles')
+            ->select('users.username','articles.user_id','articles.id','title','subtitle','photos','photo_comments')
+            ->where('articles.id','=',$id)
+            ->leftJoin('users','users.id', '=', 'articles.user_id')
+            ->get();
+
+            $result['comment_data'] = DB::table('comments')
+            ->select('users.username','users.id','comments.user_id','comments.id','comments.comment','comments.created_at')
+            ->where('comments.article_id','=',$id)
+            ->leftJoin('users','users.id', '=', 'comments.user_id')
+            ->get();
+
+            $result['fav_data'] = DB::table('favs')
+            ->select()
+            ->where('article_id','=',$id)
+            ->get();
+            
+        }catch (Exception $e){
+            Log::info($e);
+            return Response::json(['message'=>$e],'500');
+        }
+        $result['photos'] = explode('+',$articles['0']->photos);
+        $result['articles'] = $articles;
+        return  $result;
     }
 
 //    記事のアップロード処理

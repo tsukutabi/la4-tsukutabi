@@ -1,19 +1,14 @@
 <?php
 
-
-
 class ArticleController extends BaseController{
-//ユーザーにログインさせる。
     public function __construct()
     {
-
-        $data = Session::all();
-        var_dump($data);
+        // var_dump(Session::all());
 // beforeフィルタをインストールする
-//        $this->beforeFilter(
-//            '@existsFilter',
-//            ['on' => ['post', 'put']]
-//        );
+        $this->beforeFilter(
+            '@existsFilter',
+            ['on' => ['post', 'put']]
+        );
     }
     public function existsFilter()
     {
@@ -52,38 +47,22 @@ class ArticleController extends BaseController{
 //        'fav'=>$data['fav']
         ]);
     }
+
+    public function api_index(){
+        return Response::json(
+            Article::get_index_data()
+            );
+    }
 //    詳細ページを読む
     public function view($id)
     {
-        try{
-            $articles = DB::table('articles')
-            ->select('users.username','articles.user_id','articles.id','title','subtitle','photos','photo_comments')
-            ->where('articles.id','=',$id)
-            ->leftJoin('users','users.id', '=', 'articles.user_id')
-            ->get();
-            
-            $comment_data = DB::table('comments')
-            ->select('users.username','users.id','comments.user_id','comments.id','comments.comment','comments.created_at')
-            ->where('comments.article_id','=',$id)
-            ->leftJoin('users','users.id', '=', 'comments.user_id')
-            ->get();
-            
-            $fav_data = DB::table('favs')
-            ->select()
-            ->where('article_id','=',$id)
-            ->get();
-            
-        }catch (Exception $e){
-            Log::info($e);
-            Log::info($fav_data);
-            return Response::json(['message'=>$e],'500');
-        }
-        $photos = explode('+',$articles['0']->photos);
+        $result = Article::fetch_view_data($id);
+        Log::info($result);
         return View::make('articles.view',[
-            'articles'=>$articles,
-            'photos'=>$photos,
-            'comment_data'=>$comment_data,
-            'fav_data'=>$fav_data
+            'articles'=>$result['articles'],
+            'photos'=>$result['photos'],
+            'comment_data'=>$result['comment_data'],
+            'fav_data'=>$result['fav_data']
         ]);
     }
     public function get_save(){
@@ -96,13 +75,13 @@ class ArticleController extends BaseController{
 //    記事の保存用
     public function post_save(){
         $rules = [
-        'MainTitle'=>'requiresd|min:3|max:255',
-        'SubTitle'=>'required|min:3|max:255',
-        'user_id'=>'required',
-        'tags'=>'',
-        'departure_at' =>'',
-        'return_at' =>'',
-        'photos'=>'required',
+            'MainTitle'=>'requiresd|min:3|max:255',
+            'SubTitle'=>'required|min:3|max:255',
+            'user_id'=>'required',
+            'tags'=>'',
+            'departure_at' =>'',
+            'return_at' =>'',
+            'photos'=>'required',
 //        'photo_comments'=>'',
         ];
         $input = Input::only(array_keys($rules));
@@ -136,6 +115,7 @@ class ArticleController extends BaseController{
         Article::delete_article();
         return View::make('users.view');
     }
+
     public function find()
     {
         $search_word = $_GET['word'];
@@ -145,7 +125,23 @@ class ArticleController extends BaseController{
         ]);
     }
 //    迷惑・スパム報告
-    public function spam($id)
+    public function spam($id = null)
+    {
+        return Response::json(['message'=>'成功',200]);
+    }
+
+    public function api_view($id = null){
+        $result = Article::fetch_view_data($id);
+        Log::info($result);
+        return Response::json('articles.view',[
+            'articles'=>$result['articles'],
+            'photos'=>$result['photos'],
+            'comment_data'=>$result['comment_data'],
+            'fav_data'=>$result['fav_data']
+        ]);
+    }
+
+    public function api_post()
     {
 
     }
