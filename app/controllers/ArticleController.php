@@ -39,7 +39,6 @@ class ArticleController extends BaseController{
     public function index()
     {
         $data = Article::get_index_data();
-        $value = Session::get('layout');
         return View::make('articles.index',[
             'info'=>$data
 //        'new'=>$data['new'],
@@ -86,10 +85,10 @@ class ArticleController extends BaseController{
         ];
         $input = Input::only(array_keys($rules));
         Log::info($input);
-        // $validator = Validator::make($input,$rules);
-        // if($validator->fails()){
-        //     return View::make('articles.save')->withErrors($validator)->withInput();
-        // }
+         $validator = Validator::make($input,$rules);
+         if($validator->fails()){
+             return Response::json(['message'=>'200']);
+         }
         if(Article::save_article($input)){
             return Response::json(200);
         }
@@ -127,6 +126,7 @@ class ArticleController extends BaseController{
 //    迷惑・スパム報告
     public function spam($id = null)
     {
+        Article::post_spam($id);
         return Response::json(['message'=>'成功',200]);
     }
 

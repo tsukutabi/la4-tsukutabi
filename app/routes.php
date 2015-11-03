@@ -82,13 +82,12 @@ Route::get('api/ping',function(){
 //記事系
 Route::get('api/index','ArticleController@api_index');
 Route::get('api/view/{id}','ArticleController@api_index');
-Route::post('api/post','ArticlesContreoller@api_save');
-Route::put('api/put{id}','ArticlesController@api_edit');
-Rpute::delete('api/delete{id}','ArticlesController@api_delete');
-
+Route::post('api/post','ArticleController@api_save');
+Route::put('api/put{id}','ArticleController@api_edit');
+Route::delete('api/delete{id}','ArticlesController@api_delete');
 
 //ユーザー編集系
-Route::get();
+
 
 // //api用のルーティング
 // $apiPrefix = '/api';
