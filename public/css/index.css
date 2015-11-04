@@ -1,0 +1,41 @@
+/*headerの設定*/
+#header_navi ul li{
+    float: left;
+    list-style: none;
+
+}
+
+#header_navi{
+    overflow: hidden;
+}
+
+/*タイル用*/
+.wook_tile .wook_h2{
+    font-size: 19px;
+    text-align: left;
+}
+
+.wook_tile .wook_img{
+    margin: auto;
+    width:240px;
+    height: 210px;
+    border-radius: 2px;
+}
+
+
+.link .wook_p{
+    font-size: 14px;
+}
+
+.link .wook_by{
+    font-size: 13px;
+}
+
+#tiles-wrap .link{
+    height: 300px;
+    width: 250px;
+}
+
+.link{
+    height: 260px;
+}
