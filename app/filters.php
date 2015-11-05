@@ -16,8 +16,9 @@ App::before(function($request)
 //   ログインさせる。
 	if (Auth::check())
 	{
-		Session::put('user.id', Auth::user()->id);
+		Session::put('user.id',Auth::user()->id);
 		Session::put('user.username', Auth::user()->username);
+		$user_id = Auth::user()->id;
 	}else{
 
 	}

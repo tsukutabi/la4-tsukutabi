@@ -59,7 +59,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 	public static function get_user_content($user_id)
 	{
 		return DB::table('articles')
-			->select('id','title','subtitle')
+			->select('id','title','subtitle','created_at')
 			->where('user_id','=',$user_id)
 			->get();
 	}
@@ -71,7 +71,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 		->leftJoin('articles','articles.id','=','favs.article_id')
 		->get();
 	}
-
+	public static function fetch_user_data($user_id)
+	{
+		return DB::table('users')
+				->select('username','id','facephoto')
+				->where('users.id','=',$user_id)
+				->first();
+	}
 }
 
 

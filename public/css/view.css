@@ -14,7 +14,6 @@
 .wrap {
     position: relative;
     /*margin: 3em 0;*/
-
 }
 html{
     height: 100%;
@@ -25,6 +24,31 @@ body{
     /*background: url("/cakephp/img/haikei.jpg") no-repeat center center fixed;*/
     background-size: cover;
 }
+
+
+/*自作by タニハタ*/
+
+.view_header {
+    overflow: hidden;
+    height: 60px;
+    width: 100%;
+}
+
+.view_header img{
+    float: left;
+}
+
+
+
+.view_header h1{
+    float: left;
+}
+
+
+.view_header h2{
+    float: left;
+}
+/*ここまで*/
 /* Frame */
 .frame {
     height: 250px;
@@ -58,7 +82,7 @@ body{
 
 }
 
-img{
+.frame img{
     height: 100%;
     width: 100%;
 }

@@ -22,10 +22,6 @@
     <script src="{{ asset('packages/bower_components/bootstrap/dist/js/bootstrap.min.js') }}" defer="defer"></script>
 </head>
 <body>
-@include ('elements.header')
-
-
-
 <div class="container">
 {{-- 解説: ここに各ページの内容が展開されます。--}}
 @yield ('content')

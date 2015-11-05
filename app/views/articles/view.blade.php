@@ -1,16 +1,15 @@
 @extends('layout.default')
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/view.css') }}">
-    <style>
-
-    </style>
-    {{var_dump($articles['0'])}}
-    <h1>{{{ $articles['0']->title }}}</h1><h2>{{{$articles['0']->subtitle}}}</h2>
+    <header class="view_header">
+        <img src="" alt="ロゴ" class="header-img">
+        <h1>{{{$articles->title }}}</h1>
+        <h2>{{{$articles->subtitle}}}</h2>
+        <p>written by {{{$articles->username}}}</p>
+    </header>
     <div class="comment">
         {{--{{var_dump($comment_data)}}--}}
         @foreach($comment_data as $comments)
-        <p>
-
             {{$comments->comment}}
             by {{$comments->username}}
             {{$comments->created_at}}
@@ -21,33 +20,25 @@
                 {{Form::hidden('user_id',Auth::user()->id)}}
                 {{Form::submit('削除する')}}
                 {{Form::close()}}
-            @else
+                @else
                 <a href="/spam_comment/{{$comments->id}}">
                 <p>スパムを報告する。</p>
                 </a>
             @endif
-        </p>
         @endforeach
-    </div>
-    <div ng-app="main">
-        <form method="POST" action="http://localhost:8888/comment" accept-charset="UTF-8" class="ng-pristine ng-valid"><input name="_token" type="hidden" value="u469esGEPbRFD1Y78oE8Ju6Cb8b0bgqqlsWvxPH9">
-            <input name="comments" ng-model="comments" type="text">
-            <input name="user_id" ng-model="user_id" type="hidden" value="6">
-            <input name="article_id" ng-model="article_id" type="hidden" value="3">
-            <input type="submit"  value="送信">
-        </form>
     </div>
     <div>
         <p>お気に入り数</p>
         {{ var_dump($fav_data)}}
-    
         {{Form::open(['url'=>'/fav'])}}
         {{Form::hidden('user_id',Auth::user()->id)}}
-        {{Form::hidden('article_id',$articles['0']->id)}}
+        {{Form::hidden('article_id',$articles->id)}}
         {{Form::submit('お気に入り')}}
         {{Form::close()}}
     </div>
+
     <div class="wrap">
+        {{--スクロールバー--}}
         <div class="scrollbar">
             <div class="handle"></div>
             <div class="mousearea"></div>
@@ -55,14 +46,16 @@
 
         <div class="frame effects" id="effects" >
             <ul class="clearfix">
-    @foreach ($photos as $photo)
-    <li><img src="/images/{{$articles['0']->user_id}}/{{ $photo }}"></li>
-    @endforeach
-            <li>コメント</li>
-        </ul>
-        <button class=" prev uk-botton"><i class="icon-chevron-left"></i> prev</button>
-        <button class=" next uk-botton">next <i class="icon-chevron-right"></i></button>
-        </div>
+                @foreach ($photos as $photo)
+                    <li class="panel">
+                        <img src="/images/{{$articles->user_id}}/{{ $photo }}">
+                    </li>
+                @endforeach
+            </ul>
+
+            <button class="prev uk-botton"><i class="icon-chevron-left"></i> prev</button>
+            <button class="next uk-botton">next <i class="icon-chevron-right"></i></button>
+        </div>{{-- frameの閉じタグ --}}
     </div>
     <script src="{{ asset('packages/bower_components/sly/dist/sly.js') }}" defer="defer"></script>
     <script src="{{ asset('js/hor.js') }}" defer="defer"></script>
@@ -94,6 +87,7 @@
                     dragHandle: 1,
                     dynamicHandle: 1,
                     clickBar: 1,
+                    frameSize: 1140,
                     // Buttons
                     prev: $wrap.find('.prev'),
                     next: $wrap.find('.next')
@@ -101,4 +95,7 @@
             }());
         });
     </script>
+
+    <script type="text/javascript" src="{{ asset('packages/bower_components/angular.js/angular.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/angular_app.js') }}"></script>
 @stop

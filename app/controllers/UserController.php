@@ -24,7 +24,6 @@ class UserController extends BaseController
         ];
 
         $inputs = Input::only(array_keys($rules));
-
         $val = Validator::make( $inputs, $rules );
         if( $val->fails() )
         {
@@ -33,16 +32,13 @@ class UserController extends BaseController
                 ->withErrors( $val )
                 ->withInput();
         }
-
         // トランザクションの開始、usersテーブルと、紐ついたconfirmsテーブルを
         // 同時に更新するため。
         // また、エラー発生時に500にするため、DB::transaction()を使用していない。
         DB::beginTransaction();
-
         try
         {
             $user = User::create( $inputs );
-
             // Str::random()の実装は調べていない。
             // 乱数生成のアルゴリズムに問題がないか、要チェック
             // 実用にするなら、16ではなく、もっと増やしたほうが良い
@@ -93,16 +89,16 @@ class UserController extends BaseController
 
         $inputs = Input::only( ['email', 'key' ] );
         Log::info($inputs);
-//        $val = Validator::make( $inputs, $rules );
-//        Log::info($val);
-//
-//
-//        if( $val->fail() )
-//        {
-//            return Redirect::route( 'confirm-form' )
-//                ->withInput()
-//                ->withErrors( $val );
-//        }
+       $val = Validator::make( $inputs, $rules );
+        Log::info($val);
+
+
+        if( $val->fail() )
+        {
+            return Redirect::route( 'confirm-form' )
+                ->withInput()
+                ->withErrors( $val );
+        }
 
         // バリデーションで、メールアドレスは存在していることを確認済み
         // そのため、必ずヒットするので、クエリー後のチェックは省略している。
@@ -292,14 +288,12 @@ class UserController extends BaseController
         // sanitaize todo
         $user_article = User::get_user_content($id);
         $user_fav = User::fetch_favs($id);
-        Log::info('$user_article');
-        Log::info($user_article);
-        Log::info('$user_fav');
-        Log::info($user_fav);
+        $user_data = User::fetch_user_data($id);
         return View::make('users.view',
             [
                 'articles'=>$user_article,
                 'favs'=>$user_fav,
+                'users'=>$user_data
             ]);
 
     }

@@ -38,7 +38,7 @@ class Article extends Model{
             ->select('users.username','articles.user_id','articles.id','title','subtitle','photos','photo_comments')
             ->where('articles.id','=',$id)
             ->leftJoin('users','users.id', '=', 'articles.user_id')
-            ->get();
+            ->first();
 
             $result['comment_data'] = DB::table('comments')
             ->select('users.username','users.id','comments.user_id','comments.id','comments.comment','comments.created_at')
@@ -55,7 +55,7 @@ class Article extends Model{
             Log::info($e);
             return Response::json(['message'=>$e],'500');
         }
-        $result['photos'] = explode('+',$articles['0']->photos);
+        $result['photos'] = explode('+',$articles->photos);
         $result['articles'] = $articles;
         return  $result;
     }

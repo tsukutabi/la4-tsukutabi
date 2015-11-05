@@ -1,3 +1,6 @@
 <footer>
+    <p>
     tsukutabi.,inc all right reserved
-    {{date('Y')}}</footer>
+    {{date('Y')}}
+    </p>
+</footer>

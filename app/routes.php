@@ -15,8 +15,7 @@
 Route::get( '/', [ 'as' => 'home', 'uses' => 'ArticleController@index' ] );
 Route::when('*','csrf',['post','put']);
 
-//ユーザーエージェントを取る。
-//Route::when('*','user-agent',['get']);
+
 Route::get('save','ArticleController@get_save');
 Route::post('save','ArticleController@post_save');
 Route::get('find','ArticleController@find');
@@ -34,6 +33,12 @@ Route::post('fav','FavController@post');
 Route::get('error',['as'=>'error'],function(){
 	echo 'hello error';
 });
+
+
+Route::get('contact',function(){
+	return View::make('Articles.contact');
+});
+Route::post('contact','Articles@contact');
 
 //自作のユーザー系
 
@@ -58,7 +63,7 @@ Route::get( 'register',
 Route::post( 'register',
 	['as' => 'handle-register', 'uses' => 'UserController@handleRegister' ] );
 Route::get( 'confirm',
-	['as' => 'confirm-form', 'uses' => 'USerController@showConfirmForm' ] );
+	['as' => 'confirm-form', 'uses' => 'UserController@showConfirmForm' ] );
 Route::post( 'confirm',
 	['as' => 'handle-confirm', 'uses' => 'UserController@handleConfirm' ] );
 Route::get( 'login', ['as' => 'login-form', 'uses' => 'UserController@showLoginForm' ] );

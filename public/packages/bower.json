@@ -23,6 +23,8 @@
     "slider-pro": "~1.2.2",
     "sly": "~1.6.1",
     "normalize-css": "normalize.css#~3.0.3",
-    "wookmark": "~2.0.1"
+    "wookmark": "~2.0.1",
+    "uikit": "~2.23.0",
+    "jquery2": "~2.0.0"
   }
 }
