@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
-    <title>つくたび ユーザー登録/ログイン 画面</title>
+    <title>つくたび {{$title}}</title>
     <link rel="stylesheet" href="{{ asset('packages/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <style>
         {{-- 解説: インラインのCSSブロックです。各ページで追記ができます。--}}

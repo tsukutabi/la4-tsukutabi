@@ -8,7 +8,23 @@
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     @include('elements.navi')
 
-    <ol id="filters">
+    {{--<div class="uk-slidenav-position" data-uk-slider>--}}
+        {{--<div class="uk-slider-container">--}}
+            {{--<ul class="uk-slider uk-grid-width-medium-1-4">--}}
+                {{--<li>あああああ</li>--}}
+                {{--<li>あああああ</li><li>あああああ</li><li>あああああ</li><li>あああああ</li><li>あああああ</li><li>あああああ</li>--}}
+
+            {{--</ul>--}}
+        {{--</div>--}}
+
+        {{--<a href="#" class="uk-slidenav uk-slidenav-contrast uk-slidenav-previous" data-uk-slider-item="previous"></a>--}}
+        {{--<a href="#" class="uk-slidenav uk-slidenav-contrast uk-slidenav-next" data-uk-slider-item="next"></a>--}}
+    {{--</div>--}}
+
+    {{--<script>--}}
+
+    {{--</script>--}}
+    <ol id="filters" class="filter-list">
         <li data-filter="amsterdam">Amsterdam</li>
         <li data-filter="tokyo">Tokyo</li>
         <li data-filter="london">London</li>
@@ -20,21 +36,24 @@
         <li data-filter="art">Art</li>
     </ol>
         <ul id="container" class="tiles-wrap animated">
-
-
     @foreach($info as $article)
-        <a href="/view/{{ $article->id }}" class="link" target="_blank">
-            <li class="wook_tile">
+        <a href="/view/{{ $article->id }}" class="link" target="_blank" data-filter-class='["berlin", "art"]'>
+            <li class="link">
                 <h2 class="wook_h2">{{ $article->title }}</h2>
                 <?php $photo = explode('+',$article->photos);?>
-                <img  src="images/{{$article->user_id}}/{{ $photo[0] }}" class="img-rounded wook_img" >
+                <img  src="images/{{$article->user_id}}/{{ $photo[0] }}" class="img-rounded wook_img" width="200" >
                 <p class="wook_p">{{ $article->subtitle }}</p>
                 <p class="wook_by"> writen by だれだれ</p>
             </li>
         </a>
     @endforeach
-        </ul>
 
+        <a href="" class="link" data-filter-class='["berlin", "Fashion"]'>
+            <li>
+                <h1>aa</h1>
+            </li>
+        </a>
+        </ul>
     <script src="{{ asset('packages/bower_components/imagesloaded/imagesloaded.pkgd.js') }}"></script>
     <script src="{{ asset('packages/bower_components/wookmark/wookmark.js') }}" defer="defer"></script>
     <script type="text/javascript">(function($) {

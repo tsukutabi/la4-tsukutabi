@@ -13,6 +13,10 @@
     position: relative;
 }
 
+.filter-list {
+
+}
+
 #container li{
     list-style: none;
 }

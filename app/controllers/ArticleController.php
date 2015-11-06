@@ -44,7 +44,7 @@ class ArticleController extends BaseController{
 //        'new'=>$data['new'],
 //        'view' =>$data['view'],
 //        'fav'=>$data['fav']
-        ]);
+        ])->with('message', 'これはメッセージです。');;
     }
 
     public function api_index(){

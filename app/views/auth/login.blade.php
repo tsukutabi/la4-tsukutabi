@@ -11,4 +11,9 @@
     {{ Form::close() }}
 
     <script src="{{ asset('html5up-eventually/assets/js/main.js') }}" defer="defer"></script>
+    <style>
+        form input {
+            margin-top: 15px;
+        }
+    </style>
 @stop

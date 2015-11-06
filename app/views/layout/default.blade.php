@@ -9,11 +9,9 @@
 
     <title>つくたび</title>
     <script src="{{ asset('packages/bower_components/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('packages/bower_components/jquery2/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('packages/bower_components/uikit/js/uikit.min.js') }}" type="text/javascript"></script>
 
     <link rel="stylesheet" href="{{ asset('packages/bower_components/normalize.css/normalize.css') }}">
-    <link rel="stylesheet" href="{{ asset('packages/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <style>
         {{-- 解説: インラインのCSSブロックです。各ページで追記ができます。--}}
         @section ('inline-style')
@@ -27,7 +25,6 @@
 {{-- 解説: ここに各ページの内容が展開されます。--}}
 @yield ('content')
 
-{{-- 解説: 'app/views/partials/footer.blade.php' の内容をこの箇所に展開します。 --}}
 @include ('elements.footer')
 <style>
     footer p {

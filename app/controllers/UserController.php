@@ -41,8 +41,7 @@ class UserController extends BaseController
             $user = User::create( $inputs );
             // Str::random()の実装は調べていない。
             // 乱数生成のアルゴリズムに問題がないか、要チェック
-            // 実用にするなら、16ではなく、もっと増やしたほうが良い
-            $confirmKey = Str::random( 16 );
+            $confirmKey = Str::random( 32 );
 
             $user->confirm()->create( ['key' => $confirmKey ] );
             Log::info($user);
@@ -76,7 +75,7 @@ class UserController extends BaseController
 
     public function showConfirmForm()
     {
-        return View::make( 'auth.confirm' );
+        return View::make( 'auth.confirm' )->with('title','ユーザー認証');;
     }
 
     public function handleConfirm()
@@ -178,7 +177,7 @@ class UserController extends BaseController
 
     public function showLoginForm()
     {
-        return View::make('auth.login');
+        return View::make('auth.login')->with('title','つくたび ログイン画面');
     }
 
     public function handleLogin()
@@ -190,7 +189,6 @@ class UserController extends BaseController
             'email'    => [ 'required', 'email' ],
             'password' => [ 'required' ],
         ];
-
 
         $inputs = Input::only( ['email', 'password' ] );
 
@@ -293,7 +291,8 @@ class UserController extends BaseController
             [
                 'articles'=>$user_article,
                 'favs'=>$user_fav,
-                'users'=>$user_data
+                'users'=>$user_data,
+                'title'=>'ユーザーページ'
             ]);
 
     }

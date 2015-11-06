@@ -32,12 +32,12 @@
                 <div class="uk-modal-dialog">
                     <a class="uk-modal-close uk-close"></a>
                     <h2>ログイン</h2>
-                    {{ Form::open(['url' => 'login']) }}
-                    {{ Form::email('email','', ['class' => 'form-control','placeholder'=>'email']) }}
-                    {{ Form::password('password',['class' => 'form-control','placeholder'=>'password']) }}
-                    {{ Form::label('label','ログイン用データを記憶する') }}
+                    {{ Form::open(['url' => 'login','class'=>'uk-form']) }}
+                    {{ Form::email('email','', ['class' => 'uk-width-1-1 uk-form-large','placeholder'=>'email']) }}
+                    {{ Form::password('password',['class' => 'uk-width-1-1 uk-form-large','placeholder'=>'password']) }}
+                    {{ Form::label('label','ログイン用にデータを記憶する') }}
                     {{ Form::checkbox('remember',1,['class'=>'メールアドレスとパスワードを記憶する。'])}}
-                    {{ Form::submit('送信',['class'=>'btn btn-primary btn-block']) }}
+                    {{ Form::button('送信',['class'=>'uk-button uk-button-primary uk-width-1-1']) }}
                     {{ Form::close() }}
                 </div>
             </div>

@@ -36,18 +36,19 @@ Route::get('error',['as'=>'error'],function(){
 
 
 Route::get('contact',function(){
-	return View::make('Articles.contact');
+	return View::make('Articles.contact')->with('title','TOP画面');;
 });
 Route::post('contact','Articles@contact');
 
 //自作のユーザー系
 
 Route::get('user/login',function(){
-	return View::make('users.login');
+	return View::make('users.login')->with('title','TOP画面');;
 });
 Route::post('user/login','UsersController@login');
+
 Route::get('user/add',function(){
-	return View::make('users.add');
+	return View::make('users.add')->with('title','TOP画面');;
 });
 
 Route::post('user/add','UsersController@add');
