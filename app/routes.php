@@ -48,7 +48,7 @@ Route::get('user/login',function(){
 Route::post('user/login','UsersController@login');
 
 Route::get('user/add',function(){
-	return View::make('users.add')->with('title','TOP画面');;
+	return View::make('users.add')->with('title','TOP画面');
 });
 
 Route::post('user/add','UsersController@add');
@@ -59,8 +59,9 @@ Route::when( 'admin/*', 'admin' );
 Route::when( 'dashboard/*', 'auth' );
 Route::pattern('id', '[0-9]+');
 
-Route::get( 'register',
-	['as' => 'register-form', 'uses' => 'UserController@showRegisterForm' ] );
+Route::get( 'register',function(){
+    return View::make('auth.register')->with('title','つくたび会員登録');
+});
 Route::post( 'register',
 	['as' => 'handle-register', 'uses' => 'UserController@handleRegister' ] );
 Route::get( 'confirm',

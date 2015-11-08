@@ -11,7 +11,7 @@ class UserController extends BaseController
     // show....Formというアクション名を付けています。
     public function showRegisterForm()
     {
-        return View::make( 'auth.register' );
+        return View::make( 'auth.register' )->with('title','つくたび会員登録');
     }
 
     // フォームの処理はhandle...という名前を付けています。

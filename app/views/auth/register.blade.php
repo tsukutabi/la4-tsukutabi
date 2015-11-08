@@ -1,6 +1,6 @@
 @extends('layout.users')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('/html5up-eventually/assets/css/main.css') }}">
+    <div id="content">
     <h2>つくたび 会員登録(無料)</h2>
     {{ Form::open(['url' => 'register']) }}
     {{ Form::email('email','', ['class' => 'form-control','placeholder'=>'email']) }}
@@ -9,6 +9,10 @@
     {{ Form::submit('送信',['class'=> 'btn-primary btn-block']) }}
     {{ Form::close() }}
 
+    <a href="login">ログインはこちらから</a>
+        <link rel="stylesheet" href="{{ asset('/html5up-eventually/assets/css/main.css') }}">
+        <script src="{{ asset('html5up-eventually/assets/js/main.js') }}" defer="defer"></script>
+    </div>
     <style>
         form input{
             margin-top: 15px;
@@ -29,5 +33,24 @@
             height:100%;
         }
     </style>
-    <script src="{{ asset('html5up-eventually/assets/js/main.js') }}" defer="defer"></script>
+
+    <script>
+        $(function(){
+            $.pjax({
+                area : '#content',
+                link : 'a:not([target])',
+                ajax: { timeout: 2500},
+                wait: 500
+            });
+            $(document).bind('pjax:fetch', function(){
+                $('body').css('overflow', 'hidden');
+                $('#content').attr({'class': 'fadeOut'});
+            });
+            $(document).bind('pjax:render', function(){
+                $('#content').attr({'class': 'fadeIn'});
+                $('body').css('overflow', '');
+            });
+        });
+    </script>
+
 @stop

@@ -25,6 +25,8 @@
     "normalize-css": "normalize.css#~3.0.3",
     "wookmark": "~2.0.1",
     "uikit": "~2.23.0",
-    "jquery2": "~2.0.0"
+    "jquery2": "~2.0.0",
+    "pjax": "~0.2.1",
+    "semantic": "semantic-ui#~2.1.6"
   }
 }

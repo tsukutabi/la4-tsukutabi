@@ -22,7 +22,7 @@
                     <a href="">連絡</a>
                 </li>
                 <li>
-                    <a href="">Login</a>
+                    <a href="">ログアウト</a>
                 </li>
             </ul>
             <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>

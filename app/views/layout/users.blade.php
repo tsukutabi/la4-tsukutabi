@@ -19,7 +19,27 @@
     </style>
 
     <script src="{{ asset('packages/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/1.9.6/jquery.pjax.min.js" type="text/javascript"></script>--}}
     <script src="{{ asset('packages/bower_components/bootstrap/dist/js/bootstrap.min.js') }}" defer="defer"></script>
+    <script src="{{ asset('js/pjax.js') }}" type="text/javascript"></script>
+    <script>
+        $(function(){
+            $.pjax({
+                area : '#content',
+                link : 'a:not([target])',
+                ajax: { timeout: 2500},
+                wait: 500
+            });
+            $(document).bind('pjax:fetch', function(){
+                $('body').css('overflow', 'hidden');
+                $('#content').attr({'class': 'fadeOut'});
+            });
+            $(document).bind('pjax:render', function(){
+                $('#content').attr({'class': 'fadeIn'});
+                $('body').css('overflow', '');
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="container">
