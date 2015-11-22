@@ -1,58 +1,59 @@
-.frame ul li{
-    color: lightsteelblue;
-    background-color: rgba(255,240,1,0.5);
+footer{
+    display: none;
 }
-.UserComment {
+.under_nav{
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.under_nav .ui ,.under_nav small,.under_nav a, .under_nav p{
     float: left;
 }
-#flashMessage{
+
+
+/*.under_nav .user-info{*/
+    /*float: right;*/
+/*}*/
+
+/*.under_nav .user-face{*/
+    /*float: right;*/
+/*}*/
+
+/*.under_nav .user-name{*/
+    /*float: right;*/
+/*}*/
+
+html{
+    background-color: #EEEEEE;
+}
+.view_header{
+    overflow: hidden;
+    height: 40px;
+    left: 0;
+    right: 0;
+    text-align: center;
 
 }
+.view_header *{
+    float: left;
+    margin: 0 auto;
+}
+
+body { background: #EEEEEE; }
 .container { margin: 0 auto; }
 
 /* Example wrapper */
 .wrap {
     position: relative;
-    /*margin: 3em 0;*/
-}
-html{
-    height: 100%;
+    margin: 3em 0;
 }
 
-body{
-    height: 100%;
-    /*background: url("/cakephp/img/haikei.jpg") no-repeat center center fixed;*/
-    background-size: cover;
-}
-
-
-/*自作by タニハタ*/
-
-.view_header {
-    overflow: hidden;
-    height: 60px;
-    width: 100%;
-}
-
-.view_header img{
-    float: left;
-}
-
-
-
-.view_header h1{
-    float: left;
-}
-
-
-.view_header h2{
-    float: left;
-}
-/*ここまで*/
 /* Frame */
 .frame {
-    height: 250px;
-    line-height: 250px;
+    height: 450px;
+    line-height: 450px;
     overflow: hidden;
 }
 .frame ul {
@@ -60,31 +61,28 @@ body{
     margin: 0;
     padding: 0;
     height: 100%;
-    font-size: 14px;
-
+    font-size: 50px;
 }
-.frame ul li {
+.frame ul .panel {
     float: left;
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 100%;
     margin: 0 1px 0 0;
     padding: 0;
     background: #333;
     color: #ddd;
     text-align: center;
     cursor: pointer;
-
-    background-color: rgba(0,159,248,0.5);
-}
-.frame ul li.active {
-    color: #fff;
-    background-color: rgba(255,240,1,0.5);
-
 }
 
-.frame img{
+.frame ul .panel img{
     height: 100%;
-    width: 100%;
+    vertical-align: inherit;
+}
+
+.frame ul .panel.active {
+    color: #fff;
+    background: #a03232;
 }
 
 /* Scrollbar */
@@ -96,7 +94,7 @@ body{
 }
 .scrollbar .handle {
     width: 100px;
-    height: 3px;
+    height: 100%;
     background: #292a33;
     cursor: pointer;
 }
@@ -108,167 +106,61 @@ body{
     height: 20px;
 }
 
+/* Pages */
+.pages {
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+    text-align: center;
+}
+.pages li {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: 0 4px;
+    text-indent: -999px;
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
+}
+.pages li:hover {
+    background: #aaa;
+}
+.pages li.active {
+    background: #666;
+}
+
+/* Controls */
+.controls { margin: 25px 0; text-align: center; }
+
 /* One Item Per Frame example*/
 .oneperframe { height: 300px; line-height: 300px; }
 .oneperframe ul li { width: 1140px; }
 .oneperframe ul li.active { background: #333; }
 
-/* Effects */
-.effects {
-    height: 465px;
-    line-height: 200px;
-    -webkit-perspective: 800px;
-    -ms-perspective: 800px;
-    perspective: 800px;
-    -webkit-perspective-origin: 50% 50%;
-    -ms-perspective-origin: 50% 50%;
-    perspective-origin: 50% 50%;
-    overflow-y: show;
-}
-.effects ul {
-    -webkit-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-}
-.effects ul li {
-    position: relative;
-    margin: 0 -20px;
-    -webkit-transform: rotateY(60deg) scale(0.9);
-    -ms-transform: rotateY(60deg) scale(0.9);
-    transform: rotateY(60deg) scale(0.9);
-    -webkit-transition: -webkit-transform 300ms ease-out;
-    transition: transform 300ms ease-out;
-}
-.effects ul li.active {
-    z-index: 10;
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1);
-}
-.effects ul li.active ~ li {
-    -webkit-transform: rotateY(-60deg) scale(0.9);
-    -ms-transform: rotateY(-60deg) scale(0.9);
-    transform: rotateY(-60deg) scale(0.9);
+/* Crazy example */
+.crazy ul li:nth-child(2n) { width: 100px; margin: 0 4px 0 20px; }
+.crazy ul li:nth-child(3n) { width: 300px; margin: 0 10px 0 5px; }
+.crazy ul li:nth-child(4n) { width: 400px; margin: 0 30px 0 2px; }
+
+
+li .comment_data{
+    font-size: 15px;
+    line-height: 1.5;
 }
 
-.h1{
-    font-size: 30px;
-    text-align: center;
-    background-color: rgba(255,240,1,1);
+.comment_title{
     color: white;
-    margin-top: 0px;
-    text-shadow:0px 1px 1px black,0px 0px 1px black,1px 0px 1px black,0px -1px 1px black,-1px -1px 1px black,-1px 0px 1px black;
-}
-
-.view_main_title{
-    overflow: hidden;
-}
-
-.flt_rgt{
-    float: right;
-    margin-top: -47px;
-    margin-right: 10px;
-}
-
-.edit{
-    margin-left: 1200px;
-}
-
-.controls{
-    width:100%;
-    position: fixed;
-    bottom: 0px;
-    text-align: center;
-    height: 40px;
-    background-color: rgba(0,159,248,0.5);
 }
 
 
-.controls button{
-    text-align: center;
-    background-color: rgba(0,159,248,0.8);
-    width: 200px;
-    height: 40px;
-    color: white;
-    border: 1px solid;
-    border-radius: 4px;
-}
-
-.nameofsite{
+.flt_left{
     float: left;
 }
 
-.view_sns{
-    margin-top: 3px;
-    margin-right: 20px;
-    float: right;
+.hidden{
+    overflow: hidden;
 }
 
-.slider{
-    width: 500px;
-}
-
-.effects  ul li{
-    width: 500px;
-}
-
-.Comment{
-    width: 80%;
-    color: #843534;
-    font-size: 14px;
-}
-@media screen and (min-width: 769px) {
-
-    .SubTitle{
-        margin-top: -34px;
-    }
-
-}
-
-
-@media screen and (max-width:640px){
-
-    .h1{
-        height: 47px;
-    }
-
-    .nameofsite{
-        display: none;
-    }
-
-    .frame {
-        height: 500px;
-        line-height: 250px;
-        overflow: hidden;
-    }
-    .frame ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        font-size: 20px;
-
-    }
-    .frame ul li {
-        float: left;
-        width: 300px;
-        height: 300px;
-        margin: 0 1px 0 0;
-        padding: 0;
-        background: #333;
-        color: #ddd;
-        text-align: center;
-        cursor: pointer;
-        background-color: rgba(0,159,248,0.5);
-    }
-    .frame ul li.active {
-        color: #fff;
-        background-color: rgba(255,240,1,0.5);
-
-    }
-
-    .controls{
-        display: none;
-    }
-
-}

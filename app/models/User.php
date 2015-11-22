@@ -74,7 +74,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 	public static function fetch_user_data($user_id)
 	{
 		return DB::table('users')
-				->select('username','id','facephoto')
+				->select('username','id','facephoto','profile')
 				->where('users.id','=',$user_id)
 				->first();
 	}

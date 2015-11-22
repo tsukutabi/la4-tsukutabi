@@ -88,10 +88,7 @@ class UserController extends BaseController
 
         $inputs = Input::only( ['email', 'key' ] );
         Log::info($inputs);
-       $val = Validator::make( $inputs, $rules );
-        Log::info($val);
-
-
+        $val = Validator::make( $inputs, $rules );
         if( $val->fail() )
         {
             return Redirect::route( 'confirm-form' )
@@ -297,14 +294,38 @@ class UserController extends BaseController
 
     }
 
-
-
-    private function bool_you($user_id,$id){
-        if($user_id === $id){
-            return true;
-        }else{
-            return false;
+    public function change_profile(){
+        $rules = [
+            'id' => [ 'required' ],
+            'profile' => [ 'required' ],
+        ];
+        $inputs = Input::only(array_keys($rules));
+        $val = Validator::make( $inputs, $rules );
+        if( $val->fails() )
+        {
+            return Redirect::route( 'confirm-form' )
+                ->withInput()
+                ->withErrors( $val );
         }
+        $user=User::find(Input::get('id'));
+        $user->profile=Input::get('profile');
+        $user->save();
+        Log::debug(Input::all());
+//        todo 投稿されたらメールが飛ぶ
+        return Response::json(200);
+    }
+
+    public function change_face_photo(){
+        Log::debug(Input::all());
+        $rules = [
+            'id' => [ 'required' ],
+            'profile' => [ 'required' ],
+        ];
+        $inputs = Input::only(array_keys($rules));
+        if(Auth::user()->id == $inputs['id'] ){
+            return Response::json(500);
+        }
+        return Response::json(200);
     }
 
 

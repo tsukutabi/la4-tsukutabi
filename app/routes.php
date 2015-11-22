@@ -13,8 +13,17 @@
 
 
 Route::get( '/', [ 'as' => 'home', 'uses' => 'ArticleController@index' ] );
-Route::when('*','csrf',['post','put']);
+//Route::when('*','csrf',['post','put']);
 
+
+Route::any(
+		"/test"
+		, function (){
+    Log::debug( $_GET );
+    Log::debug(Input::all());
+
+}
+);
 
 Route::get('save','ArticleController@get_save');
 Route::post('save','ArticleController@post_save');
@@ -41,7 +50,6 @@ Route::get('contact',function(){
 Route::post('contact','Articles@contact');
 
 //自作のユーザー系
-
 Route::get('user/login',function(){
 	return View::make('users.login')->with('title','TOP画面');;
 });
@@ -53,6 +61,9 @@ Route::get('user/add',function(){
 
 Route::post('user/add','UsersController@add');
 Route::get('user/{id}','UserController@view');
+//プロフィール編集する時の処理
+Route::post('user/profile','UserController@change_profile');
+Route::post('user/change_face_photo','UserController@change_face_photo');
 
 
 Route::when( 'admin/*', 'admin' );

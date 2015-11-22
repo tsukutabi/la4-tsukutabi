@@ -176,6 +176,18 @@ a {
 }
 
 
+.article_image{
+    width: 100%;
+}
+
+#container .main_title{
+
+}
+
+#container .sub_title{
+    font-size: 15px;
+}
+
 .user-data-alia{
     overflow: hidden;
 }
@@ -188,4 +200,5 @@ a {
     margin-left: 10px;
     margin-top: 8px;
     margin-bottom: 10px;
+    font-size: 12px;
 }

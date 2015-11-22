@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Illuminate\Database\Eloquent\SoftDeles;
@@ -35,7 +36,7 @@ class Article extends Model{
     {
         try{
             $articles = DB::table('articles')
-            ->select('users.username','articles.user_id','articles.id','title','subtitle','photos','photo_comments')
+            ->select('users.username','articles.user_id','articles.id','title','subtitle','photos','photo_comments','view')
             ->where('articles.id','=',$id)
             ->leftJoin('users','users.id', '=', 'articles.user_id')
             ->first();
@@ -57,6 +58,7 @@ class Article extends Model{
         }
         $result['photos'] = explode('+',$articles->photos);
         $result['articles'] = $articles;
+
         return  $result;
     }
 
@@ -136,6 +138,30 @@ class Article extends Model{
     {
         $val = explode( '/' , $str ) ;
         return ( isset($val[1]) ) ? $val[0] / $val[1] : $str ;
+    }
+
+
+    public static function count_view(){
+//        viewのデータをとってきて
+        try{
+            $count_num = DB::table('articles')
+                ->select('view')
+                ->first();
+        }catch(Exception $e){
+            Log::info($e);
+            return "データベースエラー";
+        }
+//        増やして
+        Log::info($count_num);
+        $count_num =$count_num+1;
+        Log::info($count_num);
+//    保存する。
+        try{
+
+        }catch (Exception $e ){
+            Log:;info($e);
+            return "データベース接続エラーでした 涙";
+        }
     }
 
 

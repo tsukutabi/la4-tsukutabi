@@ -47,7 +47,8 @@ class ArticleController extends BaseController{
         ])->with('message', 'これはメッセージです。');
     }
 
-    public function api_index(){
+    public function api_index()
+    {
         return Response::json(
             Article::get_index_data()
             );
@@ -56,12 +57,15 @@ class ArticleController extends BaseController{
     public function view($id)
     {
         $result = Article::fetch_view_data($id);
+//        カウンター
         Log::info($result);
+
         return View::make('articles.view',[
             'articles'=>$result['articles'],
             'photos'=>$result['photos'],
             'comment_data'=>$result['comment_data'],
-            'fav_data'=>$result['fav_data']
+            'fav_data'=>$result['fav_data'],
+
         ]);
     }
     public function get_save(){
@@ -72,22 +76,23 @@ class ArticleController extends BaseController{
     }
 
 //    記事の保存用
-    public function post_save(){
+    public function post_save()
+    {
         $rules = [
-            'MainTitle'=>'requiresd|min:3|max:255',
+            'MainTitle'=>'required|min:3|max:255',
             'SubTitle'=>'required|min:3|max:255',
             'user_id'=>'required',
             'tags'=>'',
-            'departure_at' =>'',
-            'return_at' =>'',
+            'departure_at' =>'required',
+            'return_at' =>'required',
             'photos'=>'required',
-//        'photo_comments'=>'',
+//            'photo_comments'=>'',
         ];
         $input = Input::only(array_keys($rules));
         Log::info($input);
          $validator = Validator::make($input,$rules);
          if($validator->fails()){
-             return Response::json(['message'=>'200']);
+             return Redirect::to('save')->withErrors($validator)->withInput();
          }
         if(Article::save_article($input)){
             return Response::json(200);
@@ -130,7 +135,8 @@ class ArticleController extends BaseController{
         return Response::json(['message'=>'成功',200]);
     }
 
-    public function api_view($id = null){
+    public function api_view($id = null)
+    {
         $result = Article::fetch_view_data($id);
         Log::info($result);
         return Response::json('articles.view',[

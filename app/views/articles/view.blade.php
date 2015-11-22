@@ -1,5 +1,6 @@
 @extends('layout.default')
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/view.css') }}">
     <script src="{{ asset('packages/bower_components/sly/dist/sly.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/jquery-easing/jquery.easing.js') }}" defer="defer"></script>
     <script src="{{ asset('js/hor.js') }}" defer="defer"></script>
@@ -12,7 +13,7 @@
             // -------------------------------------------------------------
             (function () {
                 var $frame  = $('#basic');
-                var $slidee = $frame.children('ul').eq(0);
+                var $slidee = $frame.children('.panel').eq(0);
                 var $wrap   = $frame.parent();
 
                 // Call Sly on frame
@@ -24,12 +25,13 @@
                     mouseDragging: 1,
                     touchDragging: 1,
                     releaseSwing: 1,
-                    startAt: 3,
+                    startAt: 0,
                     scrollBar: $wrap.find('.scrollbar'),
-                    scrollBy: 1,
+                    scrollBy: 2,
                     pagesBar: $wrap.find('.pages'),
                     activatePageOn: 'click',
-                    speed: 300,
+                    width:500,
+                    speed: 400,
                     elasticBounds: 1,
                     easing: 'easeOutExpo',
                     dragHandle: 1,
@@ -69,302 +71,37 @@
                     $frame.sly('toEnd', item);
                 });
 
-                // Add item
-                $wrap.find('.add').on('click', function () {
-                    $frame.sly('add', '<li>' + $slidee.children().length + '</li>');
-                });
-
-                // Remove item
-                $wrap.find('.remove').on('click', function () {
-                    $frame.sly('remove', -1);
-                });
-            }());
-
-            // -------------------------------------------------------------
-            //   Centered Navigation
-            // -------------------------------------------------------------
-            (function () {
-                var $frame = $('#centered');
-                var $wrap  = $frame.parent();
-
-                // Call Sly on frame
-                $frame.sly({
-                    horizontal: 1,
-                    itemNav: 'centered',
-                    smart: 1,
-                    activateOn: 'click',
-                    mouseDragging: 1,
-                    touchDragging: 1,
-                    releaseSwing: 1,
-                    startAt: 4,
-                    scrollBar: $wrap.find('.scrollbar'),
-                    scrollBy: 1,
-                    speed: 300,
-                    elasticBounds: 1,
-                    easing: 'easeOutExpo',
-                    dragHandle: 1,
-                    dynamicHandle: 1,
-                    clickBar: 1,
-
-                    // Buttons
-                    prev: $wrap.find('.prev'),
-                    next: $wrap.find('.next')
-                });
-            }());
-
-            // -------------------------------------------------------------
-            //   Force Centered Navigation
-            // -------------------------------------------------------------
-            (function () {
-                var $frame = $('#forcecentered');
-                var $wrap  = $frame.parent();
-
-                // Call Sly on frame
-                $frame.sly({
-                    horizontal: 1,
-                    itemNav: 'forceCentered',
-                    smart: 1,
-                    activateMiddle: 1,
-                    activateOn: 'click',
-                    mouseDragging: 1,
-                    touchDragging: 1,
-                    releaseSwing: 1,
-                    startAt: 0,
-                    scrollBar: $wrap.find('.scrollbar'),
-                    scrollBy: 1,
-                    speed: 300,
-                    elasticBounds: 1,
-                    easing: 'easeOutExpo',
-                    dragHandle: 1,
-                    dynamicHandle: 1,
-                    clickBar: 1,
-
-                    // Buttons
-                    prev: $wrap.find('.prev'),
-                    next: $wrap.find('.next')
-                });
-            }());
-
-            // -------------------------------------------------------------
-            //   Cycle By Items
-            // -------------------------------------------------------------
-            (function () {
-                var $frame = $('#cycleitems');
-                var $wrap  = $frame.parent();
-
-                // Call Sly on frame
-                $frame.sly({
-                    horizontal: 1,
-                    itemNav: 'basic',
-                    smart: 1,
-                    activateOn: 'click',
-                    mouseDragging: 1,
-                    touchDragging: 1,
-                    releaseSwing: 1,
-                    startAt: 0,
-                    scrollBar: $wrap.find('.scrollbar'),
-                    scrollBy: 1,
-                    speed: 300,
-                    elasticBounds: 1,
-                    easing: 'easeOutExpo',
-                    dragHandle: 1,
-                    dynamicHandle: 1,
-                    clickBar: 1,
-
-                    // Cycling
-                    cycleBy: 'items',
-                    cycleInterval: 1000,
-                    pauseOnHover: 1,
-
-                    // Buttons
-                    prev: $wrap.find('.prev'),
-                    next: $wrap.find('.next')
-                });
-
-                // Pause button
-                $wrap.find('.pause').on('click', function () {
-                    $frame.sly('pause');
-                });
-
-                // Resume button
-                $wrap.find('.resume').on('click', function () {
-                    $frame.sly('resume');
-                });
-
-                // Toggle button
-                $wrap.find('.toggle').on('click', function () {
-                    $frame.sly('toggle');
-                });
-            }());
-
-            // -------------------------------------------------------------
-            //   Cycle By Pages
-            // -------------------------------------------------------------
-            (function () {
-                var $frame = $('#cyclepages');
-                var $wrap  = $frame.parent();
-
-                // Call Sly on frame
-                $frame.sly({
-                    horizontal: 1,
-                    itemNav: 'basic',
-                    smart: 1,
-                    activateOn: 'click',
-                    mouseDragging: 1,
-                    touchDragging: 1,
-                    releaseSwing: 1,
-                    startAt: 0,
-                    scrollBar: $wrap.find('.scrollbar'),
-                    scrollBy: 1,
-                    pagesBar: $wrap.find('.pages'),
-                    activatePageOn: 'click',
-                    speed: 300,
-                    elasticBounds: 1,
-                    easing: 'easeOutExpo',
-                    dragHandle: 1,
-                    dynamicHandle: 1,
-                    clickBar: 1,
-
-                    // Cycling
-                    cycleBy: 'pages',
-                    cycleInterval: 1000,
-                    pauseOnHover: 1,
-                    startPaused: 1,
-
-                    // Buttons
-                    prevPage: $wrap.find('.prevPage'),
-                    nextPage: $wrap.find('.nextPage')
-                });
-
-                // Pause button
-                $wrap.find('.pause').on('click', function () {
-                    $frame.sly('pause');
-                });
-
-                // Resume button
-                $wrap.find('.resume').on('click', function () {
-                    $frame.sly('resume');
-                });
-
-                // Toggle button
-                $wrap.find('.toggle').on('click', function () {
-                    $frame.sly('toggle');
-                });
-            }());
-
-            // -------------------------------------------------------------
-            //   One Item Per Frame
-            // -------------------------------------------------------------
-            (function () {
-                var $frame = $('#oneperframe');
-                var $wrap  = $frame.parent();
-
-                // Call Sly on frame
-                $frame.sly({
-                    horizontal: 1,
-                    itemNav: 'forceCentered',
-                    smart: 1,
-                    activateMiddle: 1,
-                    mouseDragging: 1,
-                    touchDragging: 1,
-                    releaseSwing: 1,
-                    startAt: 0,
-                    scrollBar: $wrap.find('.scrollbar'),
-                    scrollBy: 1,
-                    speed: 300,
-                    elasticBounds: 1,
-                    easing: 'easeOutExpo',
-                    dragHandle: 1,
-                    dynamicHandle: 1,
-                    clickBar: 1,
-
-                    // Buttons
-                    prev: $wrap.find('.prev'),
-                    next: $wrap.find('.next')
-                });
-            }());
-
-            // -------------------------------------------------------------
-            //   Crazy
-            // -------------------------------------------------------------
-            (function () {
-                var $frame  = $('#crazy');
-                var $slidee = $frame.children('ul').eq(0);
-                var $wrap   = $frame.parent();
-
-                // Call Sly on frame
-                $frame.sly({
-                    horizontal: 1,
-                    itemNav: 'basic',
-                    smart: 1,
-                    activateOn: 'click',
-                    mouseDragging: 1,
-                    touchDragging: 1,
-                    releaseSwing: 1,
-                    startAt: 3,
-                    scrollBar: $wrap.find('.scrollbar'),
-                    scrollBy: 1,
-                    pagesBar: $wrap.find('.pages'),
-                    activatePageOn: 'click',
-                    speed: 300,
-                    elasticBounds: 1,
-                    easing: 'easeOutExpo',
-                    dragHandle: 1,
-                    dynamicHandle: 1,
-                    clickBar: 1,
-
-                    // Buttons
-                    forward: $wrap.find('.forward'),
-                    backward: $wrap.find('.backward'),
-                    prev: $wrap.find('.prev'),
-                    next: $wrap.find('.next'),
-                    prevPage: $wrap.find('.prevPage'),
-                    nextPage: $wrap.find('.nextPage')
-                });
-
-                // To Start button
-                $wrap.find('.toStart').on('click', function () {
-                    var item = $(this).data('item');
-                    // Animate a particular item to the start of the frame.
-                    // If no item is provided, the whole content will be animated.
-                    $frame.sly('toStart', item);
-                });
-
-                // To Center button
-                $wrap.find('.toCenter').on('click', function () {
-                    var item = $(this).data('item');
-                    // Animate a particular item to the center of the frame.
-                    // If no item is provided, the whole content will be animated.
-                    $frame.sly('toCenter', item);
-                });
-
-                // To End button
-                $wrap.find('.toEnd').on('click', function () {
-                    var item = $(this).data('item');
-                    // Animate a particular item to the end of the frame.
-                    // If no item is provided, the whole content will be animated.
-                    $frame.sly('toEnd', item);
-                });
-
-                // Add item
-                $wrap.find('.add').on('click', function () {
-                    $frame.sly('add', '<li>' + $slidee.children().length + '</li>');
-                });
-
-                // Remove item
-                $wrap.find('.remove').on('click', function () {
-                    $frame.sly('remove', -1);
-                });
             }());
         });
     </script>
-    <header class="view_header">
+    <header class="view_header" >
         <img src="" alt="ロゴだよ">
-        <h1>タイトル</h1>
-        <h2>サブタイトル</h2>
+        <h1>{{{$articles->title }}}</h1>
+        <h2>{{{$articles->subtitle}}}</h2>
+
         @include ('elements.search')
-        <img src="" alt="顔写真だよ">
-        <p>wrriten by オレオレ</p>
+        @if(!Auth::check())
+        <div class="ui buttons">
+            <button class="ui button">会員登録</button>
+            <div class="or"></div>
+            <button class="ui positive button">ログイン</button>
+        </div>
+        @endif
+        <div>
+            <p>
+            view {{{$articles->view}}}
+            {{--{{{$num}}--}}
+            </p>
+        </div>
+
+        <button class="ui facebook button">
+            <i class="facebook icon"></i>
+            Facebook
+        </button>
+        <button class="ui twitter button">
+            <i class="twitter icon"></i>
+            Twitter
+        </button>
     </header>
 
     <div class="pagespan container">
@@ -379,148 +116,98 @@
 
             <div class="frame" id="basic">
                 <ul class="clearfix">
-                    <li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li>
-                    <li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li>
-                    <li>19</li><li>20</li><li>21</li><li>22</li><li>23</li><li>24</li><li>25</li><li>26</li><li>27</li>
-                    <li>28</li><li>29</li>
+
+                    @foreach ($photos as $photo)
+                        <li class="panel">
+                            <img src="/images/{{$articles->user_id}}/{{ $photo }}">
+                        </li>
+                    @endforeach
+                    <li class="panel">
+                        <h2 class="comment_title">コメント</h2>
+                        @foreach($comment_data as $comments)
+                            <div class="hidden">
+                            <p class="comment_data flt_left">{{$comments->comment}}
+                                <a href="user/{{{ $comments->id }}}">
+                                <img class="uk-border-circle user-face" width="30" height="30"
+src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkViZW5lXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMTIwcHgiIGhlaWdodD0iMTIwcHgiIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMjAgMTIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxyZWN0IGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIi8+DQo8Zz4NCgk8cGF0aCBmaWxsPSIjRTBFMEUwIiBkPSJNMTA5LjM1NCw5OS40NzhjLTAuNTAyLTIuODA2LTEuMTM4LTUuNDA0LTEuOTAzLTcuODAxYy0wLjc2Ny0yLjM5Ny0xLjc5Ny00LjczMi0zLjA5My03LjAxMQ0KCQljLTEuMjk0LTIuMjc2LTIuNzc4LTQuMjE3LTQuNDU1LTUuODIzYy0xLjY4MS0xLjYwNC0zLjcyOS0yLjg4Ny02LjE0OC0zLjg0NmMtMi40MjEtMC45NTgtNS4wOTQtMS40MzgtOC4wMTctMS40MzgNCgkJYy0wLjQzMSwwLTEuNDM3LDAuNTE2LTMuMDIsMS41NDVjLTEuNTgxLDEuMDMyLTMuMzY3LDIuMTgyLTUuMzU1LDMuNDVjLTEuOTksMS4yNzEtNC41NzgsMi40MjEtNy43NjUsMy40NTENCgkJQzY2LjQxLDgzLjAzNyw2My4yMSw4My41NTIsNjAsODMuNTUyYy0zLjIxMSwwLTYuNDEtMC41MTUtOS41OTgtMS41NDZjLTMuMTg4LTEuMDMtNS43NzctMi4xODEtNy43NjUtMy40NTENCgkJYy0xLjk5MS0xLjI2OS0zLjc3NC0yLjQxOC01LjM1NS0zLjQ1Yy0xLjU4Mi0xLjAyOS0yLjU4OC0xLjU0NS0zLjAyLTEuNTQ1Yy0yLjkyNiwwLTUuNTk4LDAuNDc5LTguMDE3LDEuNDM4DQoJCWMtMi40MiwwLjk1OS00LjQ3MSwyLjI0MS02LjE0NiwzLjg0NmMtMS42ODEsMS42MDYtMy4xNjQsMy41NDctNC40NTgsNS44MjNjLTEuMjk0LDIuMjc4LTIuMzI2LDQuNjEzLTMuMDkyLDcuMDExDQoJCWMtMC43NjcsMi4zOTYtMS40MDIsNC45OTUtMS45MDYsNy44MDFjLTAuNTAyLDIuODAzLTAuODM5LDUuNDE1LTEuMDA2LDcuODM1Yy0wLjE2OCwyLjQyMS0wLjI1Miw0LjkwMi0wLjI1Miw3LjQ0DQoJCWMwLDEuODg0LDAuMjA3LDMuNjI0LDAuNTgyLDUuMjQ3aDEwMC4wNjNjMC4zNzUtMS42MjMsMC41ODItMy4zNjMsMC41ODItNS4yNDdjMC0yLjUzOC0wLjA4NC01LjAyLTAuMjUzLTcuNDQNCgkJQzExMC4xOTIsMTA0Ljg5MywxMDkuODU3LDEwMi4yOCwxMDkuMzU0LDk5LjQ3OHoiLz4NCgk8cGF0aCBmaWxsPSIjRTBFMEUwIiBkPSJNNjAsNzguMTZjNy42MiwwLDE0LjEyNi0yLjY5NiwxOS41Mi04LjA4OGM1LjM5Mi01LjM5Myw4LjA4OC0xMS44OTgsOC4wODgtMTkuNTE5DQoJCXMtMi42OTYtMTQuMTI2LTguMDg4LTE5LjUxOUM3NC4xMjYsMjUuNjQzLDY3LjYyLDIyLjk0Niw2MCwyMi45NDZzLTE0LjEyOCwyLjY5Ny0xOS41MTksOC4wODkNCgkJYy01LjM5NCw1LjM5Mi04LjA4OSwxMS44OTctOC4wODksMTkuNTE5czIuNjk1LDE0LjEyNiw4LjA4OSwxOS41MTlDNDUuODcyLDc1LjQ2NCw1Mi4zOCw3OC4xNiw2MCw3OC4xNnoiLz4NCjwvZz4NCjwvc3ZnPg0K" alt="">
+                                {{{$comments->username}}}</p></a>
+
+
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            <button class="ui secondary button flt_left">
+                                編集
+                            </button>
+                            <button class="ui button flt_left">
+                                削除
+                            </button>
+                            </div>
+                        @endforeach
+
+                    </li>
                 </ul>
             </div>
 
             <ul class="pages"></ul>
 
-            <div class="controls center">
-                <button class="btn prevPage"><i class="icon-chevron-left"></i><i class="icon-chevron-left"></i> page</button>
-                <button class="btn prev"><i class="icon-chevron-left"></i> item</button>
-                <button class="btn backward"><i class="icon-chevron-left"></i> move</button>
+            {{--<div class="controls center">--}}
+                {{--<button class="btn prevPage"><i class="icon-chevron-left"></i><i class="icon-chevron-left"></i> page</button>--}}
+                {{--<button class="btn prev"><i class="icon-chevron-left"></i> item</button>--}}
+                {{--<button class="btn backward"><i class="icon-chevron-left"></i> move</button>--}}
 
-                <div class="btn-group">
-                    <button class="btn toStart">toStart</button>
-                    <button class="btn toCenter">toCenter</button>
-                    <button class="btn toEnd">toEnd</button>
-                </div>
+                {{--<div class="btn-group">--}}
+                    {{--<button class="btn toStart">toStart</button>--}}
+                    {{--<button class="btn toCenter">toCenter</button>--}}
+                    {{--<button class="btn toEnd">toEnd</button>--}}
+                {{--</div>--}}
 
-                <div class="btn-group">
-                    <button class="btn toStart" data-item="10"><strong>10</strong> toStart</button>
-                    <button class="btn toCenter" data-item="10"><strong>10</strong> toCenter</button>
-                    <button class="btn toEnd" data-item="10"><strong>10</strong> toEnd</button>
-                </div>
+                {{--<div class="btn-group">--}}
+                    {{--<button class="btn toStart" data-item="10"><strong>10</strong> toStart</button>--}}
+                    {{--<button class="btn toCenter" data-item="10"><strong>10</strong> toCenter</button>--}}
+                    {{--<button class="btn toEnd" data-item="10"><strong>10</strong> toEnd</button>--}}
+                {{--</div>--}}
 
-                <div class="btn-group">
-                    <button class="btn add"><i class="icon-plus-sign"></i></button>
-                    <button class="btn remove"><i class="icon-minus-sign"></i></button>
-                </div>
 
-                <button class="btn forward">move <i class="icon-chevron-right"></i></button>
-                <button class="btn next">item <i class="icon-chevron-right"></i></button>
-                <button class="btn nextPage">page <i class="icon-chevron-right"></i><i class="icon-chevron-right"></i></button>
-            </div>
+                {{--<button class="btn forward">move <i class="icon-chevron-right"></i></button>--}}
+                {{--<button class="btn next">item <i class="icon-chevron-right"></i></button>--}}
+                {{--<button class="btn nextPage">page <i class="icon-chevron-right"></i><i class="icon-chevron-right"></i></button>--}}
+            {{--</div>--}}
         </div>
-        <style>
-            .view_header{
-                overflow: hidden;
-            }
-            .view_header *{
-                float: left;
-                margin: 0 auto;
-            }
 
-            body { background: #e8e8e8; }
-            .container { margin: 0 auto; }
+        <div class="under_nav">
+            <a class="ui blue image medium label">
+                <img class="uk-border-circle user-face" width="30" height="30"
+                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkViZW5lXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMTIwcHgiIGhlaWdodD0iMTIwcHgiIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMjAgMTIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxyZWN0IGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIi8+DQo8Zz4NCgk8cGF0aCBmaWxsPSIjRTBFMEUwIiBkPSJNMTA5LjM1NCw5OS40NzhjLTAuNTAyLTIuODA2LTEuMTM4LTUuNDA0LTEuOTAzLTcuODAxYy0wLjc2Ny0yLjM5Ny0xLjc5Ny00LjczMi0zLjA5My03LjAxMQ0KCQljLTEuMjk0LTIuMjc2LTIuNzc4LTQuMjE3LTQuNDU1LTUuODIzYy0xLjY4MS0xLjYwNC0zLjcyOS0yLjg4Ny02LjE0OC0zLjg0NmMtMi40MjEtMC45NTgtNS4wOTQtMS40MzgtOC4wMTctMS40MzgNCgkJYy0wLjQzMSwwLTEuNDM3LDAuNTE2LTMuMDIsMS41NDVjLTEuNTgxLDEuMDMyLTMuMzY3LDIuMTgyLTUuMzU1LDMuNDVjLTEuOTksMS4yNzEtNC41NzgsMi40MjEtNy43NjUsMy40NTENCgkJQzY2LjQxLDgzLjAzNyw2My4yMSw4My41NTIsNjAsODMuNTUyYy0zLjIxMSwwLTYuNDEtMC41MTUtOS41OTgtMS41NDZjLTMuMTg4LTEuMDMtNS43NzctMi4xODEtNy43NjUtMy40NTENCgkJYy0xLjk5MS0xLjI2OS0zLjc3NC0yLjQxOC01LjM1NS0zLjQ1Yy0xLjU4Mi0xLjAyOS0yLjU4OC0xLjU0NS0zLjAyLTEuNTQ1Yy0yLjkyNiwwLTUuNTk4LDAuNDc5LTguMDE3LDEuNDM4DQoJCWMtMi40MiwwLjk1OS00LjQ3MSwyLjI0MS02LjE0NiwzLjg0NmMtMS42ODEsMS42MDYtMy4xNjQsMy41NDctNC40NTgsNS44MjNjLTEuMjk0LDIuMjc4LTIuMzI2LDQuNjEzLTMuMDkyLDcuMDExDQoJCWMtMC43NjcsMi4zOTYtMS40MDIsNC45OTUtMS45MDYsNy44MDFjLTAuNTAyLDIuODAzLTAuODM5LDUuNDE1LTEuMDA2LDcuODM1Yy0wLjE2OCwyLjQyMS0wLjI1Miw0LjkwMi0wLjI1Miw3LjQ0DQoJCWMwLDEuODg0LDAuMjA3LDMuNjI0LDAuNTgyLDUuMjQ3aDEwMC4wNjNjMC4zNzUtMS42MjMsMC41ODItMy4zNjMsMC41ODItNS4yNDdjMC0yLjUzOC0wLjA4NC01LjAyLTAuMjUzLTcuNDQNCgkJQzExMC4xOTIsMTA0Ljg5MywxMDkuODU3LDEwMi4yOCwxMDkuMzU0LDk5LjQ3OHoiLz4NCgk8cGF0aCBmaWxsPSIjRTBFMEUwIiBkPSJNNjAsNzguMTZjNy42MiwwLDE0LjEyNi0yLjY5NiwxOS41Mi04LjA4OGM1LjM5Mi01LjM5Myw4LjA4OC0xMS44OTgsOC4wODgtMTkuNTE5DQoJCXMtMi42OTYtMTQuMTI2LTguMDg4LTE5LjUxOUM3NC4xMjYsMjUuNjQzLDY3LjYyLDIyLjk0Niw2MCwyMi45NDZzLTE0LjEyOCwyLjY5Ny0xOS41MTksOC4wODkNCgkJYy01LjM5NCw1LjM5Mi04LjA4OSwxMS44OTctOC4wODksMTkuNTE5czIuNjk1LDE0LjEyNiw4LjA4OSwxOS41MTlDNDUuODcyLDc1LjQ2NCw1Mi4zOCw3OC4xNiw2MCw3OC4xNnoiLz4NCjwvZz4NCjwvc3ZnPg0K" alt="">
+                {{{$articles->username}}}
+            </a>
+            @if(!Auth::check())
+            <small><a href="">内容についてのお問い合わせ</a></small>
+            {{--@elseif()--}}
+            <div class="ui buttons">
+                <button class="ui positive small button">編集</button>
+                <div class="or"></div>
+                <button class="ui button small">削除</button>
+            </div>
+            @endif
+            <p>tsukutabi.,inc</p>
 
-            /* Example wrapper */
-            .wrap {
-                position: relative;
-                margin: 3em 0;
-            }
+            <div class="ui labeled medium button" tabindex="0">
+                <div class="ui yellow button">
+                    <i class="empty star icon"></i>
+                    fav
+                </div>
+                <a class="ui basic yellow left pointing label">
+                    1,048
+                </a>
+            </div>
 
-            /* Frame */
-            .frame {
-                height: 250px;
-                line-height: 250px;
-                overflow: hidden;
-            }
-            .frame ul {
-                list-style: none;
-                margin: 0;
-                padding: 0;
-                height: 100%;
-                font-size: 50px;
-            }
-            .frame ul li {
-                float: left;
-                width: 227px;
-                height: 100%;
-                margin: 0 1px 0 0;
-                padding: 0;
-                background: #333;
-                color: #ddd;
-                text-align: center;
-                cursor: pointer;
-            }
-            .frame ul li.active {
-                color: #fff;
-                background: #a03232;
-            }
+            <div class="ui labeled medium button" tabindex="0">
+                <div class="ui green button">
+                    <i class="heart icon"></i> Response
+                </div>
+                <a class="ui basic green left pointing label">
+                    1,048
+                </a>
+            </div>
 
-            /* Scrollbar */
-            .scrollbar {
-                margin: 0 0 1em 0;
-                height: 2px;
-                background: #ccc;
-                line-height: 0;
-            }
-            .scrollbar .handle {
-                width: 100px;
-                height: 100%;
-                background: #292a33;
-                cursor: pointer;
-            }
-            .scrollbar .handle .mousearea {
-                position: absolute;
-                top: -9px;
-                left: 0;
-                width: 100%;
-                height: 20px;
-            }
-
-            /* Pages */
-            .pages {
-                list-style: none;
-                margin: 20px 0;
-                padding: 0;
-                text-align: center;
-            }
-            .pages li {
-                display: inline-block;
-                width: 14px;
-                height: 14px;
-                margin: 0 4px;
-                text-indent: -999px;
-                border-radius: 10px;
-                cursor: pointer;
-                overflow: hidden;
-                background: #fff;
-                box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
-            }
-            .pages li:hover {
-                background: #aaa;
-            }
-            .pages li.active {
-                background: #666;
-            }
-
-            /* Controls */
-            .controls { margin: 25px 0; text-align: center; }
-
-            /* One Item Per Frame example*/
-            .oneperframe { height: 300px; line-height: 300px; }
-            .oneperframe ul li { width: 1140px; }
-            .oneperframe ul li.active { background: #333; }
-
-            /* Crazy example */
-            .crazy ul li:nth-child(2n) { width: 100px; margin: 0 4px 0 20px; }
-            .crazy ul li:nth-child(3n) { width: 300px; margin: 0 10px 0 5px; }
-            .crazy ul li:nth-child(4n) { width: 400px; margin: 0 30px 0 2px; }
-    </style>
-
+        </div>
 @stop
