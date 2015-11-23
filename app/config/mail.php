@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.gmail.com',
+	'host' => 'smtp.sendgrid.net',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ return array(
 	|
 	*/
 
-	'sendmail' => '/usr/sbin/sendmail -bs',
+//	'sendmail' => '/usr/sbin/sendmail -bs',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -119,6 +119,6 @@ return array(
 	|
 	*/
 
-	'pretend' => false,
+//	'pretend' => false,
 
 );

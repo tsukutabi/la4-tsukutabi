@@ -13,7 +13,7 @@
     <div class="form-group">
         <input id="main" type="text" name="MainTitle" class="form-control" placeholder="旅行記のタイトル" required="true">
         <input id="sub" type="text" name="SubTitle" class="form-control" placeholder="旅の概要を教えて下さい。" >
-        <input type="hidden" value="{{{Auth::user()->id}}}" name="user_id" >
+        <option value=""></option>
         <input type="text" name="tags" class="form-control" placeholder="
         @foreach($tags as $tag)
             {{{ $tag->name }}}
@@ -26,37 +26,6 @@
     </div>
     <script>
         $(document).ready(function(){
-//            $("#sub").change(function () {
-//                sub = $(this).val();
-//                console.log(sub);
-//            }).change();
-
-//            var main = new Object('hello');
-
-
-            function get_value(){
-                var sub = $('#sub').val();
-                return sub;
-            }
-
-
-
-
-            var departure_time = $('#departure').blur(
-                    function (){
-                        departure_time = $(this).val()
-                        console.log(departure_time);
-                        return departure_time;
-                    }
-            );
-
-            var return_time = $('#return').blur(
-                    function (){
-                        return_time = $(this).val()
-                        console.log(return_time);
-                        return return_time;
-                    }
-            )
 
             $("#input-id").fileinput({
                 uploadUrl: "/save",
@@ -69,7 +38,6 @@
                 minFileCount: 2,
                 async: false,
                 success : function(msg, status){
-                    console/log(sub);
                   alert('成功');
                 },
                 error : function(msg, status){
@@ -77,11 +45,11 @@
                 },
                 uploadExtraData: function () {
                     return {
-                        "Subtitle": $("#main").val(),
-                        "Maintitle":$("#sub").val(),
-                        "depature_at":$('#departure').val(),
-                        "retrun_at":$('#retrune').val(),
-                        "user_id": {{{ Auth::user()->id }}}
+                        "MainTitle": $("#main").val(),
+                        "SubTitle":$("#sub").val(),
+//                        "depature_at":$('#departure').val().toString(),
+//                        "retrun_at":$('#retrune').val().toString(),
+                        "user_id":"{{{ Auth::user()->id }}}"
                     };
                 }
                 });

@@ -5,12 +5,10 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-	  	"cartalyst/sentry": "2.0.*",
 	  	"laravel-plus/extension": "1.*",
 	    "barryvdh/laravel-debugbar": "1.*",
 	    "swiftmailer/swiftmailer": "@stable",
-	    "aws/aws-sdk-php-laravel": "1.*",
-	  	"aws/aws-sdk-php": "~2.2"
+	    "aws/aws-sdk-php-laravel": "1.*"
 	},
 	"autoload": {
 		"classmap": [

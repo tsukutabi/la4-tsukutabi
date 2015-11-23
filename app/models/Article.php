@@ -63,7 +63,7 @@ class Article extends Model{
     }
 
 //    記事のアップロード処理
-    public static function save_article(array $input,$user_id = 3){
+    public static function save_article(array $input,$user_id){
         $messages = ['messages'=>'','num'=>''];
         $photo_name_array = [];
         $set_path = public_path('images/'.$user_id);
@@ -73,6 +73,8 @@ class Article extends Model{
         }
         $photo = $input['photos'];
         foreach ($photo as $photo_data ){
+
+            $photo_exif_ary[] = exif_read_data( $photo_data );
             $mime = $photo_data->getClientOriginalExtension();
 //            if($mime !== 'jpg' and 'png' and 'gif' and 'jpeg'){
 //                $messages = ['messages'=>'NG',500];
@@ -83,9 +85,11 @@ class Article extends Model{
                 array_push($photo_name_array,$name);
             }
         }
+        Log::info($photo_exif_ary);
         $photo_names = implode('+',$photo_name_array);
 //      $photo_comments = implode('+',$input['comments']);
         $data['photos'] = $photo_names;
+
         $article = new Article();
             $article->title = $input['MainTitle'];
             $article->subtitle = $input['SubTitle'];
@@ -96,6 +100,7 @@ class Article extends Model{
     //        $article->latitude = $latude;
             $article->departure_at = $input['departure_at'];
             $article->return_at = $input['return_at'];
+
         if($article->save()) {
             $messages = ['messages' => 'ok',200];
         }else{
@@ -159,7 +164,7 @@ class Article extends Model{
         try{
 
         }catch (Exception $e ){
-            Log:;info($e);
+            Log::info($e);
             return "データベース接続エラーでした 涙";
         }
     }

@@ -296,7 +296,7 @@ class UserController extends BaseController
 
     public function change_profile(){
         $rules = [
-            'id' => [ 'required' ],
+            'id' => [ 'required','numeric'],
             'profile' => [ 'required' ],
         ];
         $inputs = Input::only(array_keys($rules));
@@ -318,13 +318,23 @@ class UserController extends BaseController
     public function change_face_photo(){
         Log::debug(Input::all());
         $rules = [
-            'id' => [ 'required' ],
-            'profile' => [ 'required' ],
+            'user_id' => [ 'required','numeric' ],
+            'face_photo' => [ 'required','image' ],
         ];
         $inputs = Input::only(array_keys($rules));
-        if(Auth::user()->id == $inputs['id'] ){
+        if(Auth::user()->id !== $inputs['user_id'] ){
+            return Response::json(400);
+        }
+
+        try{
+            $user = User::find($inputs['user_id']);
+            $user->facephoto = $inputs['face_photo'];
+            $user->save();
+        }catch (Exception $e){
+            Log::debug($e);
             return Response::json(500);
         }
+
         return Response::json(200);
     }
 

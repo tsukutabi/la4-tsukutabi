@@ -11,22 +11,23 @@
 |
 */
 
-
 Route::get( '/', [ 'as' => 'home', 'uses' => 'ArticleController@index' ] );
 //Route::when('*','csrf',['post','put']);
 
-
 Route::any(
 		"/test"
-		, function (){
-    Log::debug( $_GET );
+		,function (){
     Log::debug(Input::all());
-
-}
+    Log::info($_GET);
+    }
 );
+
+//ユーザー認証
 
 Route::get('save','ArticleController@get_save');
 Route::post('save','ArticleController@post_save');
+//View::make('users.login')->with('title','ログイン画面');
+
 Route::get('find','ArticleController@find');
 Route::get('view/{id}','ArticleController@view');
 Route::put('edit/{id}','ArticleController@edit');
@@ -66,9 +67,7 @@ Route::post('user/profile','UserController@change_profile');
 Route::post('user/change_face_photo','UserController@change_face_photo');
 
 
-Route::when( 'admin/*', 'admin' );
-Route::when( 'dashboard/*', 'auth' );
-Route::pattern('id', '[0-9]+');
+Route::when( 'admin', 'admin' );
 
 Route::get( 'register',function(){
     return View::make('auth.register')->with('title','つくたび会員登録');

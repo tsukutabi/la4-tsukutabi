@@ -82,19 +82,20 @@ class ArticleController extends BaseController{
             'MainTitle'=>'required|min:3|max:255',
             'SubTitle'=>'required|min:3|max:255',
             'user_id'=>'required',
-            'tags'=>'',
-            'departure_at' =>'required',
-            'return_at' =>'required',
+//            'tags'=>'',
+//            'departure_at' =>'required',
+//            'return_at' =>'required',
             'photos'=>'required',
 //            'photo_comments'=>'',
         ];
         $input = Input::only(array_keys($rules));
         Log::info($input);
-         $validator = Validator::make($input,$rules);
-         if($validator->fails()){
-             return Redirect::to('save')->withErrors($validator)->withInput();
-         }
-        if(Article::save_article($input)){
+        $validator = Validator::make($input,$rules);
+        if($validator->fails()){
+//             return Redirect::to('save')->withErrors($validator)->withInput();
+             return Response::json(400,'error');
+        }
+        if(Article::save_article($input ,$input['user_id'])){
             return Response::json(200);
         }
     }
@@ -147,8 +148,4 @@ class ArticleController extends BaseController{
         ]);
     }
 
-    public function api_post()
-    {
-
-    }
 }
