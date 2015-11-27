@@ -5,8 +5,11 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 class User extends Eloquent implements UserInterface, RemindableInterface
 {
 	protected $guarded = [ 'id' ];
-	protected $hidden = ['password'];
+
+    protected $hidden = ['password','token'];
 	protected $softDelete = true;
+
+
 
 	public function comments() {
 		return $this->hasMany(Comment::class);
@@ -78,6 +81,25 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 				->where('users.id','=',$user_id)
 				->first();
 	}
+
+	public static function remove_another_mime($mime){
+        Log::debug($mime);
+        if($mime === 'jpeg' ){
+            Log::debug("aaa");
+            return false;
+        }elseif($mime === 'png'){
+            return false;
+        }elseif($mime === 'gif'){
+            return false;
+        }elseif($mime === 'jpg'){
+
+        }else{
+            Log::info("true");
+            return true;
+        }
+
+
+    }
 }
 
 

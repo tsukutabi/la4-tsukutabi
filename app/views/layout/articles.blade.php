@@ -6,9 +6,8 @@
     <meta name="description" content="{{ $metadata->description }}">
     <meta name="keywords" content="{{ implode(', ', $metadata->keywords) }}">
     <meta name="author" content="{{ $metadata->author }}">
-
+    <meta name="csrf-token" content="<?= csrf_token() ?>">
     <title>{{ $metadata->page_title }}</title>
-
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
     <style>
         {{-- 解説: インラインのCSSブロックです。各ページで追記ができます。--}}

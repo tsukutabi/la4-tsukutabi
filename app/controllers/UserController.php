@@ -317,6 +317,7 @@ class UserController extends BaseController
 
     public function change_face_photo(){
         Log::debug(Input::all());
+
         $rules = [
             'user_id' => [ 'required','numeric' ],
             'face_photo' => [ 'required','image' ],
@@ -326,13 +327,33 @@ class UserController extends BaseController
             return Response::json(400);
         }
 
+        $val = Validator::make( $inputs, $rules );
+        if( $val->fails() )
+        {
+            return Response::json(400);
+        }
+
+        $mime = Input::file('face_photo')->getClientOriginalExtension();
+        Log::debug($mime);
+        $result_mime = User::remove_another_mime($mime);
+        Log::info($result_mime);
+//        todo 返り値がおかしいのでチェック
+        if($result_mime == 1){
+            return Response::json(501);
+         }
+
+        $set_path = public_path('images/facephoto');
+        $name = md5(sha1(uniqid(mt_rand(0,40000), true))).'.'.$mime;
+        Input::file('face_photo')->move($set_path,$name);
+
+
         try{
             $user = User::find($inputs['user_id']);
-            $user->facephoto = $inputs['face_photo'];
+            $user->facephoto = $name;
             $user->save();
         }catch (Exception $e){
             Log::debug($e);
-            return Response::json(500);
+            return Response::json(502);
         }
 
         return Response::json(200);

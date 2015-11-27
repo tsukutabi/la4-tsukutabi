@@ -2,8 +2,13 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('packages/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/bower_components/bootstrap-fileinput/css/fileinput.min.css') }}">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="{{ asset('packages/bower_components/tag-it/css/jquery.tagit.css') }}">
+    <link rel="stylesheet" href="{{ asset('packages/bower_components/bootstrap-fileinput/css/fileinput.min.css') }}">
     <script src="{{ asset('packages/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('packages/bower_components/bootstrap/dist/js/bootstrap.min.js') }}" defer="defer"></script>
+    <script src="{{ asset('packages/bower_components/jquery-ui/jquery-ui.js') }}" defer="defer"></script>
+    <script src="{{ asset('packages/bower_components/tag-it/js/tag-it.min.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/bootstrap-fileinput/js/fileinput.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/bootstrap-fileinput/js/fileinput_locale_ja.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js') }}" defer="defer"></script>
@@ -13,48 +18,78 @@
     <div class="form-group">
         <input id="main" type="text" name="MainTitle" class="form-control" placeholder="旅行記のタイトル" required="true">
         <input id="sub" type="text" name="SubTitle" class="form-control" placeholder="旅の概要を教えて下さい。" >
-        <option value=""></option>
-        <input type="text" name="tags" class="form-control" placeholder="
-        @foreach($tags as $tag)
-            {{{ $tag->name }}}
-        @endforeach">
-        <input type="date" name="departure_at" id="departure">
+
+        <label for="">2泊3日</label>
+        <input type="number" name="departure_at" id="departure">
         <input type="date" name="return_at" id="return">
+        <ul id="tag-it"></ul>
         <input id="input-id" name="photos[]" class="file" type="file" multiple data-preview-file-type="image" data-preview-file-icon="" >
     </div>
         {{Form::close() }}
     </div>
     <script>
         $(document).ready(function(){
+//        todo 静的なjsonをcdnにおいておく。
+            $.ajax({
+                type: 'GET',
+                url: '/tags',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    var tags = data;
+                    $('#tag-it').tagit({
+                        removeConfirmation: true,
+                        tagLimit:5,
+                        placeholderText:"5つタグをつけて下さい",
+                        fieldName:"tags[]",
+                        availableTags: ["c++", "java", "php", "javascript", "ruby", "python", "c"]
+                    });
+                },
+                error: function(data){
+                    console.log('エラー');
+                    console.log(data);
+                }
+            });
+
+
 
             $("#input-id").fileinput({
+
                 uploadUrl: "/save",
                 allowedFileExtensions : ['jpg','png','gif','jpeg'],
                 language: "ja",
                 multiple:true,
                 uploadAsync:false,
-//                previewFileType:['image','video'],
+                previewFileType:['image'],
                 maxFileCount: 80,
                 minFileCount: 2,
                 async: false,
                 success : function(msg, status){
                   alert('成功');
+                  location.href="/";
                 },
                 error : function(msg, status){
                     alert('通信ができない状態です。');
                 },
                 uploadExtraData: function () {
+//
+                    console.log($(".ui-widget-content").val());
+//                    console.log($("#main").val());
+//                    console.log($("#sub").val());
+//                    console.log($("#departure").val());
                     return {
                         "MainTitle": $("#main").val(),
                         "SubTitle":$("#sub").val(),
-//                        "depature_at":$('#departure').val().toString(),
-//                        "retrun_at":$('#retrune').val().toString(),
+                        "depature_at":$('#departure').val(),
+                        "retrun_at":$('#retrune').val(),
+                        "_token":$('meta[name="csrf-token"]').attr('content'),
+//                        "tags":$(".ui-widget-content").val(),
                         "user_id":"{{{ Auth::user()->id }}}"
                     };
                 }
                 });
-
-
         });
     </script>
 @stop

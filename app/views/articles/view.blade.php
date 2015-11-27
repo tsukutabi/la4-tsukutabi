@@ -4,78 +4,11 @@
     <script src="{{ asset('packages/bower_components/sly/dist/sly.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/jquery-easing/jquery.easing.js') }}" defer="defer"></script>
     <script src="{{ asset('js/hor.js') }}" defer="defer"></script>
-    <script>
-        jQuery(function($){
-            'use strict';
 
-            // -------------------------------------------------------------
-            //   Basic Navigation
-            // -------------------------------------------------------------
-            (function () {
-                var $frame  = $('#basic');
-                var $slidee = $frame.children('.panel').eq(0);
-                var $wrap   = $frame.parent();
-
-                // Call Sly on frame
-                $frame.sly({
-                    horizontal: 1,
-                    itemNav: 'basic',
-                    smart: 1,
-                    activateOn: 'click',
-                    mouseDragging: 1,
-                    touchDragging: 1,
-                    releaseSwing: 1,
-                    startAt: 0,
-                    scrollBar: $wrap.find('.scrollbar'),
-                    scrollBy: 2,
-                    pagesBar: $wrap.find('.pages'),
-                    activatePageOn: 'click',
-                    width:500,
-                    speed: 400,
-                    elasticBounds: 1,
-                    easing: 'easeOutExpo',
-                    dragHandle: 1,
-                    dynamicHandle: 1,
-                    clickBar: 1,
-
-                    // Buttons
-                    forward: $wrap.find('.forward'),
-                    backward: $wrap.find('.backward'),
-                    prev: $wrap.find('.prev'),
-                    next: $wrap.find('.next'),
-                    prevPage: $wrap.find('.prevPage'),
-                    nextPage: $wrap.find('.nextPage')
-                });
-
-                // To Start button
-                $wrap.find('.toStart').on('click', function () {
-                    var item = $(this).data('item');
-                    // Animate a particular item to the start of the frame.
-                    // If no item is provided, the whole content will be animated.
-                    $frame.sly('toStart', item);
-                });
-
-                // To Center button
-                $wrap.find('.toCenter').on('click', function () {
-                    var item = $(this).data('item');
-                    // Animate a particular item to the center of the frame.
-                    // If no item is provided, the whole content will be animated.
-                    $frame.sly('toCenter', item);
-                });
-
-                // To End button
-                $wrap.find('.toEnd').on('click', function () {
-                    var item = $(this).data('item');
-                    // Animate a particular item to the end of the frame.
-                    // If no item is provided, the whole content will be animated.
-                    $frame.sly('toEnd', item);
-                });
-
-            }());
-        });
-    </script>
     <header class="view_header" >
-        <img src="" alt="ロゴだよ">
+        <a href="/">
+        <img src="" alt="ロゴだよ" id="test">
+        </a>
         <h1>{{{$articles->title }}}</h1>
         <h2>{{{$articles->subtitle}}}</h2>
 
@@ -210,4 +143,101 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
             </div>
 
         </div>
+
+        <script>
+            jQuery(function($){
+//                'use strict';
+
+                // -------------------------------------------------------------
+                //   Basic Navigation
+                // -------------------------------------------------------------
+                (function () {
+                    var $frame  = $('#basic');
+                    var $slidee = $frame.children('.panel').eq(0);
+                    var $wrap   = $frame.parent();
+
+                    // Call Sly on frame
+                    $frame.sly({
+                        horizontal: 1,
+                        itemNav: 'basic',
+                        smart: 1,
+                        activateOn: 'click',
+                        mouseDragging: 1,
+                        touchDragging: 1,
+                        releaseSwing: 1,
+                        startAt: 0,
+                        scrollBar: $wrap.find('.scrollbar'),
+                        scrollBy: 2,
+                        pagesBar: $wrap.find('.pages'),
+                        activatePageOn: 'click',
+                        width:500,
+                        speed: 400,
+                        elasticBounds: 1,
+                        easing: 'easeOutExpo',
+                        dragHandle: 1,
+                        dynamicHandle: 1,
+                        clickBar: 1,
+
+                        // Buttons
+                        forward: $wrap.find('.forward'),
+                        backward: $wrap.find('.backward'),
+                        prev: $wrap.find('.prev'),
+                        next: $wrap.find('.next'),
+                        prevPage: $wrap.find('.prevPage'),
+                        nextPage: $wrap.find('.nextPage')
+                    });
+
+                    // To Start button
+                    $wrap.find('.toStart').on('click', function () {
+                        var item = $(this).data('item');
+                        // Animate a particular item to the start of the frame.
+                        // If no item is provided, the whole content will be animated.
+                        $frame.sly('toStart', item);
+                    });
+
+                    // To Center button
+                    $wrap.find('.toCenter').on('click', function () {
+                        var item = $(this).data('item');
+                        // Animate a particular item to the center of the frame.
+                        // If no item is provided, the whole content will be animated.
+                        $frame.sly('toCenter', item);
+                    });
+
+                    // To End button
+                    $wrap.find('.toEnd').on('click', function () {
+                        var item = $(this).data('item');
+                        // Animate a particular item to the end of the frame.
+                        // If no item is provided, the whole content will be animated.
+                        $frame.sly('toEnd', item);
+                    });
+
+
+                }());
+
+
+                $(function (){
+
+                    {{--var fd = [];--}}
+                    {{--fd['id']={{{ $articles->id }}};--}}
+                    {{--fd["_token"] = $('meta[name="csrf-token"]').attr('content');--}}
+                    {{--console.log(fd);--}}
+
+                    $.ajax({
+                        url:"/count/{{{ $articles->id }}}",
+                        type:'GET',
+                        dataType:'json',
+                        data:"{{{ $articles->id }}}",
+                        processData:false,
+                        contentType: false,
+                        success: function(data){
+                            console.log(data)
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown){
+                            console.log(XMLHttpRequest);
+                        }
+                    })
+                });
+//                ajaxここまで
+            });
+        </script>
 @stop

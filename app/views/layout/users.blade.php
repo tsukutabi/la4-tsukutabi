@@ -6,6 +6,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="<?= csrf_token() ?>">
     <title>つくたび {{$title}}</title>
     <link rel="stylesheet" href="{{ asset('packages/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <style>

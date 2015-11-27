@@ -12,16 +12,19 @@ class Article extends Model{
      *
      * @var string
      */
-    protected $table = 'articles';
     protected $guarded = ['id'];
     public $timestamps = true;
     public function comments() {
-        return $this->hasMany('Comment');
+        return $this->hasMany(Comment::class);
     }
     public function user(){
-        return $this->belongsTo('User');
+        return $this->belongsTo(User::class);
     }
-    protected $fillable = ['title','subtitle','photos','user_id'/*,'photo_comments','latitude','longitude'*/,'departure_at','return_at'];
+
+    public function tags(){
+        return $this->belongsToMany(Tag::class);
+    }
+    protected $fillable = ['title','subtitle','photos','user_id'/*,'photo_comments','latitude','longitude'*/,'days','night'];
     protected $hidden = ['users.email'];
 
     public static function get_index_data(){
@@ -146,7 +149,7 @@ class Article extends Model{
     }
 
 
-    public static function count_view(){
+    public static function count_view($id){
 //        viewのデータをとってきて
         try{
             $count_num = DB::table('articles')
@@ -167,7 +170,10 @@ class Article extends Model{
             Log::info($e);
             return "データベース接続エラーでした 涙";
         }
+        return Response::json(200);
     }
+
+
 
 
 }

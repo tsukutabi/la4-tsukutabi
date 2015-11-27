@@ -12,7 +12,7 @@
 */
 
 Route::get( '/', [ 'as' => 'home', 'uses' => 'ArticleController@index' ] );
-//Route::when('*','csrf',['post','put']);
+Route::when('*','csrf',['post','put']);
 
 Route::any(
 		"/test"
@@ -30,6 +30,11 @@ Route::post('save','ArticleController@post_save');
 
 Route::get('find','ArticleController@find');
 Route::get('view/{id}','ArticleController@view');
+
+Route::get('count/{id}','ArticleController@count_view');
+
+Route::get('tags','ArticleController@tags_json');
+
 Route::put('edit/{id}','ArticleController@edit');
 Route::get('edit/{id}','ArticleController@get_edit');
 
@@ -43,7 +48,6 @@ Route::post('fav','FavController@post');
 Route::get('error',['as'=>'error'],function(){
 	echo 'hello error';
 });
-
 
 Route::get('contact',function(){
 	return View::make('Articles.contact')->with('title','TOP画面');;
@@ -65,6 +69,8 @@ Route::get('user/{id}','UserController@view');
 //プロフィール編集する時の処理
 Route::post('user/profile','UserController@change_profile');
 Route::post('user/change_face_photo','UserController@change_face_photo');
+
+
 
 
 Route::when( 'admin', 'admin' );

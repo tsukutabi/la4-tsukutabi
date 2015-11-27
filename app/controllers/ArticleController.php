@@ -59,7 +59,6 @@ class ArticleController extends BaseController{
         $result = Article::fetch_view_data($id);
 //        カウンター
         Log::info($result);
-
         return View::make('articles.view',[
             'articles'=>$result['articles'],
             'photos'=>$result['photos'],
@@ -134,6 +133,23 @@ class ArticleController extends BaseController{
     {
         Article::post_spam($id);
         return Response::json(['message'=>'成功',200]);
+    }
+
+    public function tags_json(){
+
+//        try{
+//            $tags = DB::table('tags')
+//                ->select('name')
+//                ->toJson();
+//        }catch(Exception $e){
+//            Log::info($e);
+//            return "データベースエラー";
+//        }
+
+        $tags_json = Tag::all()->toJson();
+
+        Log::info($tags_json);
+        return Response::json($tags_json);
     }
 
     public function api_view($id = null)
