@@ -18,10 +18,23 @@
     <div class="form-group">
         <input id="main" type="text" name="MainTitle" class="form-control" placeholder="旅行記のタイトル" required="true">
         <input id="sub" type="text" name="SubTitle" class="form-control" placeholder="旅の概要を教えて下さい。" >
+        <div>
+            <input type="number" name="night" id="night">
+            <label for="">泊</label>
+            <input type="number" name="days" id="days">
+            <label for="">日</label>
+        </div>
+        <label for="">予算</label>
+        <select name="budget" id="budget">
+            <option value="0">¥1~10000</option>
+            @for ($budget_i = 2; $budget_i < 20; $budget_i++)
+                <option value="{{$budget_i}}">¥{{$budget_i-1}}0001~¥{{$budget_i}}0000</option>
+            @endfor
 
-        <label for="">2泊3日</label>
-        <input type="number" name="departure_at" id="departure">
-        <input type="date" name="return_at" id="return">
+            1~10000
+            100001~20000
+        </select>
+
         <ul id="tag-it"></ul>
         <input id="input-id" name="photos[]" class="file" type="file" multiple data-preview-file-type="image" data-preview-file-icon="" >
     </div>

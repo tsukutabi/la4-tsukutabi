@@ -13,6 +13,8 @@ class Article extends Model{
      * @var string
      */
     protected $guarded = ['id'];
+    protected $fillable = ['title','subtitle','photos','user_id'/*,'photo_comments','latitude','longitude'*/,'days','night'];
+    protected $hidden = ['users.email'];
     public $timestamps = true;
     public function comments() {
         return $this->hasMany(Comment::class);
@@ -24,8 +26,6 @@ class Article extends Model{
     public function tags(){
         return $this->belongsToMany(Tag::class);
     }
-    protected $fillable = ['title','subtitle','photos','user_id'/*,'photo_comments','latitude','longitude'*/,'days','night'];
-    protected $hidden = ['users.email'];
 
     public static function get_index_data(){
         $articles = DB::table('articles')
@@ -105,11 +105,10 @@ class Article extends Model{
             $article->return_at = $input['return_at'];
 
         if($article->save()) {
-            $messages = ['messages' => 'ok',200];
+            return Response::json('ok');
         }else{
-            $messages =['message'=>'NG',500];
+            return Response::json('ng');
         }
-        return $messages;
     }
 //    mimetypeのチェック
     private static function check_mime($mimetype){
@@ -149,29 +148,6 @@ class Article extends Model{
     }
 
 
-    public static function count_view($id){
-//        viewのデータをとってきて
-        try{
-            $count_num = DB::table('articles')
-                ->select('view')
-                ->first();
-        }catch(Exception $e){
-            Log::info($e);
-            return "データベースエラー";
-        }
-//        増やして
-        Log::info($count_num);
-        $count_num =$count_num+1;
-        Log::info($count_num);
-//    保存する。
-        try{
-
-        }catch (Exception $e ){
-            Log::info($e);
-            return "データベース接続エラーでした 涙";
-        }
-        return Response::json(200);
-    }
 
 
 

@@ -21,8 +21,8 @@
         </div>
         @endif
         <div>
-            <p>
-            view {{{$articles->view}}}
+            <p id="view_count">
+            <span> view</span> <span id="before_view">{{{$articles->view}}}</span>
             {{--{{{$num}}--}}
             </p>
         </div>
@@ -217,10 +217,10 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
 
                 $(function (){
 
-                    {{--var fd = [];--}}
-                    {{--fd['id']={{{ $articles->id }}};--}}
-                    {{--fd["_token"] = $('meta[name="csrf-token"]').attr('content');--}}
-                    {{--console.log(fd);--}}
+                    var fd = [];
+                    fd['id']={{{ $articles->id }}};
+                    fd["_token"] = $('meta[name="csrf-token"]').attr('content');
+                    console.log(fd);
 
                     $.ajax({
                         url:"/count/{{{ $articles->id }}}",
@@ -231,6 +231,8 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                         contentType: false,
                         success: function(data){
                             console.log(data)
+                            $('#view_count').after(data)
+                            $('#before_view').css("display","none");
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown){
                             console.log(XMLHttpRequest);

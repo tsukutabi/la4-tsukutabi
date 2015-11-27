@@ -1,5 +1,7 @@
 <?php
 
+
+
 class ArticleController extends BaseController{
     public function __construct()
     {
@@ -77,6 +79,7 @@ class ArticleController extends BaseController{
 //    記事の保存用
     public function post_save()
     {
+        Log::debug(Input::all());
         $rules = [
             'MainTitle'=>'required|min:3|max:255',
             'SubTitle'=>'required|min:3|max:255',
@@ -164,4 +167,24 @@ class ArticleController extends BaseController{
         ]);
     }
 
+    public function count_view($id){
+//        viewのデータをとってきて
+        Log::debug($_GET);
+        $rules = [
+            'id'=>'required'
+        ];
+
+        try{
+            $count_num = Article::find($id);
+            Log::debug($count_num->view);
+            $count_num->view++;
+            Log::debug($count_num->view);
+            $count_num->save();
+        }catch(Exception $e){
+            Log::info($e);
+            return "データベースエラー";
+        }
+
+        return Response::json($count_num->view);
+    }
 }
