@@ -102,7 +102,7 @@ Route::get('api/ping',function(){
     return Response::json('ping');
 });
 
-//記事系
+//記事系api
 Route::get('api/index','ArticleController@api_index');
 Route::get('api/view/{id}','ArticleController@api_index');
 Route::post('api/post','ArticleController@api_save');

@@ -1,4 +1,4 @@
-@extends('layout.default')
+@extends('layout.top_pc')
 @section('content')
     @include('elements.nav')
     @include('elements.slider')

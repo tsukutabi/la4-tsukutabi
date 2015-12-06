@@ -164,3 +164,16 @@ li .comment_data{
     overflow: hidden;
 }
 
+.post_comment{
+    display: block;
+    width: 70%;
+    text-align: center;
+    height: 25px;
+
+}
+
+.post_comment_button{
+    display: block;
+    width: 30%;
+    height: 25%;
+}

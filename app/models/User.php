@@ -59,14 +59,42 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 		return $this->email;
 	}
 
-	public static function get_user_content($user_id)
+	public function create_user($inputs){
+		// トランザクションの開始、usersテーブルと、紐ついたconfirmsテーブルを
+		// 同時に更新するため。
+		// また、エラー発生時に500にするため、DB::transaction()を使用していない。
+		DB::beginTransaction();
+		try
+		{
+			$user = User::create( $inputs );
+			// Str::random()の実装は調べていない。
+			// 乱数生成のアルゴリズムに問題がないか、要チェック
+			$confirmKey = Str::random( 32 );
+
+			$user->confirm()->create( ['key' => $confirmKey ] );
+			Log::info($user);
+
+		}
+		catch( Exception $e )
+		{
+			DB::rollBack();
+
+			return App::abort( '500', 'データベースが不調です。確認キーの生成に失敗しました。' );
+		}
+		DB::commit();
+
+        return $confirmKey;
+
+	}
+
+	public function get_user_content($user_id)
 	{
 		return DB::table('articles')
 			->select('id','title','subtitle','created_at')
 			->where('user_id','=',$user_id)
 			->get();
 	}
-	public static function fetch_favs($user_id)
+	public  function fetch_favs($user_id)
 	{
 		return DB::table('favs')
 		->select('favs.user_id','favs.article_id','articles.id','articles.title')
@@ -74,7 +102,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 		->leftJoin('articles','articles.id','=','favs.article_id')
 		->get();
 	}
-	public static function fetch_user_data($user_id)
+	public function fetch_user_data($user_id)
 	{
 		return DB::table('users')
 				->select('username','id','facephoto','profile')
@@ -82,10 +110,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 				->first();
 	}
 
-	public static function remove_another_mime($mime){
+	public function remove_another_mime($mime){
         Log::debug($mime);
         if($mime === 'jpeg' ){
-            Log::debug("aaa");
             return false;
         }elseif($mime === 'png'){
             return false;
@@ -97,7 +124,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface
             Log::info("true");
             return true;
         }
+    }
 
+    public function update_facephoto($inputs,$name){
+        try{
+            $user = User::find($inputs['user_id']);
+            $user->facephoto = $name;
+            $user->save();
+        }catch (Exception $e){
+            Log::debug($e);
+            return 500;
+        }
+        return 200;
 
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
-
+use Illuminate\Support\Facades\Validator;
+use Model\validate;
 
 class ArticleController extends BaseController{
-    public function __construct()
+    public function __construct(Article $article)
     {
-        // var_dump(Session::all());
+        $this->article = $article;
 // beforeフィルタをインストールする
         $this->beforeFilter(
             '@existsFilter',
@@ -27,7 +28,7 @@ class ArticleController extends BaseController{
                 // Webブラウザに404 Not Foundを返す
                 App::abort(404);
             }
-            Log::debug('Exists!');
+//            Log::debug('Exists!');
         }
         else {
             Log::debug('url was not contained $id.');
@@ -40,9 +41,8 @@ class ArticleController extends BaseController{
 //  新しいもの
     public function index()
     {
-        $data = Article::get_index_data();
         return View::make('articles.index',[
-            'info'=>$data
+            'info'=>$this->article->get_index_data()
 //        'new'=>$data['new'],
 //        'view' =>$data['view'],
 //        'fav'=>$data['fav']
@@ -55,18 +55,15 @@ class ArticleController extends BaseController{
             Article::get_index_data()
             );
     }
-//    詳細ページを読む
+//    詳細ページを読む todo ムダな変数消す!!
     public function view($id)
     {
-        $result = Article::fetch_view_data($id);
-//        カウンター
-        Log::info($result);
+        $result = $this->article->fetch_view_data($id);
         return View::make('articles.view',[
             'articles'=>$result['articles'],
             'photos'=>$result['photos'],
             'comment_data'=>$result['comment_data'],
             'fav_data'=>$result['fav_data'],
-
         ]);
     }
     public function get_save(){
@@ -91,16 +88,17 @@ class ArticleController extends BaseController{
 //            'photo_comments'=>'',
         ];
         $input = Input::only(array_keys($rules));
-        Log::info($input);
         $validator = Validator::make($input,$rules);
         if($validator->fails()){
 //             return Redirect::to('save')->withErrors($validator)->withInput();
              return Response::json(400,'error');
         }
-        if(Article::save_article($input ,$input['user_id'])){
-            return Response::json(200);
-        }
+            return Response::json($this->article->save_article($input));
     }
+    public function get_edit(){
+
+    }
+
     public function edit($id)
     {
         Article::edit_article($id);
@@ -148,11 +146,7 @@ class ArticleController extends BaseController{
 //            Log::info($e);
 //            return "データベースエラー";
 //        }
-
-        $tags_json = Tag::all()->toJson();
-
-        Log::info($tags_json);
-        return Response::json($tags_json);
+        return Response::json(Tag::all()->toJson());
     }
 
     public function api_view($id = null)
@@ -168,23 +162,9 @@ class ArticleController extends BaseController{
     }
 
     public function count_view($id){
-//        viewのデータをとってきて
-        Log::debug($_GET);
         $rules = [
             'id'=>'required'
         ];
-
-        try{
-            $count_num = Article::find($id);
-            Log::debug($count_num->view);
-            $count_num->view++;
-            Log::debug($count_num->view);
-            $count_num->save();
-        }catch(Exception $e){
-            Log::info($e);
-            return "データベースエラー";
-        }
-
-        return Response::json($count_num->view);
+       return Response::json($this->article->count_views($id));
     }
 }

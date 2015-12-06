@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Validator;
 
 class CommentController extends BaseController {
 
-     public function __construct(){
-//         postされた値と本人が一致しているか確認する。
+     public function __construct(Comment $comment){
+
+         $this->comment = $comment;
 
      }
 

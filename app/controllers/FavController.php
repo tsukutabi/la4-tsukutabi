@@ -1,9 +1,11 @@
 <?php
 
 
-class Favcontroller extends BaseController{
+class FavController extends BaseController{
 
-    public function __construct(){
+    public function __construct(Fav $fav){
+
+        $this->fav = $fav;
 //        ログインの確認
 
         if(Auth::check()){
