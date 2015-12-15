@@ -213,7 +213,7 @@ class UserController extends BaseController
             ->withMessage( 'ログインしました。' );
     }
 
-    public function view($id)
+    public function view(int $id)
     {
         // sanitaize todo
         $user_article = $this->user->get_user_content($id);
@@ -227,7 +227,7 @@ class UserController extends BaseController
                 'title'=>'ユーザーページ'
             ]);
     }
-
+//todo 他人の顔写真変更できるから修正
     public function change_profile(){
         $rules = [
             'id' => [ 'required','numeric'],
@@ -241,10 +241,11 @@ class UserController extends BaseController
                 ->withInput()
                 ->withErrors( $val );
         }
+//        本人確認
+
         $user=User::find(Input::get('id'));
         $user->profile=Input::get('profile');
         $user->save();
-        Log::debug(Input::all());
         return Response::json(200);
     }
 

@@ -51,14 +51,15 @@ class ArticleController extends BaseController{
             );
     }
 //    詳細ページを読む todo ムダな変数消す!!
-    public function view($id)
+    public function view(int $id)
     {
         $result = $this->article->fetch_view_data($id);
-        Log::debug($result);
+        Log::debug('aaa');
         return View::make('articles.view',[
             'result'=>$this->article->fetch_view_data($id)
         ])->with('title','つくたび会員登録');
     }
+
     public function get_save(){
         $tag_info = DB::table('tags')->select(['id','name'])->get();
         return View::make('articles.save',[

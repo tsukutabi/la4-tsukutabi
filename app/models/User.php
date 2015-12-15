@@ -102,7 +102,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 		->leftJoin('articles','articles.id','=','favs.article_id')
 		->get();
 	}
-	public function fetch_user_data($user_id)
+	public function fetch_user_data(int $user_id)
 	{
 		return DB::table('users')
 				->select('username','id','facephoto','profile')

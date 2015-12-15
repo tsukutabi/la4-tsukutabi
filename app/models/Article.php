@@ -38,7 +38,7 @@ class Article extends Model{
                     ->get();
     }
 
-    public function fetch_view_data($id)
+    public function fetch_view_data(int $id)
     {
         try{
             $result['articles'] = DB::table('articles')
@@ -130,7 +130,7 @@ class Article extends Model{
     }
 
 
-    public function count_views($id){
+    public function count_views(int $id){
         try{
             $count_num = Article::find($id);
             $count_num->view++;

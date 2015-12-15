@@ -9,8 +9,7 @@
         <a href="/">
         <img src="" alt="ロゴだよ" id="test">
         </a>
-        <?php var_dump($result);?>
-        <h1>{{{ $result['articles']->title  }}}</h1>
+        <h1>{{ $result['articles']->title  }}</h1>
         <h2>{{{$result['articles']->subtitle}}}</h2>
         @include ('elements.search')
         @if(!Auth::check())
