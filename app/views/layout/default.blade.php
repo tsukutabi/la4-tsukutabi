@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="<?= csrf_token() ?>">
     <link rel="stylesheet" href="{{ asset('packages/bower_components/uikit/css/uikit.almost-flat.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/bower_components/semantic/dist/semantic.css') }}">
-    <title>つくたび || {{{$articles->title }}}</title>
+    {{--<title>つくたび || {{{$articles->title }}}</title>--}}
     <script src="{{ asset('packages/bower_components/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('packages/bower_components/uikit/js/uikit.min.js') }}" type="text/javascript"></script>
     <link rel="stylesheet" href="{{ asset('packages/bower_components/normalize.css/normalize.css') }}">

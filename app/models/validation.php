@@ -2,9 +2,16 @@
 
 namespace Model\Validate;
 
-
 trait validation{
 
+//本人確認関数
+    public function confirm_user($user_id){
+        if(Auth::user()->id === $user_id){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public $userValidateRules = [
         'username' => 'required|uniqueUser',
@@ -31,5 +38,12 @@ trait validation{
 //            'photo_comments'=>'',
     ];
 
+    public $requiredMessage = "入力して下さい";
+    private $min_message ="3文字以上の入力をお願いします";
 
+    public $articleValidationMessage = [
+        'MainTitle.required'=>'タイトルを入力して下さい',
+        'SubTitle.min:3'=>"",
+
+    ];
 }

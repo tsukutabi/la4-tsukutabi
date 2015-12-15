@@ -14,6 +14,12 @@ class Article extends Model{
     protected $fillable = ['title','subtitle','photos','user_id'/*,'photo_comments','latitude','longitude'*/,'days','night'];
     protected $hidden = ['users.email'];
     public $timestamps = true;
+
+    public function __construct (FileUtils $fileUtils)
+    {
+        $this->file_utility = $fileUtils;
+    }
+
     public function comments() {
         return $this->hasMany(Comment::class);
     }
@@ -30,13 +36,12 @@ class Article extends Model{
                     ->select('users.username','articles.user_id','articles.title','articles.id','photos','subtitle')
                     ->leftJoin('users', 'users.id', '=', 'articles.user_id')
                     ->get();
-
     }
 
     public function fetch_view_data($id)
     {
         try{
-            $articles = DB::table('articles')
+            $result['articles'] = DB::table('articles')
             ->select('users.username','articles.user_id','articles.id','title','subtitle','photos','photo_comments','view')
             ->where('articles.id','=',$id)
             ->leftJoin('users','users.id', '=', 'articles.user_id')
@@ -55,11 +60,10 @@ class Article extends Model{
             
         }catch (Exception $e){
             Log::info($e);
-            return Response::json(['message'=>$e],'500');
+            return Response::json(['message'=>'データベースエラー'],'500');
         }
-        $result['photos'] = explode('+',$articles->photos);
-        $result['articles'] = $articles;
-
+        Log::debug($result);
+        $result['photos'] = explode('+',$result['articles']->photos);
         return  $result;
     }
 
@@ -80,16 +84,16 @@ class Article extends Model{
             if($photo_data->move($set_path, $name)){
                 array_push($photo_name_array,$name);
             }
+//            exifの削除
         }
 //        ここまで
         Log::info($photo_exif_ary);
-//      $photo_comments = implode('+',$input['comments']);
 //        todo 例外処理
         $article = new Article();
             $article->title = $input['MainTitle'];
             $article->subtitle = $input['SubTitle'];
             $article->photos = implode('+',$photo_name_array);;
-    //        $article->photo_comments = $photo_comments;
+    //        $article->photo_comments = implode('+',$input['comments']);
             $article->user_id = $input['user_id'];
     //        $article->latitude = $latude;
     //        $article->latitude = $latude;
@@ -97,8 +101,9 @@ class Article extends Model{
             $article->return_at = $input['return_at'];
         $article->save();
         return Response::json('ok');
-
     }
+
+
 
     /********************************************************
 
@@ -106,8 +111,6 @@ class Article extends Model{
     第1引数:進行方向(["GPSLatitudeRef"]、["GPSLongitudeRef"])
     第2引数:60進数の配列(["GPSLatitude"]、["GPSLongitude"])
     返り値:10進数に直したデータ
-
-    解説: https://syncer.jp/php-exif-read-data
 
      ********************************************************/
 
@@ -138,7 +141,5 @@ class Article extends Model{
         }
         return $count_num->view;
     }
-
-
 
 }

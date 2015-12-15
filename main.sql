@@ -26,32 +26,31 @@ SET time_zone = "+00:00";
 -- テーブルの構造 `articles`
 --
 
-CREATE TABLE IF NOT EXISTS `articles` (
+CREATE TABLE `articles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `subtitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `photos` varchar(255) NOT NULL,
   `photo_comments` varchar(255) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `view` int(11) NOT NULL,
   `latitude` int(11) DEFAULT NULL,
   `longitude` int(11) DEFAULT NULL,
-  `departure_at` datetime DEFAULT NULL,
-  `return_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `title` (`title`(191),`subtitle`(191)),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
-
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 --
 -- テーブルのデータをダンプしています `articles`
 --
 
-INSERT INTO `articles` (`id`, `title`, `subtitle`, `photos`, `photo_comments`, `user_id`, `latitude`, `longitude`, `departure_at`, `return_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(3, 'nvfnav', 'vfanlnvf', 'eb41a93c27dc0be341021d2ef531fb02.png+791511d96a55b0e6bebc93fb284469e1.gif+85abfd812653eeab1a4763c8012679ed.jpg+35323ada5631b76d22e48360b43b3dbd.png', '', 6, NULL, NULL, '2015-10-21 00:00:00', '2015-10-22 00:00:00', '2015-10-20 15:08:14', '2015-10-20 15:08:14', NULL),
-(4, 'あああああああ', 'えええええええええええええ', '4be1072eed742e4a82efdd355e5c96de.jpg', '', 6, NULL, NULL, '2015-10-27 00:00:00', '2015-10-28 00:00:00', '2015-10-27 04:16:02', '2015-10-27 04:16:02', NULL);
+INSERT INTO `articles` VALUES (3,'nvfnav','vfanlnvf','eb41a93c27dc0be341021d2ef531fb02.png+791511d96a55b0e6bebc93fb284469e1.gif+85abfd812653eeab1a4763c8012679ed.jpg+35323ada5631b76d22e48360b43b3dbd.png','',6,12,NULL,NULL,'2015-10-20 15:08:14','2015-11-27 06:44:00',NULL),(4,'aaaああああ','っっっっっf','4be1072eed742e4a82efdd355e5c96de.jpg','',6,39,NULL,NULL,'2015-10-27 04:16:02','2015-12-07 03:12:59',NULL),(5,'gggg','fdhfjak','fe7b14686a3745a2610c5f90d024c796.jpg+6c05829265fc403e6432c2aeec86d93e.png+f51363e3a14083dabf0a6033c9c87f0e.png','',6,0,NULL,NULL,'2015-11-20 06:08:53','2015-11-20 06:08:53',NULL),(6,'v?~A?v?~A?f','vf?~A| ?~C??~A~Admv','f2ff56d6f434f103ef7ada6904e1fdd9.jpg','',6,0,NULL,NULL,'2015-11-20 09:50:27','2015-11-20 09:50:27',NULL),(7,'hvh','bhv','1fed18f2aed939c16ab48478b24e0912.png+d597da6ee73ad912197cd9741fab39f9.png+2ad6c3401be24a15c52fe1cb1e3616db.jpg+5f7df1be922546ec08436c695d85c793.png','',6,0,NULL,NULL,'2015-11-20 10:14:03','2015-11-20 10:14:03',NULL),(8,'vafva','vfavf','8e9c04d0511f0e0f0acb4073b5e0666c.jpg','',6,0,NULL,NULL,'2015-11-20 12:56:09','2015-11-20 12:56:09',NULL),(9,'vafdv','vaa','a35732a342d71b48c35c9fa929bce5c2.jpg+c0090a8b73523b349c28742d6af9ebd3.png','',6,0,NULL,NULL,'2015-11-21 22:11:10','2015-11-21 22:11:10',NULL),(10,'vafdv','vaa','15668352801470638845d77bd36b51f1.png','',6,0,NULL,NULL,'2015-11-21 22:12:28','2015-11-21 22:12:28',NULL),(11,'hnnrn','nhgnr','54fc29bdff608102f8293bbfe0c7b08f.png+79176d73dd1165f41e654b81e63e5684.png','',6,0,NULL,NULL,'2015-11-22 05:45:15','2015-11-22 05:45:15',NULL),(12,'hnnrn','nhgnr','0b77b9e6e4216785c1f483afd7329261.png+0c1f7f6256b69519f2fe52cc8cabb8f8.png','',6,0,NULL,NULL,'2015-11-22 05:46:18','2015-11-22 05:46:18',NULL);
+/*!40000 ALTER TABLE `articles` ENABLE KEYS */;
+UNLOCK TABLES;
 
 -- --------------------------------------------------------
 

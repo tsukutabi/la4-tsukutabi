@@ -41,12 +41,7 @@ class ArticleController extends BaseController{
 //  新しいもの
     public function index()
     {
-        return View::make('articles.index',[
-            'info'=>$this->article->get_index_data()
-//        'new'=>$data['new'],
-//        'view' =>$data['view'],
-//        'fav'=>$data['fav']
-        ])->with('message', 'これはメッセージです。');
+        return View::make('articles.index',['info'=>$this->article->get_index_data()])->with('message', 'これはメッセージです。');
     }
 
     public function api_index()
@@ -59,12 +54,10 @@ class ArticleController extends BaseController{
     public function view($id)
     {
         $result = $this->article->fetch_view_data($id);
+        Log::debug($result);
         return View::make('articles.view',[
-            'articles'=>$result['articles'],
-            'photos'=>$result['photos'],
-            'comment_data'=>$result['comment_data'],
-            'fav_data'=>$result['fav_data'],
-        ]);
+            'result'=>$this->article->fetch_view_data($id)
+        ])->with('title','つくたび会員登録');
     }
     public function get_save(){
         $tag_info = DB::table('tags')->select(['id','name'])->get();
@@ -91,7 +84,7 @@ class ArticleController extends BaseController{
         $validator = Validator::make($input,$rules);
         if($validator->fails()){
 //             return Redirect::to('save')->withErrors($validator)->withInput();
-             return Response::json(400,'error');
+            return Response::json(400,'error');
         }
             return Response::json($this->article->save_article($input));
     }
@@ -132,20 +125,11 @@ class ArticleController extends BaseController{
 //    迷惑・スパム報告
     public function spam($id = null)
     {
-        Article::post_spam($id);
+//        $this->article->post_spam($id);
         return Response::json(['message'=>'成功',200]);
     }
 
     public function tags_json(){
-
-//        try{
-//            $tags = DB::table('tags')
-//                ->select('name')
-//                ->toJson();
-//        }catch(Exception $e){
-//            Log::info($e);
-//            return "データベースエラー";
-//        }
         return Response::json(Tag::all()->toJson());
     }
 
@@ -162,9 +146,6 @@ class ArticleController extends BaseController{
     }
 
     public function count_view($id){
-        $rules = [
-            'id'=>'required'
-        ];
        return Response::json($this->article->count_views($id));
     }
 }
