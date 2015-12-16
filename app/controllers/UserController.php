@@ -213,7 +213,7 @@ class UserController extends BaseController
             ->withMessage( 'ログインしました。' );
     }
 
-    public function view(int $id)
+    public function view($id)
     {
         // sanitaize todo
         $user_article = $this->user->get_user_content($id);

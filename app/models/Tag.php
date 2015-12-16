@@ -14,6 +14,18 @@ class Tag extends Model{
         return $this->belongsToMany(Article::class);
     }
 
+    public function get_tags(){
+        try{
+            $tag = DB::table('tags')->select(['id','name'])->get();
+        }catch(Exception $e){
+            Log::info($e);
+            return Response::json(['message'=>'データベースエラー'],'500');
+        }
+
+        return $tag;
+
+    }
+
 
 
 }

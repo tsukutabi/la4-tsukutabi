@@ -16,7 +16,7 @@ class Fav extends Model{
     public function users(){
         return $this->belongsTo(User::class);
     }
-    public static function input_fav($input){
+    public function input_fav($input){
         $fav = new Fav();
         $fav->article_id = $input['article_id'];
         $fav->user_id = $input['user_id'];
@@ -33,12 +33,13 @@ class Fav extends Model{
             }
             return true;
         }
-        try{
-            $fav->save();
-        }catch ( Exception $e){
-            Log::info($e);
+            try{
+                $fav->save();
+            }catch ( Exception $e){
+                Log::info($e);
             return false;
-        }
+            }
         return true;
     }
+
 }

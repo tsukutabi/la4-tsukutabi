@@ -15,10 +15,10 @@ class Article extends Model{
     protected $hidden = ['users.email'];
     public $timestamps = true;
 
-    public function __construct (FileUtils $fileUtils)
-    {
-        $this->file_utility = $fileUtils;
-    }
+//    public function __construct (FileUtils $fileUtils)
+//    {
+//        $this->file_utility = $fileUtils;
+//    }
 
     public function comments() {
         return $this->hasMany(Comment::class);
@@ -38,7 +38,7 @@ class Article extends Model{
                     ->get();
     }
 
-    public function fetch_view_data(int $id)
+    public function fetch_view_data($id)
     {
         try{
             $result['articles'] = DB::table('articles')
@@ -57,7 +57,9 @@ class Article extends Model{
             ->select()
             ->where('article_id','=',$id)
             ->get();
-            
+
+            DB::table('users')->count();
+
         }catch (Exception $e){
             Log::info($e);
             return Response::json(['message'=>'データベースエラー'],'500');
@@ -68,7 +70,7 @@ class Article extends Model{
     }
 
 //    記事のアップロード処理
-    public function save_article(array $input){
+    public function save_article($input){
 //        $messages = ['messages'=>'','num'=>''];
         $photo_name_array = [];
         $set_path = public_path('images/'.$input['user_id']);
@@ -130,10 +132,11 @@ class Article extends Model{
     }
 
 
-    public function count_views(int $id){
+    public function count_views($id){
         try{
             $count_num = Article::find($id);
             $count_num->view++;
+            Log::debug($count_num);
             $count_num->save();
         }catch(Exception $e){
             Log::info($e);

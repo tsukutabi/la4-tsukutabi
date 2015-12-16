@@ -26,7 +26,7 @@ class FavController extends BaseController{
             return Response::json(['message'=>'validation'],500);
         }
 
-        $success = Fav::input_fav($input);
+        $success = $this->fav->input_fav($input);
         if ( $success ) {
             return Response::json(200);
         } else {

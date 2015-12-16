@@ -18,9 +18,9 @@ App::before(function($request)
 	{
 		Session::put('user.id',Auth::user()->id);
 		Session::put('user.username', Auth::user()->username);
-		$user_id = Auth::user()->id;
+		Session::put('user.bool','true');
 	}else{
-
+		Session::put('user.bool','false');
 	}
 
 	//ユーザーエージェントの確認

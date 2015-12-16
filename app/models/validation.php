@@ -38,6 +38,11 @@ trait validation{
 //            'photo_comments'=>'',
     ];
 
+    public $favValidateRules =[
+        'article_id' =>'required',
+        'user_id' =>'required'
+    ];
+
     public $requiredMessage = "入力して下さい";
     private $min_message ="3文字以上の入力をお願いします";
 

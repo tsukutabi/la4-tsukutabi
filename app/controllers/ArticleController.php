@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Validator;
 use Model\validate;
 
 class ArticleController extends BaseController{
-    public function __construct(Article $article)
+    public function __construct(Article $article,Tag $tag)
     {
         $this->article = $article;
+        $this->tag = $tag;
 // beforeフィルタをインストールする
         $this->beforeFilter(
             '@existsFilter',
@@ -47,24 +48,22 @@ class ArticleController extends BaseController{
     public function api_index()
     {
         return Response::json(
-            Article::get_index_data()
+
             );
     }
-//    詳細ページを読む todo ムダな変数消す!!
-    public function view(int $id)
+//   todo お気に入りとかでview数でソート数
+    public function view($id)
     {
         $result = $this->article->fetch_view_data($id);
-        Log::debug('aaa');
         return View::make('articles.view',[
-            'result'=>$this->article->fetch_view_data($id)
-        ])->with('title','つくたび会員登録');
+            'result'=>$result
+        ])->with('title',$result['articles']->title);
     }
 
     public function get_save(){
-        $tag_info = DB::table('tags')->select(['id','name'])->get();
         return View::make('articles.save',[
-            'tags'=>$tag_info,
-        ]);
+            'tags'=>$this->tag->get_tags(),
+        ])->with('title','投稿ページ');
     }
 
 //    記事の保存用
