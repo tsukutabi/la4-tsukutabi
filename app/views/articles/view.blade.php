@@ -149,6 +149,37 @@
 
         </div>
 
+        <!-- This is the modal -->
+        <div id="my-id" class="uk-modal">
+            <div class="uk-modal-dialog uk-modal-dialog-large">
+                <a class="uk-modal-close uk-close"></a>
+
+                <p>お気に入り登録する際には会員登録 または ログインして下さい。</p>
+                <div class="uk-grid">
+
+                <div class="uk-width-1-2">
+                <p class="uk-text-large">会員登録 <span>無料</span> </p>
+                {{ Form::open(['url' => 'register','class'=>'uk-form']) }}
+                {{ Form::email('email','', ['class' => 'uk-width-1-1 uk-form-large','placeholder'=>'メールアドレス']) }}
+                {{ Form::text('username','', ['class' => 'uk-width-1-1 uk-form-large','placeholder'=>'ユーザー名']) }}
+                {{ Form::password('password',['class' => 'uk-width-1-1 uk-form-large','placeholder'=>'password']) }}
+                {{ Form::button('送信',['class'=> 'uk-button uk-button-primary uk-width-1-1']) }}
+                {{ Form::close() }}
+                </div>
+                <div class="uk-width-1-2">
+                <p class="uk-text-large">ログイン</p>
+                {{ Form::open(['url' => 'login','class'=>'uk-form']) }}
+                {{ Form::email('email','', ['class' => 'uk-width-1-1 uk-form-large','placeholder'=>'email']) }}
+                {{ Form::password('password',['class' => 'uk-width-1-1 uk-form-large','placeholder'=>'password']) }}
+                {{ Form::label('label','ログイン用にデータを記憶する') }}
+                {{ Form::checkbox('remember',1,['class'=>'メールアドレスとパスワードを記憶する。'])}}
+                {{ Form::button('送信',['class'=>'uk-button uk-button-primary uk-width-1-1']) }}
+                {{ Form::close() }}
+                </div>
+
+                </div>
+            </div>
+        </div>
         <script>
             jQuery(function($){
 //                'use strict';
@@ -224,6 +255,11 @@
 //                      ログインしていたら
 
                       $login = {{{ Session::get('user.bool') }}}
+                      if(!$login){
+                          var modal = UIkit.modal("#my-id");
+                          modal.show();
+                          return
+                      }
 
                       var fd = new FormData();
 
@@ -231,8 +267,6 @@
                       fd.append("user_id", {{{ Session::get('user.id') or 'null' }}});
                       fd.append("_token",$('meta[name="csrf-token"]').attr('content'));
                       console.log(fd);
-
-
 
                       if( $login ){
                           $.ajax({
@@ -257,10 +291,6 @@
                               }
 
                           });
-//                          していなかったら
-                      }else {
-                          UIkit.modal.alert("Attention!");
-
                       }
 
                   });
