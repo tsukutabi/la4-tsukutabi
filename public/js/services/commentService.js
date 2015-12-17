@@ -1,9 +1,15 @@
-// public/js/services/commentService.js
+
 
 angular.module('commentService', [])
 
     .factory('Comment', function($http) {
+
         return {
+            // すべてのコメントを取得する
+            get : function() {
+                return $http.get('/comment/');
+            },
+
             // コメントを保存する。
             save : function(commentData) {
                 return $http({
@@ -14,10 +20,13 @@ angular.module('commentService', [])
                 });
             },
 
-            //todo コメントを編集する
-            //edit : function(comment_edit_data){
-            //    return $http.edit()
-            //}
+            edit : function (commentData) {
+                return $http({
+                    method: 'POST',
+                    url: 'edit/comment',
+                    data: $.param(commentData)
+                });
+            },
 
             // コメントを削除する
             destroy : function(id) {
