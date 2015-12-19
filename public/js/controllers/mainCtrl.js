@@ -23,6 +23,10 @@ angular.module('mainCtrl', [])
             // コメントを保存する。
             Comment.save($scope.commentData)
                 .success(function(data) {
+                    console.log('aaa');
+                    console.log($scope);
+                    console.log(Comment);
+
                     // 成功した場合、コメントリストをリフレッシュする
                     Comment.get()
                         .success(function(getData) {
@@ -49,6 +53,7 @@ angular.module('mainCtrl', [])
                             $scope.comments = getData;
                             $scope.loading = false;
                         });
+
                 });
         };
 

@@ -12,13 +12,14 @@ class CommentController extends BaseController {
 
      public function post(){
          $rules = [
-             'comments'=>'required',
+             'comment'=>'required',
              'user_id'=>'required',
              'article_id'=>'required',
          ];
          $input = Input::only(array_keys($rules));
          $validator = Validator::make($input,$rules);
          if($validator->fails()){
+             Log::info('validation error');
              return Redirect::route('error')->withErrors($validator)->withInput();
 //             return Redirect::route('todos.index')->withErrors($validator)->withInput();
          }

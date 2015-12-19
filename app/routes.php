@@ -12,7 +12,7 @@
 */
 
 Route::get( '/', [ 'as' => 'home', 'uses' => 'ArticleController@index' ] );
-Route::when('*','csrf',['post','put']);
+//Route::when('*','csrf',['post','put']);
 
 Route::any(
 		"/test"
@@ -37,12 +37,13 @@ Route::get('tags','ArticleController@tags_json');
 
 Route::put('edit/{id}','ArticleController@edit');
 Route::get('edit/{id}','ArticleController@get_edit');
-
+//コメント系
+Route::get('comment/{id}','CommentController@get');
 Route::post('comment','CommentController@post');
-Route::put('edit_comment/{id}','CommentController@edit');
+Route::post('edit_comment/{id}','CommentController@edit');
 Route::post('delete_comment/{id}','CommentController@delete');
 Route::post('spam_comment/{id}','CommentController@spam');
-
+//ここまで
 Route::post('fav','FavController@post');
 
 Route::get('error',['as'=>'error'],function(){

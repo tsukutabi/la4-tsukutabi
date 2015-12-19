@@ -8,7 +8,9 @@
 	  	"laravel-plus/extension": "1.*",
 	    "barryvdh/laravel-debugbar": "1.*",
 	    "swiftmailer/swiftmailer": "@stable",
+        "bogardo/mailgun": "3.1.*",
 	    "aws/aws-sdk-php-laravel": "1.*",
+		"predictionio/predictionio": "~0.8.2",
 		"artdarek/oauth-4-laravel": "dev-master"
 	},
 	"autoload": {

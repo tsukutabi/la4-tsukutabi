@@ -344,7 +344,7 @@
                 var fd = new FormData();
 
                 fd.append("face_photo",files['0']);
-                fd.append("user_id", {{{  Session::get('user.id') or 'null' }}});
+                fd.append("user_id", {{ Session::get('user.id') or 'null' }});
                 fd.append("_token",$('meta[name="csrf-token"]').attr('content'));
                 console.log(fd);
 

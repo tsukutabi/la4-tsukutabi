@@ -33,7 +33,7 @@ class Article extends Model{
 //todo 例外処理
     public function get_index_data(){
         return DB::table('articles')
-                    ->select('users.username','articles.user_id','articles.title','articles.id','photos','subtitle')
+                    ->select('users.username','users.facephoto','articles.user_id','articles.title','articles.id','photos','subtitle')
                     ->leftJoin('users', 'users.id', '=', 'articles.user_id')
                     ->get();
     }
@@ -48,7 +48,7 @@ class Article extends Model{
             ->first();
 
             $result['comment_data'] = DB::table('comments')
-            ->select('users.username','users.id','comments.user_id','comments.id','comments.comment','comments.created_at')
+            ->select('users.username','users.id','users.facephoto','comments.user_id','comments.id','comments.comment','comments.created_at')
             ->where('comments.article_id','=',$id)
             ->leftJoin('users','users.id', '=', 'comments.user_id')
             ->get();
@@ -57,6 +57,10 @@ class Article extends Model{
             ->select()
             ->where('article_id','=',$id)
             ->get();
+
+            $result['fav_num'] = DB::table('favs')
+            ->where('article_id','=',$id)
+            ->count();
 
             DB::table('users')->count();
 

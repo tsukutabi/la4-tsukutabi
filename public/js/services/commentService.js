@@ -1,5 +1,3 @@
-
-
 angular.module('commentService', [])
 
     .factory('Comment', function($http) {
@@ -7,14 +5,14 @@ angular.module('commentService', [])
         return {
             // すべてのコメントを取得する
             get : function() {
-                return $http.get('/comment/');
+                return $http.get('/test');
             },
 
             // コメントを保存する。
             save : function(commentData) {
                 return $http({
                     method: 'POST',
-                    url: '/comment',
+                    url: '/test',
                     //headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                     data: $.param(commentData)
                 });

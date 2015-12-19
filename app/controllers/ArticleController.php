@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Validator;
 use Model\validate;
 
 class ArticleController extends BaseController{
-    public function __construct(Article $article,Tag $tag)
+    public function __construct(Article $article,Tag $tag,Fav $fav)
     {
         $this->article = $article;
         $this->tag = $tag;
+        $this->fav = $fav;
 // beforeフィルタをインストールする
         $this->beforeFilter(
             '@existsFilter',
@@ -55,8 +56,10 @@ class ArticleController extends BaseController{
     public function view($id)
     {
         $result = $this->article->fetch_view_data($id);
+        $has_fav = $this->fav->bool_user_fav($result['fav_data']);
         return View::make('articles.view',[
-            'result'=>$result
+            'result'=>$result,
+            'has_fav'=>$has_fav
         ])->with('title',$result['articles']->title);
     }
 

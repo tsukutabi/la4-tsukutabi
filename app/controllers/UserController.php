@@ -250,13 +250,14 @@ class UserController extends BaseController
     }
 
     public function change_face_photo(){
-        Log::debug(Input::all());
         $rules = [
             'user_id' => [ 'required','numeric' ],
             'face_photo' => [ 'required','image' ],
         ];
         $inputs = Input::only(array_keys($rules));
-        if(Auth::user()->id !== $inputs['user_id'] ){
+        Log::debug($inputs);
+        if(Auth::user()->id != $inputs['user_id'] ){
+            Log::debug('invalid user id');
             return Response::json(400);
         }
         $val = Validator::make( $inputs, $rules );

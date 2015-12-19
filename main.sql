@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `article_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `deleted_at` datetime NOT NULL,
+  `deleted_at` datetime NULL,
   PRIMARY KEY (`id`),
   KEY `article_id` (`article_id`),
   KEY `user_id` (`user_id`)

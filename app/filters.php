@@ -16,11 +16,13 @@ App::before(function($request)
 //   ログインさせる。
 	if (Auth::check())
 	{
+//        Log::debug(Auth::user()->id);
 		Session::put('user.id',Auth::user()->id);
 		Session::put('user.username', Auth::user()->username);
 		Session::put('user.bool','true');
 	}else{
 		Session::put('user.bool','false');
+
 	}
 
 	//ユーザーエージェントの確認

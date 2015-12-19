@@ -1,3 +1,14 @@
+body{
+    background-color:#ebf6fd ;
+}
+
+
+html{
+    background-color:#ebf6fd ;
+    font-family:”Arial”,”Helvetica Neue”,”ヒラギノ角ゴ Pro W3”,”メイリオ”,sans-serif;
+}
+
+
 footer{
     display: none;
 }
@@ -25,23 +36,23 @@ footer{
     /*float: right;*/
 /*}*/
 
-html{
-    background-color: #EEEEEE;
-}
+/*html{*/
+    /*background-color: #EEEEEE;*/
+/*}*/
 .view_header{
     overflow: hidden;
     height: 40px;
     left: 0;
     right: 0;
     text-align: center;
-
+    background-color: #61bbe6;
 }
 .view_header *{
     float: left;
     margin: 0 auto;
 }
 
-body { background: #EEEEEE; }
+/*body { background: #EEEEEE; }*/
 .container { margin: 0 auto; }
 
 /* Example wrapper */
@@ -61,18 +72,22 @@ body { background: #EEEEEE; }
     margin: 0;
     padding: 0;
     height: 100%;
-    font-size: 50px;
+    /*font-size: 50px;*/
 }
 .frame ul .panel {
     float: left;
     width: 450px;
     height: 100%;
     margin: 0 1px 0 0;
-    padding: 0;
+    padding: 1px;
     background: #333;
-    color: #ddd;
+    color: black;
     text-align: center;
     cursor: pointer;
+    border: 1px solid #61bbe6;
+    background-color: white;
+    border-radius: 4px;
+    margin-right: 3px;
 }
 
 .frame ul .panel img{
@@ -81,21 +96,20 @@ body { background: #EEEEEE; }
 }
 
 .frame ul .panel.active {
-    color: #fff;
-    background: #a03232;
+    background: #EEEEEE;
 }
 
 /* Scrollbar */
 .scrollbar {
     margin: 0 0 1em 0;
     height: 2px;
-    background: #ccc;
+    background: #eee;
     line-height: 0;
 }
 .scrollbar .handle {
     width: 100px;
     height: 100%;
-    background: #292a33;
+    background: #f7f4ab;
     cursor: pointer;
 }
 .scrollbar .handle .mousearea {
@@ -105,6 +119,10 @@ body { background: #EEEEEE; }
     width: 100%;
     height: 20px;
 }
+
+/*.yellow{*/
+    /*background-color: #f7f4ab;*/
+/*}*/
 
 /* Pages */
 .pages {
@@ -152,16 +170,24 @@ li .comment_data{
 }
 
 .comment_title{
-    color: white;
+    color: black;
 }
 
 
 .flt_left{
     float: left;
 }
+.flt_right{
+    float: right;
+}
 
 .hidden{
     overflow: hidden;
+}
+
+.scroll{
+    overflow : auto;
+    height: 300px;
 }
 
 .post_comment{
@@ -169,6 +195,7 @@ li .comment_data{
     width: 70%;
     text-align: center;
     height: 25px;
+    color: black;
 
 }
 

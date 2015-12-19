@@ -1,16 +1,16 @@
 <?php
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeles;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 
- class Comment extends Model{
+class Comment extends Model{
+    use SoftDeletingTrait;
 
      protected $table = 'comments';
      protected $guarded = ['id'];
+     protected $fillable = ['user_id','comments','article_id'];
      public $timestamps = true;
-
-     protected $fillable = ['user_id','comments','article_id','departure_at','return_at'];
      public function articles() {
          return $this->belongsTo(Article::class);
      }
@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeles;
          Log::info($input);
          $comment = new Comment();
          $comment->user_id = $input['user_id'];
-         $comment->comment = $input['comments'];
+         $comment->comment = $input['comment'];
          $comment->article_id = $input['article_id'];
          Log::info($comment);
          try{
