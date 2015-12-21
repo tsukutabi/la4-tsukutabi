@@ -105,31 +105,31 @@ Route::get('api/ping',function(){
 
 //記事系api
 Route::get('api/index','ArticleController@api_index');
-Route::get('api/view/{id}','ArticleController@api_index');
+Route::get('api/view/{id}','ArticleController@api_view');
 Route::post('api/post','ArticleController@api_save');
 Route::put('api/put{id}','ArticleController@api_edit');
 Route::delete('api/delete{id}','ArticlesController@api_delete');
 
 //ユーザー編集系
 
-
+//
 // //api用のルーティング
-// $apiPrefix = '/api';
-// Route::get($apiPrefix . '/ping', function () {
+//$apiPrefix = '/api';
+//Route::get('/ping', function () {
 // 	return Response::json('pong');
-// });
+//});
 // // Route::filter('api_auth', '');
 // //記事表示用
-// Route::group(function () use ($apiPrefix) {
+//Route::group(function () use ($apiPrefix) {
 //     $controller = 'ArticlesController';
 // //    記事表示用
-//     Route::post($apiPrefix.'/post',$controller.'@post_save');
+//	Route::post($apiPrefix.'/post',$controller.'@post_save');
 // 	Route::get($apiPrefix . '/index',$controller .'@index');
-//     Route::get($apiPrefix.'/view/{id}',$controller .'@view');
+//	Route::get($apiPrefix.'/view/{id}',$controller .'@view');
 // 	Route::put($apiPrefix . '/edit/{id}', $controller . '@update');
 // 	Route::delete($apiPrefix . '/delete/{id}', $controller . '@delete');
 // //    ユーザー系
-//     Route::post($apiPrefix.'/post',$controller .'@post_save');
-//     Route::post($apiPrefix.'/post',$controller .'@post_save');
+//	Route::post($apiPrefix.'/post',$controller .'@post_save');
+//	Route::post($apiPrefix.'/post',$controller .'@post_save');
 // });
-// //ユーザー表示用
+ //ユーザー表示用

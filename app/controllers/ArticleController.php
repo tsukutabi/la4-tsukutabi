@@ -48,19 +48,28 @@ class ArticleController extends BaseController{
 
     public function api_index()
     {
-        return Response::json(
-
-            );
+        return Response::json($this->article->get_index_data());
     }
-//   todo お気に入りとかでview数でソート数
+
     public function view($id)
     {
         $result = $this->article->fetch_view_data($id);
         $has_fav = $this->fav->bool_user_fav($result['fav_data']);
+        Log::debug($has_fav);
         return View::make('articles.view',[
             'result'=>$result,
             'has_fav'=>$has_fav
         ])->with('title',$result['articles']->title);
+    }
+
+    public function api_view($id){
+        $result = $this->article->fetch_view_data($id);
+//        $has_fav = $this->fav->bool_user_fav($result['fav_data']);
+
+        return Response::json(
+            $result
+        );
+
     }
 
     public function get_save(){
@@ -116,7 +125,7 @@ class ArticleController extends BaseController{
         Article::delete_article();
         return View::make('users.view');
     }
-
+//todo validation
     public function find()
     {
         $search_word = $_GET['word'];
@@ -136,17 +145,6 @@ class ArticleController extends BaseController{
         return Response::json(Tag::all()->toJson());
     }
 
-    public function api_view($id = null)
-    {
-        $result = Article::fetch_view_data($id);
-        Log::info($result);
-        return Response::json('articles.view',[
-            'articles'=>$result['articles'],
-            'photos'=>$result['photos'],
-            'comment_data'=>$result['comment_data'],
-            'fav_data'=>$result['fav_data']
-        ]);
-    }
 
     public function count_view($id){
        return Response::json($this->article->count_views($id));

@@ -41,22 +41,19 @@ class Fav extends Model{
             }
         return true;
     }
-
+//todo 数が大きくなったらdbにwhere句で投げるとうなアルゴリズムの方がいいかも
     public function bool_user_fav($fav_ary){
-        if(!Auth::check()){
-            return false;
-        }
-            Log::debug(Auth::user()->id);
-            Log::debug($fav_ary);
-        $fav_i  = count($fav_ary);
-            Log::debug($fav_i);
+            if(!Auth::check()){
+                return "false";
+            }
+            $user_id = Auth::user()->id;
+            $fav_i  = count($fav_ary);
         for ($i=0; $i < $fav_i; $i++) {
-            if( Auth::user()->id() == $fav_ary[$i]){
-                Log::debug('true');
-                return true;
+            if( $user_id == $fav_ary[$i]->user_id ){
+                return "true";
             }
         }
-
+        return "false";
     }
 
 }

@@ -19,7 +19,7 @@
         <h2>{{{$result['articles']->subtitle}}}</h2>
         @include ('elements.search')
         @if(!Auth::check())
-        <div class="ui buttons">
+        <div class="ui buttons" id="modal_lgon">
             <button class="ui button">会員登録</button>
             <div class="or"></div>
             <button class="ui positive button">ログイン</button>
@@ -254,7 +254,10 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                 }());
 
                 $(function(){
-
+                    $('#modal_lgon').click(function(){
+                        var modal = UIkit.modal("#auth_login_register");
+                        modal.show();
+                    })
                 });
 
                 $(function(){
@@ -267,12 +270,7 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                         }
                     var fd = new FormData();
                     fd.append("article_id",{{ $result['articles']->id }});
-                    fd.append("user_id",
-                            <?php if(Auth::check()){
-                                echo Auth::user()->id;
-                            }else{
-                                echo "null";
-                            }?>);
+                    fd.append("user_id",<?php if(Auth::check()){echo Auth::user()->id;}else{echo "null";}?>);
                     fd.append("_token",$('meta[name="csrf-token"]').attr('content'));
                     fd.append("comment",$('#comment_content').val());
                     console.log(fd);
@@ -305,10 +303,9 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                       }
                       var fd = new FormData();
                       fd.append("article_id",{{ $result['articles']->id }});
-                      fd.append("user_id", <?php if(Auth::check()){echo Auth::user()->id;}?>);
+                      fd.append("user_id", <?php if(Auth::check()){echo Auth::user()->id;}else{echo 'aa';}?>);
                       fd.append("_token",$('meta[name="csrf-token"]').attr('content'));
                       console.log(fd);
-                      if( $login ){
                           $.ajax({
                               url:"/fav",
                               type:'POST',
@@ -318,16 +315,18 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                               contentType: false,
                               success: function(data){
                                   var fav_num = {{{ $result['fav_num']  }}};
-                                  {{--var bool = {{ $ }}--}}
-                                  if(bool ){
-                                     fav_num = fav_num++;
+                                  var fav_on_off = {{ $has_fav }}
+                                  if(fav_on_off){
+                                     fav_num = fav_num+1;
                                      console.log(fav_num);
+                                     fav_on_off = false;
                                   }else {
-                                     fav_num = fav_num--;
                                      console.log(fav_num);
+                                     fav_num = fav_num-1;
+                                     console.log(fav_num);
+                                     fav_on_off = true;
                                   }
                                   console.log(data);
-
                                   $('#before_fav').css("display","none");
                                   $('#before_fav').after(fav_num);
                               },
@@ -336,7 +335,7 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                               }
 
                           });
-                      }
+
 
                   });
 
