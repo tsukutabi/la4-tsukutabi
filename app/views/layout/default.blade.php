@@ -33,7 +33,7 @@
         {{-- 解説: セクションをこの場所に展開させたい場合、@showを指定します。--}}
     </style>
 </head>
-<body  ng-app>
+<body  ng-app id="main_body">
 {{-- 解説: ここに各ページの内容が展開されます。--}}
 @yield ('content')
 
@@ -49,6 +49,5 @@
     @show
     {{-- 解説: セクションをこの場所に展開させたい場合、@showを指定します。--}}
 </script>
-
 </body>
 </html>

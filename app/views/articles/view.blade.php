@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ asset('css/view.css') }}">
     <script src="{{ asset('packages/bower_components/sly/dist/sly.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/jquery-easing/jquery.easing.js') }}" defer="defer"></script>
-    {{--<script src="{{ asset('packages/bower_components/angular.js/angular.min.js') }}" defer="defer"></script>--}}
+    <script src="{{ asset('packages/bower_components/angular.js/angular.min.js') }}" defer="defer"></script>
     {{--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>--}}
     {{--<script src="{{ asset('js/controllers/mainCtrl.js') }}" defer="defer"></script>--}}
     {{--<script src="{{ asset('js/services/commentService.js') }}" defer="defer"></script>--}}
@@ -50,7 +50,7 @@
                             <img src="/images/{{$result['articles']->user_id}}/{{ $photo }}">
                         </li>
                     @endforeach
-                    <li class="panel">
+                    <li class="panel" id="last_panel">
                         <h2 class="comment_title">コメント</h2>
                         <div class="scroll">
                         @foreach($result['comment_data'] as $comments)
@@ -63,12 +63,14 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                                     </a>
                                 </p>
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                            <button class="ui secondary button flt_left">
-                                編集
+                            <button class="ui secondary icon button flt_left" href="">
+                                <i class="edit icon"></i>
                             </button>
-                            <button class="ui button flt_left">
-                                削除
+                                <a href="/comment/{{ $comments->id }}">
+                            <button class="ui icon button flt_left">
+                                <i class="trash icon"></i>
                             </button>
+                                </a>
                             </div>
                         @endforeach
                             {{--<p class="text-center" ng-show="loading"><span class="fa fa-meh-o fa-5x fa-spin"></span></p>--}}
@@ -85,10 +87,26 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                             <div >
                                 <form id="comment_form">
                                     <input type="text" class="post_comment" name="name" id="comment_content">
-                                    <input type="hidden" value="6">
+                                    <input type="hidden" value="@if(Auth::check()){{{ Auth::user()->id }}}@endif">
+                                    <span style="color: red;" id="send-comment-error"></span>
                                     <input type="submit" class="uk-button post_comment_button" id="comment_submit">
                                 </form>
                             </div>
+                    </li>
+
+                    <li id="recommend_area" class="panel">
+                        <a href="">
+                            <div class="rec_div">
+                                <p class="rec_title">ここに次のタイトル</p>
+                                <img src="" alt="" class="rec_img">
+                            </div>
+                        </a>
+                        <a href="">
+                            <div class="rec_div">
+                                <p class="rec_title">ここにもだお</p>
+                                <img src="" alt="" class="rec_img">
+                            </div>
+                        </a>
                     </li>
 
                 </ul>
@@ -127,17 +145,15 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
             </a>
             @if(!Auth::check())
             <small><a href="">内容についてのお問い合わせ</a></small>
-            {{--@elseif()--}}
-            <div class="ui buttons">
-                <button class="ui positive small button">編集</button>
-                <div class="or"></div>
-                <button class="ui button small">削除</button>
-            </div>
+            @elseif(Auth::user()->id === $result['articles']->user_id)
+            <a class="ui icon button" href="/edit/{{{  $result['articles']->id }}}">
+                    <i class="edit icon"></i>
+            </a>
             @endif
             <p>tsukutabi.,inc</p>
 
-            <div class="ui labeled medium button" tabindex="0">
-                <div class="ui yellow button" id="fav_botton">
+            <div class="ui labeled medium button" tabindex="0"  id="fav_true">
+                <div class="ui yellow button" id="fav_botton" data-condition={{ $has_fav }}>
                     <i class="empty star icon"></i>
                     fav
                 </div>
@@ -250,7 +266,6 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                         $frame.sly('toEnd', item);
                     });
 
-
                 }());
 
                 $(function(){
@@ -270,30 +285,46 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                         }
                     var fd = new FormData();
                     fd.append("article_id",{{ $result['articles']->id }});
+//                    todo blade
                     fd.append("user_id",<?php if(Auth::check()){echo Auth::user()->id;}else{echo "null";}?>);
                     fd.append("_token",$('meta[name="csrf-token"]').attr('content'));
                     fd.append("comment",$('#comment_content').val());
                     console.log(fd);
+                    event.preventDefault();
 //              todo  validation
-                $.ajax({
-                    url:'/comment/',
-                    type:'POST',
-                    datatype:'json',
-                    data:fd,
-                    processData:false,
-                    contentType: false,
-                    success:function(data){
-                        console.log('posted');
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown){
-                        alert(errorThrown);
-                    }
-
-                })
+//                    if (!$('input[name=comment]').val()) {
+//                        $('#send-comment-error').text('コメントを入力して下さい。');
+//                        return;
+//                    }
+                        $.ajax({
+                            url:'/comment/',
+                            type:'POST',
+                            datatype:'json',
+                            data:fd,
+                            processData:false,
+                            contentType: false,
+                            success:function(data){
+                                console.log('posted');
+                                $('').after();
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown){
+                                alert(errorThrown);
+                            }
+                        })
                     });
                 });
 
-               $(function(){
+
+
+            $(function(){
+                var button = $('#fav_botton');
+                if(button.data('condition') == true){
+                    button.css('backgroundColor','#D9E778');
+                }
+            });
+
+
+            $(function(){
                   $('#fav_botton').click(function(){
                       $login = {{{ Session::get('user.bool') }}}
                       if(!$login){
@@ -301,9 +332,10 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                           modal.show();
                           return
                       }
+
                       var fd = new FormData();
                       fd.append("article_id",{{ $result['articles']->id }});
-                      fd.append("user_id", <?php if(Auth::check()){echo Auth::user()->id;}else{echo 'aa';}?>);
+                      fd.append("user_id", @if(Auth::check()){{ Auth::user()->id}}@else{{"none"}}@endif);
                       fd.append("_token",$('meta[name="csrf-token"]').attr('content'));
                       console.log(fd);
                           $.ajax({
@@ -314,31 +346,32 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                               processData:false,
                               contentType: false,
                               success: function(data){
-                                  var fav_num = {{{ $result['fav_num']  }}};
-                                  var fav_on_off = {{ $has_fav }}
-                                  if(fav_on_off){
-                                     fav_num = fav_num+1;
-                                     console.log(fav_num);
-                                     fav_on_off = false;
-                                  }else {
-                                     console.log(fav_num);
-                                     fav_num = fav_num-1;
-                                     console.log(fav_num);
-                                     fav_on_off = true;
+                                  var button = $('#fav_botton');
+                                  var fav_num = {{{ $result['fav_num'] }}};
+                                  if($('#fav_botton').data('condition') == false){
+                                      console.log('false');
+                                      fav_num ++;
+                                      console.log(fav_num);
+                                      $('#before_fav').text(fav_num);
+                                      button.css('backgroundColor','#FF0');
+                                      button.data('condition',true);
+                                      return
+                                  }else if($('#fav_botton').data('condition') == true){
+                                      console.log('true');
+                                      console.log(fav_num);
+//                                      fav_num --;
+                                      console.log(fav_num);
+                                      $('#before_fav').text(fav_num);
+                                      button.css('backgroundColor', '#FBBD08');
+                                      //お気に入りボタン状態の更新
+                                      button.data('condition',false);
                                   }
-                                  console.log(data);
-                                  $('#before_fav').css("display","none");
-                                  $('#before_fav').after(fav_num);
                               },
                               error: function(XMLHttpRequest, textStatus, errorThrown){
                                   console.log(XMLHttpRequest);
                               }
-
                           });
-
-
                   });
-
                });
 //viewのカウント
                 $(function (){
@@ -350,8 +383,8 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                         processData:false,
                         contentType: false,
                         success: function(data){
-                            $('#view_count').after(data);
-                            $('#before_view').css("display","none");
+
+                            $('#view_count').text(data);
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown){
                             console.log(XMLHttpRequest);
@@ -359,6 +392,14 @@ src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP
                     })
                 });
 //                ajaxここまで
+            });
+
+
+
+
+//            レコメンドエンジン用 UI
+            $(function(){
+                
             });
         </script>
 @stop

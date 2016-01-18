@@ -95,7 +95,6 @@
                         </thead>
                         <tbody>
                         <tr>
-                            {{var_dump($articles)}}
                             @foreach($articles as $article)
                             <tr>
                                 <td>{{{ $article->title }}}</td>
@@ -103,16 +102,12 @@
                                 <td>{{{ $article->created_at }}}</td>
                                 <td></td>
                                 <td></td>
-                                <td><a href="/view/{{{ $article->id }}}" target="_blank" class="uk-button uk-button-primary">続きを読む</a></td>
+                                <td><a href="/view/{{{ $article->id }}}" target="_blank" class="uk-button uk-button-primary">read more</a></td>
                             </tr>
                             @endforeach
                         </tr>
                         </tbody>
                     </table>
-                    <p>
-                        <a class="uk-button uk-button-primary" href="layouts_post.html">Continue Reading</a>
-                        <a class="uk-button" href="layouts_post.html">4 Comments</a>
-                    </p>
                 </article>
 
                 <article class="uk-article">
@@ -141,7 +136,6 @@
                         </thead>
                         <tbody>
                         <tr>
-                        {{var_dump($articles)}}
                         @foreach($articles as $article)
                             <tr>
                                 <td>{{{ $article->title }}}</td>
@@ -155,11 +149,6 @@
                             </tr>
                         </tbody>
                     </table>
-
-                    <p>
-                        <a class="uk-button uk-button-primary" href="layouts_post.html">Continue Reading</a>
-                        <a class="uk-button" href="layouts_post.html">4 Comments</a>
-                    </p>
 
                 </article>
 

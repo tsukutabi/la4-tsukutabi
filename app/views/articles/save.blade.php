@@ -57,7 +57,7 @@
                         tagLimit:5,
                         placeholderText:"5つタグをつけて下さい",
                         fieldName:"tags[]",
-                        availableTags: ["c++", "java", "php", "javascript", "ruby", "python", "c"]
+                        availableTags: [ {{{ "東京とかとか" }}} ]
                     });
                 },
                 error: function(data){
@@ -69,7 +69,6 @@
 
 
             $("#input-id").fileinput({
-
                 uploadUrl: "/save",
                 allowedFileExtensions : ['jpg','png','gif','jpeg'],
                 language: "ja",

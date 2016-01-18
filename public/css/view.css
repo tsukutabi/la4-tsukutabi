@@ -204,3 +204,15 @@ li .comment_data{
     width: 30%;
     height: 25%;
 }
+
+.rec_div{
+    height: 50%;
+}
+
+.rec_title{
+    font-size: 15px;
+}
+
+.rec_img {
+    width: 100%;
+}
