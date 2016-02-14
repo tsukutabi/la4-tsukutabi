@@ -11,6 +11,8 @@
         "bogardo/mailgun": "3.1.*",
 	    "aws/aws-sdk-php-laravel": "1.*",
 		"predictionio/predictionio": "~0.8.2",
+		"patchwork/utf8": "1.1.*",
+		"lsolesen/pel": "*",
 		"artdarek/oauth-4-laravel": "dev-master"
 	},
 	"autoload": {
@@ -40,5 +42,23 @@
 	"config": {
 		"preferred-install": "dist"
 	},
+
+	"repositories": [
+     {
+      "type":"package",
+        "package": {
+          "name": "lsolesen/pel",
+          "version":"master",
+          "source": {       
+            "url": "https://github.com/lsolesen/pel",
+            "type": "git",
+            "reference":"formatter_junit_1"
+          }
+        }
+      }
+    ],
+   
+
 	"minimum-stability": "stable"
+
 }

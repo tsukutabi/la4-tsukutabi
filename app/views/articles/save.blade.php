@@ -30,11 +30,7 @@
             @for ($budget_i = 2; $budget_i < 20; $budget_i++)
                 <option value="{{$budget_i}}">¥{{$budget_i-1}}0001~¥{{$budget_i}}0000</option>
             @endfor
-
-            1~10000
-            100001~20000
         </select>
-
         <ul id="tag-it"></ul>
         <input id="input-id" name="photos[]" class="file" type="file" multiple data-preview-file-type="image" data-preview-file-icon="" >
     </div>
@@ -57,7 +53,7 @@
                         tagLimit:5,
                         placeholderText:"5つタグをつけて下さい",
                         fieldName:"tags[]",
-                        availableTags: [ {{{ "東京とかとか" }}} ]
+                        availableTags: [ "{{{ "東京とかとか" }}}" ]
                     });
                 },
                 error: function(data){
@@ -66,7 +62,7 @@
                 }
             });
 
-
+//            写真のテンプレートが表示された時
 
             $("#input-id").fileinput({
                 uploadUrl: "/save",

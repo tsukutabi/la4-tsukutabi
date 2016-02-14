@@ -65,7 +65,6 @@ class ArticleController extends BaseController{
     public function api_view($id){
         $result = $this->article->fetch_view_data($id);
 //        $has_fav = $this->fav->bool_user_fav($result['fav_data']);
-
         return Response::json(
             $result
         );

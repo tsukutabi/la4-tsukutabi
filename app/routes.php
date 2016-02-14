@@ -24,9 +24,14 @@ Route::any(
 
 //ユーザー認証
 
-Route::get('save','ArticleController@get_save');
-Route::post('save','ArticleController@post_save');
-//View::make('users.login')->with('title','ログイン画面');
+Route::group(['before' => 'auth'], function() {
+	Route::get('save','ArticleController@get_save');
+	Route::post('save','ArticleController@post_save');
+	Route::put('edit/{id}','ArticleController@edit');
+	Route::get('edit/{id}','ArticleController@get_edit');
+});
+
+
 
 Route::get('find','ArticleController@find');
 Route::get('view/{id}','ArticleController@view');
@@ -35,8 +40,6 @@ Route::get('count/{id}','ArticleController@count_view');
 
 Route::get('tags','ArticleController@tags_json');
 
-Route::put('edit/{id}','ArticleController@edit');
-Route::get('edit/{id}','ArticleController@get_edit');
 //コメント系
 Route::get('comment/{id}','CommentController@get');
 Route::post('comment','CommentController@post');
@@ -106,7 +109,6 @@ Route::get('api/ping',function(){
 //記事系api
 Route::get('api/index','ArticleController@api_index');
 Route::get('api/view/{id}','ArticleController@api_view');
-Route::post('api/post','ArticleController@api_save');
 Route::put('api/put{id}','ArticleController@api_edit');
 Route::delete('api/delete{id}','ArticlesController@api_delete');
 

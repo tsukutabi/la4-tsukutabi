@@ -11,8 +11,8 @@ class Article extends Model{
      * @var string
      */
     protected $guarded = ['id'];
-    protected $fillable = ['title','subtitle','photos','user_id'/*,'photo_comments','latitude','longitude'*/,'days','night'];
-    protected $hidden = ['users.email'];
+    protected $fillable = ['title','subtitle','photos','main_photo','user_id'/*,'photo_comments','latitude','longitude'*/,'days','night'];
+    protected $hidden = ['users.email','users.password'];
     public $timestamps = true;
 
 //    public function __construct (FileUtils $fileUtils)
@@ -33,7 +33,7 @@ class Article extends Model{
 //todo 例外処理
     public function get_index_data(){
         return DB::table('articles')
-                    ->select('users.username','users.facephoto','articles.user_id','articles.title','articles.id','photos','subtitle')
+                    ->select('users.username','users.facephoto','articles.user_id','articles.title','articles.id','photos','main_photo','subtitle')
                     ->leftJoin('users', 'users.id', '=', 'articles.user_id')
                     ->get();
     }
@@ -84,28 +84,40 @@ class Article extends Model{
         }
  //        関数化
         foreach ($input['photos'] as $photo_data ){
-            $photo_exif_ary[] = exif_read_data( $photo_data );
+            // 
+            try {
+                $photo_exif_ary[] = exif_read_data( $photo_data );    
+            } catch (Exception $e) {
+                
+            }
+            
             $mime = $photo_data->getClientOriginalExtension();
             $name = md5(sha1(uniqid(mt_rand(0,40000), true))).'.'.$mime;
             if($photo_data->move($set_path, $name)){
                 array_push($photo_name_array,$name);
             }
+            // exifの判定
 //            exifの削除
         }
 //        ここまで
         Log::info($photo_exif_ary);
-//        todo 例外処理
         $article = new Article();
             $article->title = $input['MainTitle'];
             $article->subtitle = $input['SubTitle'];
-            $article->photos = implode('+',$photo_name_array);;
+            $article->photos = implode('+',$photo_name_array);
+            $article->main_photo = $photo_name_array[0];
     //        $article->photo_comments = implode('+',$input['comments']);
             $article->user_id = $input['user_id'];
     //        $article->latitude = $latude;
-    //        $article->latitude = $latude;
+    //        $article->longitude = $longitude;
             $article->departure_at = $input['departure_at'];
             $article->return_at = $input['return_at'];
-        $article->save();
+            try {
+                $article->save();        
+            } catch (Exception $e) {
+                
+            }
+        
         return Response::json('ok');
     }
 
@@ -120,7 +132,11 @@ class Article extends Model{
 
      ********************************************************/
 
-    private  function get_10_from_60_exif( $ref , $gps )
+    private function bool_exif(){
+
+    }
+
+    private function get_10_from_60_exif( $ref , $gps )
     {
         // 60進数から10進数に変換
         $data = convert_float( $gps[0] ) + ( convert_float($gps[1])/60 ) + ( convert_float($gps[2])/3600 ) ;
