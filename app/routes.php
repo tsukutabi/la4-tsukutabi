@@ -29,6 +29,7 @@ Route::group(['before' => 'auth'], function() {
 	Route::post('save','ArticleController@post_save');
 	Route::put('edit/{id}','ArticleController@edit');
 	Route::get('edit/{id}','ArticleController@get_edit');
+	Route::get('self_profile','UserController@self_profile');
 });
 
 

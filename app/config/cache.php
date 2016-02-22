@@ -67,11 +67,11 @@ return array(
 	|
 	*/
 
-	'memcached' => array(
-
-		array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
-
-	),
+//	'memcached' => array(
+//
+//		array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
+//
+//	),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -85,5 +85,15 @@ return array(
 	*/
 
 	'prefix' => 'laravel',
+
+
+	/** @lang text */
+    'redis' => array(
+
+		'cluster' => true,
+
+		'default' => array('host' => '13206', 'port' => 6379),
+
+	),
 
 );

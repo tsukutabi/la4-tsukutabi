@@ -9,6 +9,10 @@ class UserController extends BaseController
         $this->user = $user;
     }
 
+    public function show_profile(){
+
+    }
+
     // 今回のコードでは、フォームの出力は
     // show....Formというアクション名を付けています。
     public function showRegisterForm()
