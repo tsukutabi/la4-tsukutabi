@@ -13,7 +13,9 @@
 		"predictionio/predictionio": "~0.8.2",
 		"patchwork/utf8": "1.1.*",
 		"lsolesen/pel": "*",
-		"artdarek/oauth-4-laravel": "dev-master"
+		"artdarek/oauth-4-laravel": "dev-master",
+		"ext-mcrypt": "*",
+		"ext-exif": "*"
 	},
 	"autoload": {
 		"classmap": [
