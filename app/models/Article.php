@@ -15,12 +15,6 @@ class Article extends Model{
     protected $fillable = ['title','subtitle','photos','main_photo','user_id'/*,'photo_comments','latitude','longitude'*/,'days','night'];
     protected $hidden = ['users.email','users.password'];
     public $timestamps = true;
-//
-//    public function __construct ( pel\Pel $attributes)
-//    {
-////        new $exif_lib = new lsolesen\pel\Pel();
-//        parent::__construct ($attributes);
-//    }
 
 //    public function __construct (FileUtils $fileUtils)
 //    {

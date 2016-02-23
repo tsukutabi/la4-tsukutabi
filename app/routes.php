@@ -77,7 +77,6 @@ Route::post('user/change_face_photo','UserController@change_face_photo');
 
 
 
-
 Route::when( 'admin', 'admin' );
 
 Route::get( 'register',function(){

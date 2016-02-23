@@ -13,17 +13,26 @@
 
 App::before(function($request)
 {
-//   ログインさせる。
-	if (Auth::check())
-	{
-//        Log::debug(Auth::user()->id);
-		Session::put('user.id',Auth::user()->id);
-		Session::put('user.username', Auth::user()->username);
-		Session::put('user.bool','true');
-	}else{
-		Session::put('user.bool','false');
+////   ログインさせる。
+//	if (Auth::check())
+//	{
+////        Log::debug(Auth::user()->id);
+//		Session::put('user.id',Auth::user()->id);
+//		Session::put('user.username', Auth::user()->username);
+//		Session::put('user.bool','true');
+//	}else{
+//		Session::put('user.bool','false');
+//
+//	}
 
-	}
+	Route::filter( 'auth', function()
+	{
+		if( Auth::guest() )
+		{
+			return Redirect::guest( 'login' )
+				->withMessage( 'ログインしてください。' );
+		}
+	} );
 
 	//ユーザーエージェントの確認
 	$ua = Request::server('HTTP_USER_AGENT');

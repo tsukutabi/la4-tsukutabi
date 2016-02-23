@@ -55,13 +55,19 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
+//            us-cdbr-iron-east-03.cleardb.net
 			'database'  => 'tsukutabi_la4',
+//            heroku_6e705fa32ae421e
 			'username'  => 'root',
+//            bd3dc548d474e3
 			'password'  => '',
+//            831f489d
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 //			'prefix'    => '',
 		),
+
+
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',
@@ -111,12 +117,11 @@ return array(
 
 	'redis' => array(
 
-		'cluster' => false,
+		'cluster' => true,
 
 		'default' => array(
 			'host'     => '127.0.0.1',
 			'port'     => 6379,
-			'database' => 0,
 		),
 
 	),

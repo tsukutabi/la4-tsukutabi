@@ -28,4 +28,44 @@ return array(
 		'secret' => '',
 	),
 
+    /*
+       |--------------------------------------------------------------------------
+       | AWS
+       |--------------------------------------------------------------------------
+       |
+       */
+
+    'aws' => array(
+        'access_key' => '[[your aws key]]',
+        'secret_key' => '[[your aws secret]]',
+        'region' => '[[your aws region]]',
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Google Cloud
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'google_cloud' => array(
+        'service_account' => '[[your service account]',
+        'key_file' => '[[path to the p12 key file]]',
+        'secret' => '[[your secret]]',
+        'developer_key' => '[[your developer key]]',
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rackspace
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'rackspace' => array(
+        'username' => '[[your username]]',
+        'tenant_name' => '[[your tenant name]]',
+        'api_key' => '[[your api key]]',
+        'api_endpoint' => \OpenCloud\Rackspace::UK_IDENTITY_ENDPOINT,
+    ),
 );
