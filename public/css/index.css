@@ -202,3 +202,12 @@ a {
     margin-bottom: 10px;
     font-size: 12px;
 }
+.fixed{
+    position: fixed;
+    top: 0px;
+    z-index: 100;
+    margin-top: 5px;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 4px;
+}

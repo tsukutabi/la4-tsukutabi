@@ -12,7 +12,7 @@ class Article extends Model{
      * @var string
      */
     protected $guarded = ['id'];
-    protected $fillable = ['title','subtitle','photos','main_photo','user_id'/*,'photo_comments','latitude','longitude'*/,'days','night'];
+    protected $fillable = ['title','subtitle','photos','main_photo','user_id'/*,'photo_comments'*/,'latitude','longitude','days','night'];
     protected $hidden = ['users.email','users.password'];
     public $timestamps = true;
 
@@ -28,9 +28,7 @@ class Article extends Model{
         return $this->belongsTo(User::class);
     }
 
-    public function tags(){
-        return $this->belongsToMany(Tag::class);
-    }
+
 //todo 例外処理
     public function get_index_data(){
         return DB::table('articles')
@@ -85,13 +83,9 @@ class Article extends Model{
         }
  //        関数化
         foreach ($input['photos'] as $photo_data ){
-            //
 
-            try {
-                $photo_exif_ary[] = exif_read_data( $photo_data );    
-            } catch (Exception $e) {
-                
-            }
+            $location_info[] = $this->main_exif($photo_data);
+
             
             $mime = $photo_data->getClientOriginalExtension();
             $name = md5(sha1(uniqid(mt_rand(0,40000), true))).'.'.$mime;
@@ -102,7 +96,7 @@ class Article extends Model{
 //            exifの削除
         }
 //        ここまで
-        Log::info($photo_exif_ary);
+        Log::info($location_info);
         $article = new Article();
             $article->title = $input['MainTitle'];
             $article->subtitle = $input['SubTitle'];
@@ -110,33 +104,79 @@ class Article extends Model{
             $article->main_photo = $photo_name_array[0];
     //        $article->photo_comments = implode('+',$input['comments']);
             $article->user_id = $input['user_id'];
-    //        $article->latitude = $latude;
-    //        $article->longitude = $longitude;
+            $article->latitude = $location_info['lat'];
+            $article->longitude = $location_info['log'];
             $article->departure_at = $input['departure_at'];
             $article->return_at = $input['return_at'];
             try {
                 $article->save();        
             } catch (Exception $e) {
-                
+                echo "保存に失敗しました";
             }
         
         return Response::json('ok');
     }
 
-
-
+    private function main_exif($photo_data){
+        Log.debug($photo_data);
+        Log.debug(exif_imagetype($photo_data));
+        if( 'jpg' == exif_imagetype($photo_data)){
+            $exif = exif_read_data( $photo_data );
+            // 緯度を60進数から10進数に変換する
+            $lat = $this->get_10_from_60_exif( $exif['GPSLatitudeRef'] , $exif['GPSLatitude']);
+            // 経度を60進数から10進数に変換する
+            $lng = $this->get_10_from_60_exif( $exif['GPSLongitudeRef'] , $exif['GPSLongitude']);
+            $location_info = [$lat,$lng];
+            Log::debug($location_info);
+            return $location_info;
+        }else{
+            return null;
+        }
+    }
     /********************************************************
-
     Exifデータの位置情報を60進数から10進数に変換する関数
     第1引数:進行方向(["GPSLatitudeRef"]、["GPSLongitudeRef"])
     第2引数:60進数の配列(["GPSLatitude"]、["GPSLongitude"])
     返り値:10進数に直したデータ
-
      ********************************************************/
-
-    private function bool_exif(){
-
+    private function resizeImage($image,$new_width,$dir = "."){
+        list($width,$height,$type) = getimagesize($image["tmp_name"]);
+        $new_height = round($height*$new_width/$width);
+        $emp_img = imagecreatetruecolor($new_width,$new_height);
+        switch($type){
+            case IMAGETYPE_JPEG:
+                $new_image = imagecreatefromjpeg($image["tmp_name"]);
+                break;
+            case IMAGETYPE_GIF:
+                $new_image = imagecreatefromgif($image["tmp_name"]);
+                break;
+            case IMAGETYPE_PNG:
+                imagealphablending($emp_img, false);
+                imagesavealpha($emp_img, true);
+                $new_image = imagecreatefrompng($image["tmp_name"]);
+                break;
+        }
+        imagecopyresampled($emp_img,$new_image,0,0,0,0,$new_width,$new_height,$width,$height);
+        $date = date("YmdHis");
+        switch($type){
+            case IMAGETYPE_JPEG:
+                imagejpeg($emp_img,$dir."/".$date.".jpg");
+                break;
+            case IMAGETYPE_GIF:
+                $bgcolor = imagecolorallocatealpha($new_image,0,0,0,127);
+                imagefill($emp_img, 0, 0, $bgcolor);
+                imagecolortransparent($emp_img,$bgcolor);
+                imagegif($emp_img,$dir."/".$date.".gif");
+                break;
+            case IMAGETYPE_PNG:
+                imagepng($emp_img,$dir."/".$date.".png");
+                break;
+        }
+        imagedestroy($emp_img);
+        imagedestroy($new_image);
     }
+
+
 
     private function get_10_from_60_exif( $ref , $gps )
     {

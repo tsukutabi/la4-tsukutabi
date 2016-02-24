@@ -4,10 +4,9 @@ use Illuminate\Support\Facades\Validator;
 use Model\validate;
 
 class ArticleController extends BaseController{
-    public function __construct(Article $article,Tag $tag,Fav $fav)
+    public function __construct(Article $article,Fav $fav)
     {
         $this->article = $article;
-        $this->tag = $tag;
         $this->fav = $fav;
 // beforeフィルタをインストールする
         $this->beforeFilter(

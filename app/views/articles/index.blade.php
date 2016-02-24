@@ -3,11 +3,10 @@
     @include('elements.nav')
     @include('elements.slider')
     <link rel="stylesheet" href="{{ asset('packages/bower_components/uikit/css/uikit.almost-flat.css') }}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/1.9.6/jquery.pjax.js" type="text/javascript"></script>
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     @include('elements.nav')
     <br/>
-    <ol id="filters">
+    <ol id="filters" class="fix-filter">
         <li data-filter="amsterdam">Amsterdam</li>
         <li data-filter="tokyo">Tokyo</li>
         <li data-filter="london">London</li>
@@ -230,25 +229,16 @@
             $window.bind('scroll.wookmark', onScroll);
         })(jQuery);
 
-
-//      ページ遷移
-        $(function(){
-            $.pjax({
-                area : '#container',
-                link : 'a:not([target])',
-                ajax: { timeout: 2500},
-                wait: 500
-            });
-            $(document).bind('pjax:fetch', function(){
-                $('body').css('overflow', 'hidden');
-                $('#content').attr({'class': 'fadeOut'});
-            });
-            $(document).bind('pjax:render', function(){
-                $('#content').attr({'class': 'fadeIn'});
-                $('body').css('overflow', '');
+        $(function() {
+            $(window).on('scroll', function() {
+                if ($(this).scrollTop() > 700) {
+                    $('.fix-filter').addClass('fixed');
+                } else {
+                    $('.fix-filter').removeClass('fixed');
+                    console.log("removed");
+                }
             });
         });
-
     </script>
 @stop
 
