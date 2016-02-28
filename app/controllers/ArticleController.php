@@ -71,9 +71,7 @@ class ArticleController extends BaseController{
     }
 
     public function get_save(){
-        return View::make('articles.save',[
-            'tags'=>$this->tag->get_tags(),
-        ])->with('title','投稿ページ');
+        return View::make('articles.save')->with('title','投稿ページ');
     }
 
 //    記事の保存用

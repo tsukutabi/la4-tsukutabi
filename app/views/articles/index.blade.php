@@ -235,9 +235,17 @@
                     $('.fix-filter').addClass('fixed');
                 } else {
                     $('.fix-filter').removeClass('fixed');
-                    console.log("removed");
                 }
             });
+
+            $("#filters li").click(
+                    function(){
+
+                        $( 'html,body' ).animate( {scrollTop:720} , 'slow' ) ;
+                  }
+            )
+
+
         });
     </script>
 @stop

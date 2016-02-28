@@ -18,48 +18,70 @@
     <div class="form-group">
         <input id="main" type="text" name="MainTitle" class="form-control" placeholder="旅行記のタイトル" required="true">
         <input id="sub" type="text" name="SubTitle" class="form-control" placeholder="旅の概要を教えて下さい。" >
-        <div>
-            <input type="number" name="night" id="night">
+        <div class="form-inline">
+            <input type="number" name="night" id="night" class="form-control">
             <label for="">泊</label>
-            <input type="number" name="days" id="days">
+            <input type="number" name="days" id="days" class="form-control">
             <label for="">日</label>
         </div>
         <label for="">予算</label>
-        <select name="budget" id="budget">
+
+        <select name="budget" id="budget" class="ui fluid dropdown">
             <option value="0">¥1~10000</option>
             @for ($budget_i = 2; $budget_i < 20; $budget_i++)
                 <option value="{{$budget_i}}">¥{{$budget_i-1}}0001~¥{{$budget_i}}0000</option>
             @endfor
         </select>
+        <br/>
+        <label for="tag-it">タグを5つ入力して下さい。</label>
         <ul id="tag-it"></ul>
         <input id="input-id" name="photos[]" class="file" type="file" multiple data-preview-file-type="image" data-preview-file-icon="" >
     </div>
         {{Form::close() }}
     </div>
     <script>
-        $(document).ready(function(){
-//        todo 静的なjsonをcdnにおいておく。
-            $.ajax({
-                type: 'GET',
-                url: '/tags',
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    console.log(data);
-                    var tags = data;
-                    $('#tag-it').tagit({
-                        removeConfirmation: true,
-                        tagLimit:5,
-                        placeholderText:"5つタグをつけて下さい",
-                        fieldName:"tags[]",
-                        availableTags: [ "{{{ "東京とかとか" }}}" ]
-                    });
-                },
-                error: function(data){
-                    console.log('エラー');
-                    console.log(data);
-                }
+        {{--$(document).ready(function(){--}}
+{{--//        todo 静的なjsonをcdnにおいておく。--}}
+            {{--$.ajax({--}}
+                {{--type: 'GET',--}}
+{{--//                url: '/tags',--}}
+                {{--dataType: 'json',--}}
+                {{--processData: false,--}}
+                {{--contentType: false,--}}
+                {{--success: function (data) {--}}
+                    {{--console.log(data);--}}
+                    {{--var tags = data;--}}
+                    {{--$('#tag-it').tagit({--}}
+                        {{--removeConfirmation: true,--}}
+                        {{--tagLimit:5,--}}
+                        {{--placeholderText:"5つタグをつけて下さい",--}}
+                        {{--fieldName:"tags[]",--}}
+                        {{--availableTags: []--}}
+                    {{--});--}}
+                {{--},--}}
+                {{--error: function(data){--}}
+                    {{--console.log('エラー');--}}
+                    {{--console.log(data);--}}
+                {{--}--}}
+            {{--});--}}
+        {{--tag it のあれ--}}
+
+ $(document).ready(function() {
+
+            $("#night").bind('keyup',function(){
+                var night =1;
+                var day =1;
+                night = $(this).val();
+                console.log(night++);
+                day=  night++;
+//                console.log(day);
+                $("#days").val(day);
+            });
+
+            $('#tag-it').tagit({
+                placeholderText:"タグをつけよう",
+                fieldName:"tags[]",
+                tagLimit:5
             });
 
 //            写真のテンプレートが表示された時
@@ -73,10 +95,11 @@
                 previewFileType:['image'],
                 maxFileCount: 80,
                 minFileCount: 2,
+//                template:"<>",
                 async: false,
                 success : function(msg, status){
-                  alert('成功');
-                  location.href="/";
+                    alert('成功');
+                    location.href="/";
                 },
                 error : function(msg, status){
                     alert('通信ができない状態です。');
@@ -94,10 +117,10 @@
                         "retrun_at":$('#retrune').val(),
                         "_token":$('meta[name="csrf-token"]').attr('content'),
 //                        "tags":$(".ui-widget-content").val(),
-                        "user_id":"{{{ Auth::user()->id }}}"
+                        {{--"user_id":"{{{ Auth::user()->id }}}"--}}
                     };
                 }
-                });
+            });
         });
     </script>
 @stop
