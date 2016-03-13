@@ -80,21 +80,24 @@ class ArticleController extends BaseController{
         Log::debug(Input::all());
         $rules = [
             'MainTitle'=>'required|min:3|max:255',
-            'SubTitle'=>'required|min:3|max:255',
-            'user_id'=>'required',
-//            'tags'=>'',
-//            'departure_at' =>'required',
-//            'return_at' =>'required',
+            'SubTitle'=>'required|max:255',
+            'tags'=>'',
+            'budgets'=>'',
+            'departure_at' =>'required',
+            'night'=>'required',
+            'days'=>'required',
             'photos'=>'required',
-//            'photo_comments'=>'',
         ];
         $input = Input::only(array_keys($rules));
         $validator = Validator::make($input,$rules);
         if($validator->fails()){
 //             return Redirect::to('save')->withErrors($validator)->withInput();
+            Log::debug('バリデーション失敗');
+            $messages = $validator->messages();
+            Log::info($messages);
             return Response::json(400,'error');
         }
-            return Response::json($this->article->save_article($input));
+            return View::make('article.edit',['info'=>$this->article->save_article($input)]);
     }
     public function get_edit(){
 

@@ -2,6 +2,8 @@
 
 use Carbon\Carbon;
 use Model\Validate;
+use Intervention\Image;
+
 
 class UserController extends BaseController
 {
@@ -261,27 +263,25 @@ class UserController extends BaseController
         $inputs = Input::only(array_keys($rules));
         Log::debug($inputs);
         if(Auth::user()->id != $inputs['user_id'] ){
-            Log::debug('invalid user id');
+            Log::info('invalid user id');
             return Response::json(400);
         }
         $val = Validator::make( $inputs, $rules );
-        if( $val->fails() )
-        {
+        if( $val->fails() ){
             return Response::json(400);
         }
-
         $mime = Input::file('face_photo')->getClientOriginalExtension();
         Log::debug($mime);
         $result_mime = $this->user->remove_another_mime($mime);
-        Log::info($result_mime);
 //        todo 返り値がおかしいのでチェック
         if($result_mime == 1){
             return Response::json(501);
          }
+//        todo:s3へアップロードする必要あり
         $set_path = public_path('images/facephoto');
         $name = md5(sha1(uniqid(mt_rand(0,40000), true))).'.'.$mime;
-        Input::file('face_photo')->move($set_path,$name);
-
+//        Input::file('face_photo')->move($set_path,$name);
+        Image::make($inputs['face_photo'])->resize(200,200)->save($name);
         return Response::json($this->user->update_facephoto($inputs,$name));
     }
 

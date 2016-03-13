@@ -15,7 +15,8 @@
 		"lsolesen/pel": "*",
 		"artdarek/oauth-4-laravel": "dev-master",
 		"ext-mcrypt": "*",
-		"ext-exif": "*"
+		"ext-exif": "*",
+		"intervention/image": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

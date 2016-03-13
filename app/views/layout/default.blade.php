@@ -13,6 +13,7 @@
     <meta property="og:site_name"  content="サイト名" />
     <meta property="og:image" content="tsukutabi.com" />
     <meta name="csrf-token" content="<?= csrf_token() ?>">
+
     {{--twitter--}}
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@[Twitter ID]">
@@ -25,6 +26,7 @@
     <script src="{{ asset('packages/bower_components/jquery/dist/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('packages/bower_components/uikit/js/uikit.min.js') }}" type="text/javascript"></script>
     <link rel="stylesheet" href="{{ asset('packages/bower_components/normalize.css/normalize.css') }}">
+    <link rel="icon" type="image/png" href="/favicon_48.ico" sizes="48x48">
     <style>
         {{-- 解説: インラインのCSSブロックです。各ページで追記ができます。--}}
         @section ('inline-style')

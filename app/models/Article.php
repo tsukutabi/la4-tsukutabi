@@ -60,14 +60,12 @@ class Article extends Model{
             $result['fav_num'] = DB::table('favs')
             ->where('article_id','=',$id)
             ->count();
-
             DB::table('users')->count();
 
         }catch (Exception $e){
             Log::info($e);
             return Response::json(['message'=>'データベースエラー'],'500');
         }
-        Log::debug($result);
         $result['photos'] = explode('+',$result['articles']->photos);
         return  $result;
     }
@@ -76,18 +74,15 @@ class Article extends Model{
     public function save_article($input){
 //        $messages = ['messages'=>'','num'=>''];
         $photo_name_array = [];
-        $set_path = public_path('images/'.$input['user_id']);
+        $set_path = public_path('images/'.Auth::user()->id);
         if(!File::exists($set_path))
         {
             File::makeDirectory($set_path);
         }
  //        関数化
         foreach ($input['photos'] as $photo_data ){
-
-            $location_info[] = $this->main_exif($photo_data);
-
-            
             $mime = $photo_data->getClientOriginalExtension();
+            $location_info[] = $this->main_exif($photo_data);
             $name = md5(sha1(uniqid(mt_rand(0,40000), true))).'.'.$mime;
             if($photo_data->move($set_path, $name)){
                 array_push($photo_name_array,$name);
@@ -102,24 +97,29 @@ class Article extends Model{
             $article->subtitle = $input['SubTitle'];
             $article->photos = implode('+',$photo_name_array);
             $article->main_photo = $photo_name_array[0];
-    //        $article->photo_comments = implode('+',$input['comments']);
-            $article->user_id = $input['user_id'];
+            $article->budgets = $input['buget'];
+            $article->user_id = Auth::user()->id;
             $article->latitude = $location_info['lat'];
             $article->longitude = $location_info['log'];
             $article->departure_at = $input['departure_at'];
-            $article->return_at = $input['return_at'];
+            // $article->return_at = $input['return_at'];
             try {
                 $article->save();        
             } catch (Exception $e) {
                 echo "保存に失敗しました";
             }
-        
-        return Response::json('ok');
+        $edit_info = $this->after_save_edit($input['MainTitle'],$input['SubTitle']);
+        return $edit_info;
+    }
+
+    private function after_save_edit($main,$sub){
+        $edit_info = DB::table('articles')->where('name', 'John')->first();
+        return $edit_info;
     }
 
     private function main_exif($photo_data){
-        Log.debug($photo_data);
-        Log.debug(exif_imagetype($photo_data));
+        Log::debug($photo_data);
+        Log::debug(exif_imagetype($photo_data));
         if( 'jpg' == exif_imagetype($photo_data)){
             $exif = exif_read_data( $photo_data );
             // 緯度を60進数から10進数に変換する
@@ -139,43 +139,6 @@ class Article extends Model{
     第2引数:60進数の配列(["GPSLatitude"]、["GPSLongitude"])
     返り値:10進数に直したデータ
      ********************************************************/
-    private function resizeImage($image,$new_width,$dir = "."){
-        list($width,$height,$type) = getimagesize($image["tmp_name"]);
-        $new_height = round($height*$new_width/$width);
-        $emp_img = imagecreatetruecolor($new_width,$new_height);
-        switch($type){
-            case IMAGETYPE_JPEG:
-                $new_image = imagecreatefromjpeg($image["tmp_name"]);
-                break;
-            case IMAGETYPE_GIF:
-                $new_image = imagecreatefromgif($image["tmp_name"]);
-                break;
-            case IMAGETYPE_PNG:
-                imagealphablending($emp_img, false);
-                imagesavealpha($emp_img, true);
-                $new_image = imagecreatefrompng($image["tmp_name"]);
-                break;
-        }
-        imagecopyresampled($emp_img,$new_image,0,0,0,0,$new_width,$new_height,$width,$height);
-        $date = date("YmdHis");
-        switch($type){
-            case IMAGETYPE_JPEG:
-                imagejpeg($emp_img,$dir."/".$date.".jpg");
-                break;
-            case IMAGETYPE_GIF:
-                $bgcolor = imagecolorallocatealpha($new_image,0,0,0,127);
-                imagefill($emp_img, 0, 0, $bgcolor);
-                imagecolortransparent($emp_img,$bgcolor);
-                imagegif($emp_img,$dir."/".$date.".gif");
-                break;
-            case IMAGETYPE_PNG:
-                imagepng($emp_img,$dir."/".$date.".png");
-                break;
-        }
-        imagedestroy($emp_img);
-        imagedestroy($new_image);
-    }
-
 
 
     private function get_10_from_60_exif( $ref , $gps )

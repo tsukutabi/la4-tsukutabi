@@ -1,17 +1,21 @@
 <nav class="uk-navbar">
-    <a class="uk-navbar-brand" href="/">つくたび</a>
+    <a class="uk-navbar-brand" href="/">
+        <img src="images/logo/logo_type.png" alt="つくたび">
+    </a>
     <span class="uk-navbar-brand">do travel,share it</span>
     <ul class="uk-navbar-nav">
         @if(Auth::check())
             <li class="uk-parent uk-active" data-uk-dropdown>
-                <a href="user/{{Auth::user()->id}}" target="_blank"><i class="uk-icon-user"></i>{{{ Auth::user()->username }}}</a>
+                <a href="user/{{Auth::user()->id}}" target="_blank">
+                <i class="uk-icon-user"></i>
+                {{{ Auth::user()->username }}}
+                </a>
             </li>
             <div class="uk-navbar-content"><a href="/save" target="_blank">旅行記を投稿する</a></div>
         @else
             <li class="uk-parent uk-active" data-uk-dropdown>
                 <a href="#register" data-uk-modal><i class="uk-icon-envelope"></i>ユーザー登録</a>
             </li>
-
             {{--会員登録用のモーダル--}}
             <div id="register" class="uk-modal">
                 <div class="uk-modal-dialog">
@@ -56,8 +60,6 @@
                     text-align: center;
                 }
             </style>
-
-
             <li class="uk-parent uk-active">
                 <a href="#login" data-uk-modal><i class="uk-icon-user"></i>ログイン</a>
             </li>
