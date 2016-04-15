@@ -81,7 +81,6 @@ class ArticleController extends BaseController{
         $rules = [
             'MainTitle'=>'required|min:3|max:255',
             'SubTitle'=>'required|max:255',
-            'tags'=>'',
             'budgets'=>'',
             'departure_at' =>'required',
             'night'=>'required',
@@ -97,16 +96,19 @@ class ArticleController extends BaseController{
             Log::info($messages);
             return Response::json(400,'error');
         }
-            return View::make('article.edit',['info'=>$this->article->save_article($input)]);
+            $info_input = $this->article->save_article($input);
+            return View::make('article.edit',['result'=>$info_input]);
     }
-    public function get_edit(){
+    public function get_edit($input_post){
 
     }
 
-    public function edit($id)
-    {
-        Article::edit_article($id);
-        return Response::json(['result' => '更新完了しました'], 200);
+    public function post_edit($id)
+    {  
+			if($this->article->edit_first($id)){
+				Session::put('message','投稿が完了しました');
+			}
+      return Response::json(['result' => '更新完了しました'], 200);
     }
     public function delete()
     {

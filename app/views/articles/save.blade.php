@@ -12,7 +12,7 @@
     <script src="{{ asset('packages/bower_components/jquery-ui/jquery-ui.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/validationEngine/js/jquery.validationEngine.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/validationEngine/js/languages/jquery.validationEngine-ja.js') }}" defer="defer"></script>
-    <script src="{{ asset('packages/bower_components/tag-it/js/tag-it.min.js') }}" defer="defer"></script>
+
     <script src="{{ asset('packages/bower_components/bootstrap-fileinput/js/fileinput.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/bootstrap-fileinput/js/fileinput_locale_ja.js') }}" defer="defer"></script>
     <script src="{{ asset('packages/bower_components/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js') }}" defer="defer"></script>
@@ -43,8 +43,6 @@
             @endfor
         </select>
         <br/>
-        <label for="tag-it">タグを5つ入力して下さい。</label>
-        <ul id="tag-it"></ul>
         <input id="input-id" name="photos[]" class="file" type="file" multiple data-preview-file-type="image" data-preview-file-icon="" >
     </div>
         {{Form::close() }}
@@ -66,23 +64,6 @@
 //                console.log(day);
                 $("#days").val(day);
             });
-
-            $('#tag-it').tagit({
-                placeholderText:"タグをつけよう",
-                fieldName:"tags[]",
-                tagLimit:5,
-            });
-
-            $('.ui-widget-content').blur(function () {
-                console.log('はずれたよ');
-                $('.tagit-label').each(
-                        function (i,elem) {
-                            
-                        }
-                    )
-            })
-
-
 
 //            写真のテンプレートが表示された時
             $("#input-id").fileinput({

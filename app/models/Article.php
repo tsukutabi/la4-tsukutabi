@@ -97,24 +97,22 @@ class Article extends Model{
             $article->subtitle = $input['SubTitle'];
             $article->photos = implode('+',$photo_name_array);
             $article->main_photo = $photo_name_array[0];
-            $article->budgets = $input['buget'];
+            $article->budgets = $input['budgets'];
             $article->user_id = Auth::user()->id;
             $article->latitude = $location_info['lat'];
             $article->longitude = $location_info['log'];
             $article->departure_at = $input['departure_at'];
-            // $article->return_at = $input['return_at'];
             try {
                 $article->save();        
             } catch (Exception $e) {
                 echo "保存に失敗しました";
             }
-        $edit_info = $this->after_save_edit($input['MainTitle'],$input['SubTitle']);
-        return $edit_info;
-    }
 
-    private function after_save_edit($main,$sub){
-        $edit_info = DB::table('articles')->where('name', 'John')->first();
-        return $edit_info;
+//        編集用に渡す配列を整形し直す
+        $input['lat'] = $location_info['lat'];
+        $input['log'] = $location_info['long'];
+
+        return $input;
     }
 
     private function main_exif($photo_data){
