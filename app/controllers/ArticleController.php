@@ -81,7 +81,7 @@ class ArticleController extends BaseController{
         $rules = [
             'MainTitle'=>'required|min:3|max:255',
             'SubTitle'=>'required|max:255',
-            'budgets'=>'',
+            'budgets'=>'required',
             'departure_at' =>'required',
             'night'=>'required',
             'days'=>'required',
@@ -99,8 +99,10 @@ class ArticleController extends BaseController{
             $info_input = $this->article->save_article($input);
             return View::make('article.edit',['result'=>$info_input]);
     }
-    public function get_edit($input_post){
+    public function get_edit($id){
 
+//        本人確認
+        return View::make('article.edit');
     }
 
     public function post_edit($id)
@@ -118,10 +120,10 @@ class ArticleController extends BaseController{
         ];
 //        TODO::本人確認
         $inputs = Input::only(array_keys($validation));
-        $validator = Validator::make($inputs,$validation);
-        if($validator->fails()){
-            return Response::json(['message'=>'バリデーションエラーです。'],500);
-        }
+//        $validator = Validator::make($inputs,$validation);
+//        if($validator->fails()){
+//            return Response::json(['message'=>'バリデーションエラーです。'],500);
+//        }
 //        論理削除する
         Article::delete_article();
         return View::make('users.view');

@@ -23,7 +23,7 @@
         {{Form::open(['url'=>'save','enctype'=>'multipart/form-data','id'=>'uk_form'])}}
     <div class="form-group">
         <label for="main">タイトル <span>必須項目</span></label>
-        <input id="main" type="text" name="MainTitle" class="form-control" placeholder="旅行記のタイトル" required="true">
+        <input id="main" type="text" name="MainTitle" class="form-control" placeholder="旅行記のタイトル  3文字以上、255文字以内で入力して下さい。" required="true">
         <label for="sub">概要 <span>必須項目</span></label>
         <input id="sub" type="text" name="SubTitle" class="form-control" placeholder="旅の概要を教えて下さい">
         <div class="form-inline mg-tp">
