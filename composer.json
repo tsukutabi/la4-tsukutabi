@@ -16,7 +16,7 @@
 		"artdarek/oauth-4-laravel": "dev-master",
 		"ext-mcrypt": "*",
 		"ext-exif": "*",
-		"intervention/image": "dev-master"
+		"intervention/image": "^2.3"
 	},
 	"autoload": {
 		"classmap": [

@@ -28,7 +28,7 @@
         <input id="sub" type="text" name="SubTitle" class="form-control" placeholder="旅の概要を教えて下さい">
         <div class="form-inline mg-tp">
             <label for="departure">出発日</label>
-            <input type="text" id="datepicker" class="form-control" placeholder="出発日を教えて下さい">
+            <input type="datetime" id="datepicker" class="form-control" placeholder="出発日を教えて下さい">
             <label for="">宿泊数</label>
             <input type="number" name="night" id="night" class="form-control" required="true">
             <label for="">泊</label>
@@ -59,9 +59,7 @@
                 var night =1;
                 var day =1;
                 night = $(this).val();
-                console.log(night++);
                 day = night++;
-//                console.log(day);
                 $("#days").val(day);
             });
 

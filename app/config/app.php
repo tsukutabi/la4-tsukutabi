@@ -123,6 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
         'Superbalist\Storage\StorageServiceProvider',
         'Intervention\Image\ImageServiceProvider',
+
 	),
 
 	/*
@@ -189,8 +190,9 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-        'Storage' => 'Superbalist\Storage\StorageFacade',
-        'Image'     => 'Intervention\Image\Facades\Image',
+        'Storage'         => 'Superbalist\Storage\StorageFacade',
+        'Image'           => 'Intervention\Image\Facades\Image',
+
 	),
 
 );

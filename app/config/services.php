@@ -36,9 +36,9 @@ return array(
        */
 
     'aws' => array(
-        'access_key' => '[[your aws key]]',
-        'secret_key' => '[[your aws secret]]',
-        'region' => '[[your aws region]]',
+        'access_key' => 'AKIAIMOIYKPEND2XUO7Q',
+        'secret_key' => 'XOkEhxufClSGwtFlOnMc4aIDVSrwrfhlzwrQptMk',
+        'region' => 'Tokyo',
     ),
 
     /*

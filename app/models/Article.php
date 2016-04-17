@@ -72,9 +72,7 @@ class Article extends Model{
 
 //    記事のアップロード処理
     public function save_article($input){
-//        todo aws S3にアップロードする
-//        $messages = ['messages'=>'','num'=>''];
-        $photo_name_array = [];
+        list($photo_name_array,$lng,$lat) = [];
         $set_path = public_path('images/'.Auth::user()->id);
         if(!File::exists($set_path))
         {
@@ -83,16 +81,21 @@ class Article extends Model{
         foreach ($input['photos'] as $photo_data ){
             $mime = $photo_data->getClientOriginalExtension();
             $location_info = $this->main_exif($photo_data);
-            $lat[] = $location_info['lat'];
-            $lng[] = $location_info['lng'];
+            array_push($lat,$location_info['lat']);
+            array_push($lng,$location_info['lng']);
             $name = md5(sha1(uniqid(mt_rand(0,100000), true))).'.'.$mime;
-            if($photo_data->move($set_path, $name)){
-                array_push($photo_name_array,$name);
-            }
+            //        todo aws S3にアップロードする
+            $image = Image::make($photo_data->getRealPath())->resize(500,null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+//            if($photo_data->move($set_path, $name)){
+//                array_push($photo_name_array,$name);
+//            }
             // exifの判定
 //            exifの削除
         }
-        Log::info($location_info);
+        Log::info($lat);
         $article = new Article();
             $article->title = $input['MainTitle'];
             $article->subtitle = $input['SubTitle'];
@@ -103,8 +106,8 @@ class Article extends Model{
             $article->latitude = implode('*',$lat);
             $article->longitude = implode('*',$lng);
             $article->departure_at = $input['departure_at'];
-            $article->day = $input['days'];
-            $article->night = $input['night'];
+            $article->days = $input['days'];
+            $article->nights = $input['night'];
 //            try {
             $article->save();
 //            } catch (Exception $e) {
@@ -113,6 +116,7 @@ class Article extends Model{
 //        編集用に渡す配列を整形し直す
 //        $input['lat'] = $location_info['lat'];
 //        $input['log'] = $location_info['long'];
+        Log::debug($article);
         return $article;
     }
 
@@ -124,12 +128,10 @@ class Article extends Model{
             $location_info['lat'] = $this->get_10_from_60_exif( $exif['GPSLatitudeRef'] , $exif['GPSLatitude']);
             // 経度を60進数から10進数に変換する
             $location_info['lng'] = $this->get_10_from_60_exif( $exif['GPSLongitudeRef'] , $exif['GPSLongitude']);
-            Log::debug('メイン＿location_info');
-            Log::debug($location_info);
             return $location_info;
         }else{
 
-            return null;
+            return false;
         }
     }
     /********************************************************

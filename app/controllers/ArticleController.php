@@ -61,6 +61,10 @@ class ArticleController extends BaseController{
         ])->with('title',$result['articles']->title);
     }
 
+    public function first_edit(){
+        Log::debug();
+    }
+
     public function api_view($id){
         $result = $this->article->fetch_view_data($id);
 //        $has_fav = $this->fav->bool_user_fav($result['fav_data']);
@@ -97,7 +101,11 @@ class ArticleController extends BaseController{
             return Response::json(400,'error');
         }
             $info_input = $this->article->save_article($input);
-            return View::make('article.edit',['result'=>$info_input]);
+
+            Log::debug($info_input);
+            return Response::json([500,"message"=>"succsess"]);
+
+//            return View::make('articles.edit',['result'=>$info_input]);
     }
     public function get_edit($id){
 

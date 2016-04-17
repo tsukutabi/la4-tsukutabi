@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -10,10 +9,8 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
 Route::get( '/', [ 'as' => 'home', 'uses' => 'ArticleController@index' ] );
 //Route::when('*','csrf',['post','put']);
-
 Route::any(
 		"/test"
 		,function (){
@@ -21,9 +18,7 @@ Route::any(
     Log::info($_GET);
     }
 );
-
 //ユーザー認証
-
 Route::group(['before' => 'auth'], function() {
 	Route::get('save','ArticleController@get_save');
 	Route::post('save','ArticleController@post_save');
@@ -31,7 +26,6 @@ Route::group(['before' => 'auth'], function() {
 	Route::get('edit/{id}','ArticleController@get_edit');
 	Route::get('self_profile','UserController@self_profile');
 });
-
 
 
 Route::get('find','ArticleController@find');
